@@ -5,19 +5,15 @@
  */
 package MES;
 
-import java.nio.channels.AlreadyBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
 /**
  *
  * @author Morten
  */
-public class RMI_Clien {
-    
+public class RMI_Config {
 
-	
-	
+
+        public static int REGISTRY_PORT = 54323;
+        public static String OBJECT_NAME = "server";
+
+    
 }
