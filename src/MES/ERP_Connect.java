@@ -5,6 +5,7 @@
  */
 package MES;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -14,12 +15,17 @@ import java.sql.SQLException;
  */
 public class ERP_Connect {
 
-    public ERP_Connect getConnection() {
+    private Connection con;
+    public static void main(String[] args) {
+       Connection();
+    }
+    public Connection getConnection() {
 
         try {
             // The atributes of the server
 
             //  jdbc:sqlserver:[localhost[\instanceName][:portNumber]][;property=value[;property=value]]; 
+//            String connectionUrl = jdbc:sqlserver:10.137.0.21:1433; + databaseName=Dynamics09;user=AXReader;password=AXReade”;
             String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // NetDirect JDBC driver 
 
             String serverName = "10.137.0.21";
@@ -46,7 +52,7 @@ public class ERP_Connect {
 // Could not find the database driver 
         }
 
-        return con;
+        return (ERP_Connect) con;
 
     }
 }
