@@ -15,7 +15,7 @@ import java.rmi.registry.Registry;
  *
  * @author Morten
  */
-public class RMI_Clien {
+public class RMI_Client {
     
 
 	
