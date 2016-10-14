@@ -1,5 +1,7 @@
 package GreenhouseAPI;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.BitSet;
 
 /*
@@ -14,7 +16,7 @@ import java.util.BitSet;
  * @version 2.00/17-9-2014
  * @author Steffen Skov
  */
-public interface IGreenhouse 
+public interface IGreenhouse extends Remote
 {
     final byte ON = 1;
     final byte OFF = 0;
@@ -28,7 +30,7 @@ public interface IGreenhouse
      * @param kelvin :temperature in kelvin
      * @return true if processed
      */
-    boolean SetTemperature( int kelvin);
+    boolean SetTemperature( int kelvin) throws RemoteException;
     
     /**
      * Setpoint for moisture inside Greenhouse
@@ -36,7 +38,7 @@ public interface IGreenhouse
      * @param moist
      * @return true if processed
      */
-    boolean SetMoisture(int moist);
+    boolean SetMoisture(int moist) throws RemoteException;
     
     /**
      * Setpoint for red light inside Greenhouse
@@ -44,7 +46,7 @@ public interface IGreenhouse
      * @param level in percent
      * @return true if processed
      */
-    boolean SetRedLight(int level);
+    boolean SetRedLight(int level) throws RemoteException;
     
     /**
      * Setpoint for red light inside Greenhouse
@@ -52,7 +54,7 @@ public interface IGreenhouse
      * @param level in percent
      * @return true if processed
      */
-    boolean SetBlueLight(int level);
+    boolean SetBlueLight(int level) throws RemoteException;
     
     /**
      * Add water for some seconds. Pump is stopped if height of water is
@@ -61,7 +63,7 @@ public interface IGreenhouse
      * @param sec : Secord to turn on the pump
      * @return true if processed
      */
-    boolean AddWater(int sec);
+    boolean AddWater(int sec) throws RemoteException;
     
     /**
      * NOT IMPLEMENTED
@@ -71,7 +73,7 @@ public interface IGreenhouse
      * @param sec : Secord to turn on the pump
      * @return true if processed
      */
-    boolean AddFertiliser(int sec);
+    boolean AddFertiliser(int sec) throws RemoteException;
     
     /**
      * Add CO2 for some seconds. 
@@ -79,7 +81,7 @@ public interface IGreenhouse
      * @param sec : Second to turn on the valve
      * @return true if processed
      */
-    boolean AddCO2(int sec);
+    boolean AddCO2(int sec) throws RemoteException;
     
     /**
      * NOT IMPLEMENTED
@@ -87,7 +89,7 @@ public interface IGreenhouse
      * CMD:8 
      * @return Temperature in kelvin
      */
-    double ReadTemp1();
+    double ReadTemp1() throws RemoteException;
     
     /**
      * NOT IMPLEMENTED
@@ -95,21 +97,21 @@ public interface IGreenhouse
      * CMD: 9
      * @return Temperature in kelvin
      */
-    double ReadTemp2();
-    
+    double ReadTemp2() throws RemoteException;
+     
     /**
      * Read relative moisture inside the Greenhouse
      * CMD: 10
      * @return Moisture in %
      */
-    double ReadMoist();
+    double ReadMoist() throws RemoteException;
     
     /**
      * Read level of water in the Greenhouse
      * CMD: 11
      * @return Level in millimeter
      */
-    double ReadWaterLevel();
+    double ReadWaterLevel() throws RemoteException;
     
     /**
      * NOT IMPLEMENTED
@@ -117,7 +119,7 @@ public interface IGreenhouse
      * CMD: 12
      * @return Higths (cm?)
      */
-    double ReadPlantHeight();
+    double ReadPlantHeight() throws RemoteException;
     
     /**
      * Read all alarms one bits pr. alarm.
@@ -129,7 +131,7 @@ public interface IGreenhouse
      * Bit 3: Water pump error
      * ......
      */
-    BitSet ReadErrors();
+    BitSet ReadErrors() throws RemoteException;
     
     
     
@@ -139,7 +141,7 @@ public interface IGreenhouse
      * @param errorNum
      * @return Done
      */
-    boolean ResetError(int errorNum);
+    boolean ResetError(int errorNum) throws RemoteException;
     
     /**
      * Get all values as a byte array
@@ -161,7 +163,7 @@ public interface IGreenhouse
      * 21 - 24: All alarms
      * 25 - 99: AUX
      */             
-    byte [] GetStatus();
+    byte [] GetStatus() throws RemoteException;
     
     /**
      * Set fan speed
@@ -169,6 +171,6 @@ public interface IGreenhouse
      * @param speed = {0,1,2} (OFF, LOW, HIGH)
      * @return true if processed
      */
-    boolean SetFanSpeed(int speed);
+    boolean SetFanSpeed(int speed) throws RemoteException;
 
 }

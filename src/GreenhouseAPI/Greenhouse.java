@@ -7,13 +7,15 @@
 package GreenhouseAPI;
 
 import PLCCommunication.*;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.BitSet;
 
 /**
  * API to communicate to the PLC
  * @author Steffen Skov
  */
-public class Greenhouse implements IGreenhouse, ICommands
+public class Greenhouse extends UnicastRemoteObject implements IGreenhouse , ICommands 
 {
     private PLCConnection conn;
     private Message mess;
@@ -22,7 +24,7 @@ public class Greenhouse implements IGreenhouse, ICommands
     /**
      * Create greenhouse API
      */
-    public Greenhouse()
+    public Greenhouse()  throws RemoteException
     {
            
     }
@@ -31,7 +33,7 @@ public class Greenhouse implements IGreenhouse, ICommands
      * Create greenhouse API
      * @param c connection
      */
-    public Greenhouse(PLCConnection c)
+    public Greenhouse(PLCConnection c)  throws RemoteException
     {
             this.conn = c;           
     }
