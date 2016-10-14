@@ -23,14 +23,14 @@ public class TestGreenhouse {
 
         IGreenhouse api = new Greenhouse(con);
         int i = 0;
-        while (i != 500) {            
+        while (i != 400) {            
             api.SetRedLight(i);
             i++;
             
         }
         
         
-        api.SetBlueLight(i);
+        api.SetBlueLight(100);
         //api.SetTemperature(273 + 25);
         api.SetFanSpeed(1);
         //double outdoorTemperature; 
