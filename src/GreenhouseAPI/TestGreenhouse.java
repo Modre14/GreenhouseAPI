@@ -24,10 +24,11 @@ public class TestGreenhouse {
 
         IGreenhouse api = new Greenhouse(con);
         int i = 0;
-        while (i != 202111) {            
+        while (i != 200) {            
             api.SetRedLight(i);
             i++;
-                
+            System.out.println("hell");
+            
         }
         
         
