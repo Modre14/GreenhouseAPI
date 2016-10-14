@@ -24,10 +24,10 @@ public class TestGreenhouse {
 
         IGreenhouse api = new Greenhouse(con);
         int i = 0;
-        while (i != 202) {            
+        while (i != 202111) {            
             api.SetRedLight(i);
             i++;
-            
+                
         }
         
         
