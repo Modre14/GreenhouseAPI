@@ -15,44 +15,46 @@ import java.sql.SQLException;
  */
 public class ERP_Connect {
 
-    private Connection con;
+    private Connection con = null;
+
     public static void main(String[] args) {
-       Connection();
+//        ERP_Connect obj = new ERP_Connect();
+//        obj.run(args);
+        ERP_Connect obj2 = new ERP_Connect();
+        obj2.getConnection();
     }
+
     public Connection getConnection() {
 
         try {
             // The atributes of the server
-
             //  jdbc:sqlserver:[localhost[\instanceName][:portNumber]][;property=value[;property=value]]; 
-//            String connectionUrl = jdbc:sqlserver:10.137.0.21:1433; + databaseName=Dynamics09;user=AXReader;password=AXReade”;
             String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // NetDirect JDBC driver 
-
             String serverName = "10.137.0.21";
-
             String portNumber = "1433";
-
             String mydatabase = serverName + ":" + portNumber + ";databaseName=Dynamics09";
-
-            String url = "jdbc:sqlserver://" + mydatabase + ";user=AXReader;password=AXReader"; // a JDBC url 
-
-            System.out.println("Connecting to database... ");//  + "(" + url + ")");
+            String url = "jdbc:sqlserver://" + mydatabase + ";user=TEK\\TEK-AX09-074;password=uliNithurt90"; // a JDBC url 
+            System.out.println("Connecting to database... " + "(" + url + ")");
+            try {
 
 // Load the JDBC driver 
-            Class.forName(driverName);
-            // Create a connection to the database 
+                Class.forName(driverName);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
 
+// Create a connection to the database 
             DriverManager.setLoginTimeout(1);
 
             con = DriverManager.getConnection(url);
-        } catch (ClassNotFoundException | SQLException e) {
+
+        } catch (SQLException e) {
 
             System.err.println("No connection to database... Using hardcoded values instead!");
-
+            System.out.println(e);
 // Could not find the database driver 
         }
-
-        return (ERP_Connect) con;
+        return con;
 
     }
 }

@@ -6,6 +6,7 @@
 package GreenhouseAPI;
 
 import PLCCommunication.*;
+import java.rmi.RemoteException;
 import java.util.BitSet;
 
 /**
@@ -16,7 +17,7 @@ import java.util.BitSet;
  */
 public class TestGreenhouse {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
 //        PLCConnection con = new UDPConnection(1025, "localhost"); 
         PLCConnection con = new UDPConnection(5000, "192.168.0.10");
 //        PLCConnection con = new SerialConnection("COM4");
