@@ -33,10 +33,10 @@ public class ERP_Connect {
             String serverName = "10.137.0.21";
             String portNumber = "1433";
             String mydatabase = serverName + ":" + portNumber + ";databaseName=Dynamics09";
-            String url = "jdbc:sqlserver://" + mydatabase + ";user=TEK\\TEK-AX09-074;password=uliNithurt90"; // a JDBC url 
+            String url = "jdbc:sqlserver://" + mydatabase + ";;user=AXReader;password=AXReader"; // a JDBC url 
             System.out.println("Connecting to database... " + "(" + url + ")");
+            
             try {
-
 // Load the JDBC driver 
                 Class.forName(driverName);
             } catch (ClassNotFoundException e) {
@@ -45,7 +45,6 @@ public class ERP_Connect {
 
 // Create a connection to the database 
             DriverManager.setLoginTimeout(1);
-
             con = DriverManager.getConnection(url);
 
         } catch (SQLException e) {
@@ -54,6 +53,7 @@ public class ERP_Connect {
             System.out.println(e);
 // Could not find the database driver 
         }
+        
         return con;
 
     }
