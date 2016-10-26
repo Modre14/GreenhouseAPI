@@ -18,6 +18,7 @@ import java.rmi.registry.Registry;
  * @author Morten
  */
 public class RMI_Server {
+    
     public static void main(String[] args) throws java.rmi.AlreadyBoundException {
         startServer();
     }

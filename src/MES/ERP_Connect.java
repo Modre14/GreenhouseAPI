@@ -7,6 +7,8 @@ package MES;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,6 +24,7 @@ public class ERP_Connect {
 //        obj.run(args);
         ERP_Connect obj2 = new ERP_Connect();
         obj2.getConnection();
+
     }
 
     public Connection getConnection() {
@@ -35,7 +38,7 @@ public class ERP_Connect {
             String mydatabase = serverName + ":" + portNumber + ";databaseName=Dynamics09";
             String url = "jdbc:sqlserver://" + mydatabase + ";;user=AXReader;password=AXReader"; // a JDBC url 
             System.out.println("Connecting to database... " + "(" + url + ")");
-            
+
             try {
 // Load the JDBC driver 
                 Class.forName(driverName);
@@ -53,8 +56,30 @@ public class ERP_Connect {
             System.out.println(e);
 // Could not find the database driver 
         }
-        
+
+        getInfo(con);
         return con;
+
+    }
+
+    public static void getInfo(Connection con) {
+        try {
+            PreparedStatement st = con.prepareStatement("SELECT * FROM INVENTTESTITEMQUALITYGROUP ");
+
+            ResultSet result = st.executeQuery();
+
+            while (result.next()) {
+
+                System.out.print(" Name: " + result.getString(""));
+//                System.out.println(" Amount: " + result.getString("current_stock"));
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        System.out.println("");
 
     }
 }
