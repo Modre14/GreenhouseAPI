@@ -3,10 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GreenhouseAPI;
+package MES;
 
 import GreenhouseAPI.Greenhouse;
+import GreenhouseAPI.Greenhouse;
+import GreenhouseAPI.IGreenhouse;
 import MES.RMI_Config;
+import PLCCommunication.PLCConnection;
+import PLCCommunication.SerialConnection;
+import PLCCommunication.UDPConnection;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -19,8 +24,10 @@ import java.rmi.registry.Registry;
  */
 public class RMI_Server {
     
-    public static void main(String[] args) throws java.rmi.AlreadyBoundException {
+    public static void main(String[] args) throws java.rmi.AlreadyBoundException, RemoteException {
+
         startServer();
+        
     }
         
         private static void startServer() throws java.rmi.AlreadyBoundException {
