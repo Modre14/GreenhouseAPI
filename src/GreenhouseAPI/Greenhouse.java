@@ -84,7 +84,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse , ICo
      * CMD:3
      * @param level in percent
      * @return true if processed
+     * @throws java.rmi.RemoteException
      */
+    @Override
+    
+    
+    
     public boolean SetRedLight(int level)
     {
         System.out.println("Set red light to " + level);

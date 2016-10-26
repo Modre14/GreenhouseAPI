@@ -7,7 +7,6 @@ package GreenhouseAPI;
 
 import MES.RMI_Config;
 import PLCCommunication.*;
-import com.sun.org.apache.xalan.internal.utils.FeatureManager;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -27,43 +26,41 @@ import javax.swing.JOptionPane;
  * @author sps Testing
  */
 public class TestGreenhouse {
+
     PLCConnection con = new UDPConnection(5000, "192.168.0.10");
     private IGreenhouse greenhouse;
     IGreenhouse api = new Greenhouse(con);
-    
-    private TestGreenhouse() throws RemoteException{
 
-		String host = JOptionPane.showInputDialog("Server name?" , "localhost");
-		Registry registry;
+    private TestGreenhouse() throws RemoteException {
 
-		try {
-			registry = LocateRegistry.getRegistry(host, RMI_Config.REGISTRY_PORT);
-			greenhouse = (IGreenhouse)registry.lookup(RMI_Config.OBJECT_NAME);
-		} catch(RemoteException | NotBoundException e) {
+        String host = JOptionPane.showInputDialog("Server name?", "localhost");
+        Registry registry;
 
-			throw new Error("Error" + e);
-		}
+        try {
+            registry = LocateRegistry.getRegistry(host, RMI_Config.REGISTRY_PORT);
+            greenhouse = (IGreenhouse) registry.lookup(RMI_Config.OBJECT_NAME);
+        } catch (RemoteException | NotBoundException e) {
 
-	}
-    
-    private void red() throws RemoteException {
-        api.SetRedLight(10);
+            throw new Error("Error" + e);
+        }
         
-    
-}
-    
-    
- public static void main(String[] args) throws RemoteException {
 
-     TestGreenhouse t = new TestGreenhouse();
-     t.red();
+    }
+
+    private void red() throws RemoteException {
+        
+        greenhouse.SetRedLight(0); 
+        
+    }
+
+    public static void main(String[] args) throws RemoteException {
+
+        TestGreenhouse t = new TestGreenhouse();
+        t.red();
 
 //        PLCConnection con = new UDPConnection(1025, "localhost"); 
-        
 //        PLCConnection con = new SerialConnection("COM4");
 //        SerialConnection.getPortList("COM1");
-
-        
 //        int i = 0;
 //        while (i != 200) {
 //            api.SetRedLight(i);
@@ -81,13 +78,5 @@ public class TestGreenhouse {
 //
 ////        System.exit(3);
     }
-            
-    }
-        
-    
 
-   
-    
-
-
-
+}
