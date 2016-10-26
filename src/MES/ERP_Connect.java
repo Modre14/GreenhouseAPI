@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  
 /**
  *
- * @author Morten
+ * @author Morten :P
  */
 public class ERP_Connect {
  
