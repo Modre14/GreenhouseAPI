@@ -9,7 +9,7 @@ package MES;
  *
  * @author Morten
  */
-public class RMI_Config {
+public interface RMI_Config {
 
 
         public static int REGISTRY_PORT = 54323;

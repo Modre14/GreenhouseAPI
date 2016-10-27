@@ -8,7 +8,9 @@ package GreenhouseAPI;
 import MES.RMI_Config;
 import PLCCommunication.*;
 import java.io.IOException;
+import java.nio.channels.AlreadyBoundException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -28,36 +30,23 @@ import javax.swing.JOptionPane;
 public class TestGreenhouse {
 
     PLCConnection con = new UDPConnection(5000, "192.168.0.10");
-    private IGreenhouse greenhouse;
     IGreenhouse api = new Greenhouse(con);
 
     private TestGreenhouse() throws RemoteException {
 
-        String host = JOptionPane.showInputDialog("Server name?", "localhost");
-        Registry registry;
-
-        try {
-            registry = LocateRegistry.getRegistry(host, RMI_Config.REGISTRY_PORT);
-            greenhouse = (IGreenhouse) registry.lookup(RMI_Config.OBJECT_NAME);
-        } catch (RemoteException | NotBoundException e) {
-
-            throw new Error("Error" + e);
-        }
-        
-
     }
 
     private void red() throws RemoteException {
-        
-        greenhouse.SetRedLight(0); 
-        
+        api.SetRedLight(10);
     }
 
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {
 
         TestGreenhouse t = new TestGreenhouse();
-        t.red();
-
+        
+        t.startServer();
+        
+       
 //        PLCConnection con = new UDPConnection(1025, "localhost"); 
 //        PLCConnection con = new SerialConnection("COM4");
 //        SerialConnection.getPortList("COM1");
@@ -77,6 +66,16 @@ public class TestGreenhouse {
 //        //   outdoorTemperature = api.ReadTemp2();
 //
 ////        System.exit(3);
+    }
+
+    private void startServer() throws java.rmi.AlreadyBoundException {
+        try {
+            Registry registry = LocateRegistry.createRegistry(RMI_Config.REGISTRY_PORT);
+            registry.bind(RMI_Config.OBJECT_NAME, (Remote) new Greenhouse());
+        } catch (AlreadyBoundException | RemoteException e) {
+            throw new Error("Error when creating server: " + e);
+        }
+        System.out.println("Server running with registry on port " + RMI_Config.REGISTRY_PORT);
     }
 
 }

@@ -6,10 +6,15 @@
 
 package GreenhouseAPI;
 
+import MES.RMI_Config;
 import PLCCommunication.*;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.BitSet;
+import javax.swing.JOptionPane;
 
 /**
  * API to communicate to the PLC
@@ -19,10 +24,13 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse , ICo
 {
     private PLCConnection conn;
     private Message mess;
+   
+
     
      
     /**
      * Create greenhouse API
+     * @throws java.rmi.RemoteException
      */
     public Greenhouse()  throws RemoteException
     {
@@ -392,6 +400,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse , ICo
         }
         return false;
    
+    }
+
+    @Override
+    public String getInfo() throws RemoteException {
+        System.out.println("Working");
+        return "123";
     }
     
 }

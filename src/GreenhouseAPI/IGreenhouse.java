@@ -172,5 +172,7 @@ public interface IGreenhouse extends Remote
      * @return true if processed
      */
     boolean SetFanSpeed(int speed) throws RemoteException;
+    
+    String getInfo()throws RemoteException;
 
 }
