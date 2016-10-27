@@ -36,17 +36,12 @@ public class TestGreenhouse {
 
     }
 
-    private void red() throws RemoteException {
-        api.SetRedLight(10);
-    }
-
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {
 
         TestGreenhouse t = new TestGreenhouse();
-        
+
         t.startServer();
-        
-       
+
 //        PLCConnection con = new UDPConnection(1025, "localhost"); 
 //        PLCConnection con = new SerialConnection("COM4");
 //        SerialConnection.getPortList("COM1");
@@ -68,6 +63,9 @@ public class TestGreenhouse {
 ////        System.exit(3);
     }
 
+    /**
+     * Starts a server on the SCADA system
+     */
     private void startServer() throws java.rmi.AlreadyBoundException {
         try {
             Registry registry = LocateRegistry.createRegistry(RMI_Config.REGISTRY_PORT);

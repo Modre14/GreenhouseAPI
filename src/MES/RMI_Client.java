@@ -42,14 +42,10 @@ public class RMI_Client {
         }
 
     }
-    private void info() throws RemoteException{
+
+    private void info() throws RemoteException {
 
         System.out.println(greenhouse.getInfo().toString());
-    }
-    
-    private void red() throws RemoteException {
-        greenhouse.getClass();
-
     }
 
 }
