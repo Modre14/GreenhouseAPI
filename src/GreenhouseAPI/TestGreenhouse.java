@@ -7,20 +7,11 @@ package GreenhouseAPI;
 
 import MES.RMI_Config;
 import PLCCommunication.*;
-import java.io.IOException;
 import java.nio.channels.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.BitSet;
-import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 /**
  * API tester
@@ -37,7 +28,7 @@ public class TestGreenhouse {
     }
 
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {
-
+  
         TestGreenhouse t = new TestGreenhouse();
 
         t.startServer();

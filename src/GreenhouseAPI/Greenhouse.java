@@ -5,15 +5,10 @@
  */
 package GreenhouseAPI;
 
-import MES.RMI_Config;
 import PLCCommunication.*;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.BitSet;
-import javax.swing.JOptionPane;
 
 /**
  * API to communicate to the PLC
