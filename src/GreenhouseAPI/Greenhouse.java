@@ -5,7 +5,6 @@
  */
 package GreenhouseAPI;
 
-import MES.RMI_Config;
 import PLCCommunication.*;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.Remote;
@@ -390,26 +389,24 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     }
 
-
-
-      /**
+    /**
      * Starts a server on the SCADA system
      */
     @Override
     public boolean startServer() throws RemoteException {
-       
+
         try {
-            Registry registry = LocateRegistry.createRegistry(RMI_Config.REGISTRY_PORT);
-            registry.bind(RMI_Config.OBJECT_NAME, (Remote) new Greenhouse());
-         
+            Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT);
+            registry.bind(IGreenhouse.OBJECT_NAME, (Remote) new Greenhouse());
+
         } catch (AlreadyBoundException | RemoteException e) {
             throw new Error("Error when creating server: " + e);
         } catch (java.rmi.AlreadyBoundException ex) {
             Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        System.out.println("Server running with registry on port " + RMI_Config.REGISTRY_PORT);
-     return true;
+        System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT);
+        return true;
     }
 
     @Override
@@ -417,17 +414,15 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         System.out.println(info);
         return info;
     }
-    
-        /**
+
+    /**
      * Sends info to the MES system The returns a string to the client
      */
     @Override
     public String sendInfoToMES() throws RemoteException {
         System.out.println("Working");
-        return "123";
+
+        return "";
     }
-    
-    
-    
-    
+
 }

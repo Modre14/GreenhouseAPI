@@ -23,6 +23,9 @@ public interface IGreenhouse extends Remote {
     final byte LOW = 1;
     final byte HIGH = 2;
 
+    public static int REGISTRY_PORT = 54323;
+    public static String OBJECT_NAME = "server";
+
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1
      *
@@ -156,17 +159,17 @@ public interface IGreenhouse extends Remote {
      * Sends info to the MES system The return value
      */
     String sendInfoToMES() throws RemoteException;
-    
-    
-      /**
+
+    /**
      * Starts a server on the SCADA system
      */
     boolean startServer() throws RemoteException;
-    
+
     /**
      * Gets order information from MES
+     *
      * @return
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     String receiveInfo(String info) throws RemoteException;
 

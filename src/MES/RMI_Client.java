@@ -18,18 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class RMI_Client {
 
-    IGreenhouse greenhouse;
+    private IGreenhouse greenhouse;
 
-    
-    
-
-    public void client() {
+    public void clientConnect() {
         String host = JOptionPane.showInputDialog("Server name?", "localhost");
         Registry registry;
 
         try {
-            registry = LocateRegistry.getRegistry(host, RMI_Config.REGISTRY_PORT);
-            greenhouse = (IGreenhouse) registry.lookup(RMI_Config.OBJECT_NAME);
+            registry = LocateRegistry.getRegistry(host, IGreenhouse.REGISTRY_PORT);
+            greenhouse = (IGreenhouse) registry.lookup(IGreenhouse.OBJECT_NAME);
         } catch (RemoteException | NotBoundException e) {
 
             throw new Error("Error" + e);
@@ -41,9 +38,9 @@ public class RMI_Client {
 
         System.out.println(greenhouse.sendInfoToMES().toString());
     }
-    
-    public void sendDataToSCADA(String string)throws RemoteException{
- 
+
+    public void sendDataToSCADA(String string) throws RemoteException {
+
         greenhouse.receiveInfo(string);
     }
 
