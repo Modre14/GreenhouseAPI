@@ -9,7 +9,7 @@ import java.sql.*;
  
 /**
  *
- * @author Fuck dig, Morten
+ * @author ...
  */
 public class ERP_Connect {
  

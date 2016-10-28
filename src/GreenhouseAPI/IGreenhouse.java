@@ -155,6 +155,19 @@ public interface IGreenhouse extends Remote {
     /**
      * Sends info to the MES system The return value
      */
-    String getInfo() throws RemoteException;
+    String sendInfoToMES() throws RemoteException;
+    
+    
+      /**
+     * Starts a server on the SCADA system
+     */
+    boolean startServer() throws RemoteException;
+    
+    /**
+     * Gets order information from MES
+     * @return
+     * @throws RemoteException 
+     */
+    String receiveInfo(String info) throws RemoteException;
 
 }
