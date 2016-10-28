@@ -21,12 +21,7 @@ public class RMI_Client {
     IGreenhouse greenhouse;
 
     
-    public static void main(String[] args) throws RemoteException {
-        RMI_Client c = new RMI_Client();
-        c.client();
-        c.getInfoFromSCADA();
-        c.sendDataToSCADA("potato");
-    }
+    
 
     public void client() {
         String host = JOptionPane.showInputDialog("Server name?", "localhost");
@@ -42,7 +37,7 @@ public class RMI_Client {
 
     }
 
-    private void getInfoFromSCADA() throws RemoteException {
+    public void getInfoFromSCADA() throws RemoteException {
 
         System.out.println(greenhouse.sendInfoToMES().toString());
     }

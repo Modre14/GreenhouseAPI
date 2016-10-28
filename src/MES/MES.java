@@ -5,22 +5,32 @@
  */
 package MES;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Morten
  */
 public class MES {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
         MES m = new MES();
-        m.ERP();
+        m.ERPConnect();
+        m.SCADAConnect();
     }
-    
-    
-    private void ERP(){
+
+    private void ERPConnect() {
         ERP_Connect obj2 = new ERP_Connect();
         obj2.getConnection();
         obj2.getDataFromERP();
     }
+
+    private void SCADAConnect() throws RemoteException {
+        RMI_Client c = new RMI_Client();
+        c.client();
+        c.getInfoFromSCADA();
+        c.sendDataToSCADA("potato");
+    }
+    
 
 }

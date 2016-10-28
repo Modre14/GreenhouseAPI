@@ -5,15 +5,8 @@
  */
 package GreenhouseAPI;
 
-import MES.RMI_Config;
 import PLCCommunication.*;
-import java.nio.channels.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * API tester
