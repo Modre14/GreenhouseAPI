@@ -29,7 +29,7 @@ public class MES {
         RMI_Client c = new RMI_Client();
         c.clientConnect();
         c.getInfoFromSCADA();
-        c.sendDataToSCADA("potato");
+        c.sendDataToSCADA("Hello from MES");
         
     }
     

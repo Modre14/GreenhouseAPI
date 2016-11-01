@@ -42,6 +42,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public Greenhouse(PLCConnection c) throws RemoteException {
         this.conn = c;
+        
     }
 
     /**
@@ -422,7 +423,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public String sendInfoToMES() throws RemoteException {
         System.out.println("Working");
 
-        return "123";
+        return "Message from SCADA";
     }
 
 }
