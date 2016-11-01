@@ -422,7 +422,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public String sendInfoToMES() throws RemoteException {
         System.out.println("Working");
 
-        return "";
+        return "123";
     }
 
 }

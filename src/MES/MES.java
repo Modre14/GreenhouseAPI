@@ -15,7 +15,7 @@ public class MES {
 
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
-//        m.ERPConnect();
+        m.ERPConnect();
         m.SCADAConnect();
     }
 
