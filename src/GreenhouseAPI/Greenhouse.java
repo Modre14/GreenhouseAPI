@@ -42,7 +42,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public Greenhouse(PLCConnection c) throws RemoteException {
         this.conn = c;
-        
+
     }
 
     /**
@@ -74,6 +74,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return true if processed
      */
     public boolean SetMoisture(int moist) {
+        System.out.println("Set moisture level to " + moist);
         mess = new Message(MOIST_SETPOINT);
         if (moist > 10 && moist < 90) {
             mess.setData(moist);
@@ -118,6 +119,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return true if processed
      */
     public boolean SetBlueLight(int level) {
+        System.out.println("Set blue light to " + level);
         mess = new Message(BLUELIGHT_SETPOINT);
         if (level >= 0 && level <= 100) {
             mess.setData(level);
