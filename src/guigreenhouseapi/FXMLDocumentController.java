@@ -9,9 +9,12 @@ import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,7 +53,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private Label label;
 
     @FXML
-    private void handleButtonAction(ActionEvent event) throws RemoteException, InterruptedException {
+    private void handleButtonAction(ActionEvent event) throws RemoteException {
 
         System.out.println("You clicked me!");
         label.setText("Hello World!");
@@ -63,9 +66,40 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    private void update() throws InvocationTargetException, InterruptedException{ 
+
+
+        System.out.println("1");
+        Thread t = new Thread(() -> {
+            try {
+                System.out.println("2");
+                Temp_indside.setText(String.valueOf(api.ReadTemp1()));
+                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
+                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
+                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
+                Hight_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
+            } catch (RemoteException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        });
+        t.start();
+        Thread.sleep(1000);
+        
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb
+    ) {
+        try {
+            // TODO
+            update();
+
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
