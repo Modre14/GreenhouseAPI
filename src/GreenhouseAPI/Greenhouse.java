@@ -25,7 +25,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     private PLCConnection conn;
     private Message mess;
-
+    
     /**
      * Create greenhouse API
      *
@@ -423,7 +423,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     @Override
     public String sendInfoToMES() throws RemoteException {
-        System.out.println("Working");
 
         return "Message from SCADA";
     }

@@ -145,8 +145,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                api.SetRedLight(92);
-                api.SetBlueLight(20);
+                api.SetRedLight(0);
+                api.SetBlueLight(0);
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
