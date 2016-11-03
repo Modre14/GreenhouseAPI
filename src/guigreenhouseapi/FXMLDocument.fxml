@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -44,114 +45,7 @@
                               <Button fx:id="refreshButton" layoutX="110.0" layoutY="263.0" onAction="#handleButtonAction" text="Refresh" />
                            </children>
                         </Pane>
-                     </children>
-                  </Pane>
-               </content>
-            </Tab>
-            <Tab text="Greenhouse">
-               <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Pane layoutX="43.0" layoutY="204.0" prefHeight="274.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="14.0" text="Temp" />
-                              <Label layoutX="15.0" layoutY="51.0" text="Red light" />
-                              <Label layoutX="15.0" layoutY="88.0" text="Blue light" />
-                              <Label layoutX="15.0" layoutY="126.0" text="Level of moist" />
-                              <TextField fx:id="tempSpinner1" editable="false" layoutX="112.0" layoutY="10.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="redLightSpinner1" editable="false" layoutX="112.0" layoutY="47.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="blueLightSpinner1" editable="false" layoutX="112.0" layoutY="84.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="levelOfMoistSpinner1" editable="false" layoutX="112.0" layoutY="122.0" prefHeight="25.0" prefWidth="91.0" />
-                           </children>
-                        </Pane>
-                        <Button fx:id="getGreenhouseDataButton1" layoutX="305.0" layoutY="138.0" mnemonicParsing="false" onAction="#getGreenhouseData" text="Connect" />
-                        <Pane id="GreenhouseData" fx:id="GreenhouseData1" layoutX="494.0" layoutY="171.0" prefHeight="307.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="48.0" text="Temp indside" />
-                              <TextField fx:id="Temp_indside1" editable="false" layoutX="100.0" layoutY="43.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Temp_outside1" editable="false" layoutX="100.0" layoutY="88.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="93.0" text="Temp outside" />
-                              <Label layoutX="12.0" layoutY="137.0" text="Level of moist" />
-                              <TextField fx:id="Level_of_moist1" editable="false" layoutX="100.0" layoutY="133.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Water_level1" editable="false" layoutX="100.0" layoutY="178.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="182.0" text="Water level" />
-                              <Label layoutX="12.0" layoutY="226.0" text="Hight of plants" />
-                              <TextField fx:id="Hight_of_plants1" editable="false" layoutX="100.0" layoutY="222.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Button fx:id="refreshButton1" layoutX="110.0" layoutY="263.0" onAction="#handleButtonAction" text="Refresh" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
-               </content>
-            </Tab>
-            <Tab text="Greenhose">
-               <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Pane layoutX="43.0" layoutY="204.0" prefHeight="274.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="14.0" text="Temp" />
-                              <Label layoutX="15.0" layoutY="51.0" text="Red light" />
-                              <Label layoutX="15.0" layoutY="88.0" text="Blue light" />
-                              <Label layoutX="15.0" layoutY="126.0" text="Level of moist" />
-                              <TextField fx:id="tempSpinner2" editable="false" layoutX="112.0" layoutY="10.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="redLightSpinner2" editable="false" layoutX="112.0" layoutY="47.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="blueLightSpinner2" editable="false" layoutX="112.0" layoutY="84.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="levelOfMoistSpinner2" editable="false" layoutX="112.0" layoutY="122.0" prefHeight="25.0" prefWidth="91.0" />
-                           </children>
-                        </Pane>
-                        <Button fx:id="getGreenhouseDataButton2" layoutX="305.0" layoutY="138.0" mnemonicParsing="false" onAction="#getGreenhouseData" text="Connect" />
-                        <Pane id="GreenhouseData" fx:id="GreenhouseData2" layoutX="494.0" layoutY="171.0" prefHeight="307.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="48.0" text="Temp indside" />
-                              <TextField fx:id="Temp_indside2" editable="false" layoutX="100.0" layoutY="43.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Temp_outside2" editable="false" layoutX="100.0" layoutY="88.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="93.0" text="Temp outside" />
-                              <Label layoutX="12.0" layoutY="137.0" text="Level of moist" />
-                              <TextField fx:id="Level_of_moist2" editable="false" layoutX="100.0" layoutY="133.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Water_level2" editable="false" layoutX="100.0" layoutY="178.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="182.0" text="Water level" />
-                              <Label layoutX="12.0" layoutY="226.0" text="Hight of plants" />
-                              <TextField fx:id="Hight_of_plants2" editable="false" layoutX="100.0" layoutY="222.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Button fx:id="refreshButton2" layoutX="110.0" layoutY="263.0" onAction="#handleButtonAction" text="Refresh" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
-               </content>
-            </Tab>
-            <Tab text="Greenhouse">
-               <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Pane layoutX="43.0" layoutY="204.0" prefHeight="274.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="14.0" text="Temp" />
-                              <Label layoutX="15.0" layoutY="51.0" text="Red light" />
-                              <Label layoutX="15.0" layoutY="88.0" text="Blue light" />
-                              <Label layoutX="15.0" layoutY="126.0" text="Level of moist" />
-                              <TextField fx:id="tempSpinner3" editable="false" layoutX="112.0" layoutY="10.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="redLightSpinner3" editable="false" layoutX="112.0" layoutY="47.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="blueLightSpinner3" editable="false" layoutX="112.0" layoutY="84.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="levelOfMoistSpinner3" editable="false" layoutX="112.0" layoutY="122.0" prefHeight="25.0" prefWidth="91.0" />
-                           </children>
-                        </Pane>
-                        <Button fx:id="getGreenhouseDataButton3" layoutX="305.0" layoutY="138.0" mnemonicParsing="false" onAction="#getGreenhouseData" text="Connect" />
-                        <Pane id="GreenhouseData" fx:id="GreenhouseData3" layoutX="494.0" layoutY="171.0" prefHeight="307.0" prefWidth="275.0">
-                           <children>
-                              <Label layoutX="14.0" layoutY="48.0" text="Temp indside" />
-                              <TextField fx:id="Temp_indside3" editable="false" layoutX="100.0" layoutY="43.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Temp_outside3" editable="false" layoutX="100.0" layoutY="88.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="93.0" text="Temp outside" />
-                              <Label layoutX="12.0" layoutY="137.0" text="Level of moist" />
-                              <TextField fx:id="Level_of_moist3" editable="false" layoutX="100.0" layoutY="133.0" prefHeight="25.0" prefWidth="91.0" />
-                              <TextField fx:id="Water_level3" editable="false" layoutX="100.0" layoutY="178.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Label layoutX="12.0" layoutY="182.0" text="Water level" />
-                              <Label layoutX="12.0" layoutY="226.0" text="Hight of plants" />
-                              <TextField fx:id="Hight_of_plants3" editable="false" layoutX="100.0" layoutY="222.0" prefHeight="25.0" prefWidth="91.0" />
-                              <Button fx:id="refreshButton3" layoutX="110.0" layoutY="263.0" onAction="#handleButtonAction" text="Refresh" />
-                           </children>
-                        </Pane>
+                        <ChoiceBox fx:id="listOfGreenhouse" layoutX="106.0" layoutY="138.0" prefWidth="150.0" />
                      </children>
                   </Pane>
                </content>

@@ -36,6 +36,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private final ObservableList IP = FXCollections.observableArrayList(
             "192.168.0.10", "192.168.0.20", "192.168.0.30", "192.168.0.40");
 
+    private String temp1;
+    private String temp2;
+    private String levelOfMoist;
+    private String waterLevel;
+    private String plantHight;
+
     @FXML
     private Pane GreenhouseData;
     @FXML
@@ -62,77 +68,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private Button getGreenhouseDataButton;
     @FXML
-    private TextField tempSpinner1;
-    @FXML
-    private TextField redLightSpinner1;
-    @FXML
-    private TextField blueLightSpinner1;
-    @FXML
-    private TextField levelOfMoistSpinner1;
-    @FXML
-    private Button getGreenhouseDataButton1;
-    @FXML
-    private Pane GreenhouseData1;
-    @FXML
-    private TextField Temp_indside1;
-    @FXML
-    private TextField Temp_outside1;
-    @FXML
-    private TextField Level_of_moist1;
-    @FXML
-    private TextField Water_level1;
-    @FXML
-    private TextField Hight_of_plants1;
-    @FXML
-    private Button refreshButton1;
-    @FXML
-    private TextField tempSpinner2;
-    @FXML
-    private TextField redLightSpinner2;
-    @FXML
-    private TextField blueLightSpinner2;
-    @FXML
-    private TextField levelOfMoistSpinner2;
-    @FXML
-    private Button getGreenhouseDataButton2;
-    @FXML
-    private Pane GreenhouseData2;
-    @FXML
-    private TextField Temp_indside2;
-    @FXML
-    private TextField Temp_outside2;
-    @FXML
-    private TextField Level_of_moist2;
-    @FXML
-    private TextField Water_level2;
-    @FXML
-    private TextField Hight_of_plants2;
-    @FXML
-    private Button refreshButton2;
-    @FXML
-    private TextField tempSpinner3;
-    @FXML
-    private TextField redLightSpinner3;
-    @FXML
-    private TextField blueLightSpinner3;
-    @FXML
-    private TextField levelOfMoistSpinner3;
-    @FXML
-    private Button getGreenhouseDataButton3;
-    @FXML
-    private Pane GreenhouseData3;
-    @FXML
-    private TextField Temp_indside3;
-    @FXML
-    private TextField Temp_outside3;
-    @FXML
-    private TextField Level_of_moist3;
-    @FXML
-    private TextField Water_level3;
-    @FXML
-    private TextField Hight_of_plants3;
-    @FXML
-    private Button refreshButton3;
+    private ChoiceBox<String> listOfGreenhouse;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -148,6 +84,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         System.out.println("You clicked me!");
 
         try {
+
             Temp_indside.setText(String.valueOf(api.ReadTemp1()));
             Temp_outside.setText(String.valueOf(api.ReadTemp2()));
             Level_of_moist.setText(String.valueOf(api.ReadMoist()));
@@ -173,14 +110,15 @@ public class FXMLDocumentController extends Thread implements Initializable {
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             Thread.sleep(5000);
         }
     }
 
     private void startUpdateThread() throws InvocationTargetException, InterruptedException {
-
-        System.out.println("1");
-        Thread t = new Thread(() -> {
+        
+        System.out.println(con);
+        Thread t =  new Thread(() -> {
             try {
                 update();
             } catch (InterruptedException ex) {
@@ -193,11 +131,39 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        listOfGreenhouse.setItems(IP);
+
+        for (int j = 0; j < IP.size(); j++) {
+            System.out.println(j);
+            con = new UDPConnection(5000, (String) IP.get(j));
+            System.out.println(IP.get(j));
+            System.out.println(con);
+           
+            try {
+                api = new Greenhouse(con);
+            } catch (RemoteException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                api.SetRedLight(92);
+                api.SetBlueLight(20);
+            } catch (RemoteException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
         
-//
 //        try {
-//            startUpdateThread();
-//        } catch (InvocationTargetException ex) {
+//            api.startServer();
+////
+////        try {
+////            startUpdateThread();
+////        } catch (InvocationTargetException ex) {
+////            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+////        } catch (InterruptedException ex) {
+////            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//        } catch (RemoteException ex) {
 //            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,10 +173,20 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
-        System.out.println(IP.get(0));
-        con = new UDPConnection(5000, (String) IP.get(0));
-        api = new Greenhouse(con);
-        startUpdateThread();
+        
+//        startUpdateThread();
+    }
+
+    private void clearDate() {
+
+        temp1 = null;
+        temp2 = null;
+        waterLevel = null;
+        levelOfMoist = null;
+    }
+
+    private String createInfoString() {
+        return "";
     }
 
 }
