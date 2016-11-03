@@ -40,12 +40,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private String temp2;
     private String levelOfMoist;
     private String waterLevel;
-    private String plantHight;
+    private String plantHeight;
 
     @FXML
     private Pane GreenhouseData;
     @FXML
-    private TextField Temp_indside;
+    private TextField Temp_inside;
     @FXML
     private TextField Temp_outside;
     @FXML
@@ -53,7 +53,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private TextField Water_level;
     @FXML
-    private TextField Hight_of_plants;
+    private TextField Height_of_plants;
     @FXML
     private Button refreshButton;
     @FXML
@@ -69,6 +69,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private Button getGreenhouseDataButton;
     @FXML
     private ChoiceBox<String> listOfGreenhouse;
+  
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -85,11 +86,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         try {
 
-            Temp_indside.setText(String.valueOf(api.ReadTemp1()));
+            Temp_inside.setText(String.valueOf(api.ReadTemp1()));
             Temp_outside.setText(String.valueOf(api.ReadTemp2()));
             Level_of_moist.setText(String.valueOf(api.ReadMoist()));
             Water_level.setText(String.valueOf(api.ReadWaterLevel()));
-            Hight_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
+            Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,11 +102,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
             try {
 
                 System.out.println("2");
-                Temp_indside.setText(String.valueOf(api.ReadTemp1() + i));
+                Temp_inside.setText(String.valueOf(api.ReadTemp1() + i));
 //                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
 //                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
-//                Hight_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
+//                Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
                 i++;
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
