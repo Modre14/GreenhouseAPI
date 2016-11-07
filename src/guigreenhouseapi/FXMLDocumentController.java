@@ -67,7 +67,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private Button getGreenhouseDataButton;
     @FXML
     private ChoiceBox<String> listOfGreenhouse;
-  
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -94,11 +93,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     }
 
-
     private void update() throws InterruptedException {
         while (true) {
             try {
-
 
                 System.out.println(api.ReadTemp1());
 
@@ -107,7 +104,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
 //                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
 //                Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
-
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -115,8 +111,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Thread.sleep(50000);
         }
     }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -164,8 +158,15 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
+        System.out.println(listOfGreenhouse.getValue());
+        for (int i = 0; i < IP.size(); i++) {
 
-//        startUpdateThread();
+            System.out.println(IP.get(i));
+            if (listOfGreenhouse.getValue().equals(IP.get(i))) {
+                System.out.println("working");
+            }
+        }
+
     }
 
     private void clearDate() {
