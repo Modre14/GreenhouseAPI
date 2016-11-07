@@ -121,21 +121,22 @@ public class FXMLDocumentController extends Thread implements Initializable {
             con = new UDPConnection(5000, (String) IP.get(j));
             System.out.println(IP.get(j));
             System.out.println(con);
-            Thread t = new Thread(() -> {
-                try {
-                    update();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
 
             try {
+
                 api = new Greenhouse(con);
+                Thread t = new Thread(() -> {
+                    try {
+                        update();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                t.start();
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            t.start();
         }
 
 //        try {
@@ -162,7 +163,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             System.out.println(IP.get(i));
             if (listOfGreenhouse.getValue().equals(IP.get(i))) {
-                
+
                 System.out.println("working");
             }
         }
