@@ -94,65 +94,56 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private int i = 0;
+
 
     private void update() throws InterruptedException {
         while (true) {
             try {
 
-                System.out.println("2");
-                Temp_indside.setText(String.valueOf(api.ReadTemp1() + i));
+                System.out.println(api.ReadTemp1());
+//                Temp_indside.setText(String.valueOf(api.ReadTemp1()));
 //                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
 //                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
 //                Hight_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
-                i++;
+
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            Thread.sleep(5000);
+            Thread.sleep(50000);
         }
     }
 
-    private void startUpdateThread() throws InvocationTargetException, InterruptedException {
-        
-        System.out.println(con);
-        Thread t =  new Thread(() -> {
-            try {
-                update();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        t.start();
 
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listOfGreenhouse.setItems(IP);
 
+        //Starts a thread foreach greenhouse conecction 
         for (int j = 0; j < IP.size(); j++) {
             System.out.println(j);
             con = new UDPConnection(5000, (String) IP.get(j));
             System.out.println(IP.get(j));
             System.out.println(con);
-           
+            Thread t = new Thread(() -> {
+                try {
+                    update();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
             try {
                 api = new Greenhouse(con);
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            try {
-                api.SetRedLight(0);
-                api.SetBlueLight(0);
-            } catch (RemoteException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+
+            t.start();
         }
-        
+
 //        try {
 //            api.startServer();
 ////
@@ -168,12 +159,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
     }
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
-        
+
 //        startUpdateThread();
     }
 
