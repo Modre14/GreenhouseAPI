@@ -87,7 +87,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Temp_outside.setText(String.valueOf(api.ReadTemp2()));
             Level_of_moist.setText(String.valueOf(api.ReadMoist()));
             Water_level.setText(String.valueOf(api.ReadWaterLevel()));
-            Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,6 +162,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             System.out.println(IP.get(i));
             if (listOfGreenhouse.getValue().equals(IP.get(i))) {
+                
                 System.out.println("working");
             }
         }
