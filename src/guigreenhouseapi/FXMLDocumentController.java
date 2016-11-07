@@ -97,7 +97,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             try {
 
                 System.out.println(api.ReadTemp1());
-
 //                Temp_inside.setText(String.valueOf(api.ReadTemp1()));
 //                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
@@ -128,10 +127,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 Thread t = new Thread(() -> {
                     try {
                         update();
+                        long threadId = Thread.currentThread().getId();
+                        System.out.println(threadId);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                });
+                }
+                );
                 t.start();
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
