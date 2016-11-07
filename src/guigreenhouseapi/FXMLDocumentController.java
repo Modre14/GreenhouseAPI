@@ -106,13 +106,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 System.out.println("2");
                 Temp_inside.setText(String.valueOf(api.ReadTemp1()));
 
+                Temp_inside.setText(String.valueOf(api.ReadTemp1()));
 //                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
 //                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
-
-//                Hight_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
-
-
 //                Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
 
             } catch (RemoteException ex) {
