@@ -113,6 +113,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listOfGreenhouse.setItems(IP);
@@ -129,8 +130,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 Thread t = new Thread(() -> {
                     try {
                         update();
-                        long threadId = Thread.currentThread().getId();
-                        System.out.println(threadId);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -140,6 +139,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
 
         }
 
@@ -167,7 +167,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             System.out.println(IP.get(i));
             if (listOfGreenhouse.getValue().equals(IP.get(i))) {
                 
-                thermometerIndicator.setProgress((api.ReadTemp1()-250)/100.0*2.0);
+                thermometerIndicator.setProgress((api.ReadTemp1()-273)/100.0*2.0);
                 System.out.println("working");
             }
         }
