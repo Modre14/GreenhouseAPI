@@ -102,7 +102,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     private void update() throws InterruptedException {
         Thread.sleep(2000);
-        System.out.println(this.api.hashCode());
 //        while (true) {
 //            try {
 //                
