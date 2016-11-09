@@ -30,11 +30,9 @@ public class Protocol {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest 
      */
-    public Protocol(int day, int night, int dayTemp, int nightTemp, int waterFlow, int redLight, int blueLight, int days) {
+    public Protocol(int day, int dayTemp, int waterFlow, int redLight, int blueLight, int days) {
         this.day = day;
-        this.night = night;
         this.dayTemp = dayTemp;
-        this.nightTemp = nightTemp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;
