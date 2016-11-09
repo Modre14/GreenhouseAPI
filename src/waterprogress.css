@@ -6,6 +6,7 @@
     -fx-indeterminate-bar-animation-time: 2;
 }
 .progress-bar > .bar {
+    -fx-accent: #2196F3;
     -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7%), derive(-fx-accent, 0%), derive(-fx-accent, -3%), derive(-fx-accent, -9%) );
     -fx-background-insets: 1 1 2 1;
     -fx-background-radius: 2;
