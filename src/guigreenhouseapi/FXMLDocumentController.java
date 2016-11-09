@@ -130,6 +130,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             con = new UDPConnection(5000, (String) IP.get(j));
             System.out.println(IP.get(j));
             System.out.println(con);
+
             try {
                 api = new Greenhouse(con);
             } catch (RemoteException ex) {
@@ -144,15 +145,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                     );
 
+                    t0.start();
                     break;
                 case 1:
-                    t1 = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            System.out.println(api);
-                        }
-                    });
+                    t1 = new Thread(() -> {
 
+                        System.out.println(api);
+
+                    }
+                    );
+                    t1.start();
                     break;
 
                 case 2:
@@ -161,6 +163,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                         System.out.println(api);
                     }
                     );
+                    t2.start();
 
                     break;
                 case 3:
@@ -169,11 +172,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
                     }
                     );
-
+                    t3.start();
                     break;
                 default:
                     System.out.println("");
             }
+
         }
 
 //        try {
@@ -196,6 +200,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
         System.out.println(listOfGreenhouse.getValue());
+
         for (int i = 0; i < IP.size(); i++) {
             System.out.println(IP.get(i));
             if (listOfGreenhouse.getValue().equals(IP.get(i))) {
