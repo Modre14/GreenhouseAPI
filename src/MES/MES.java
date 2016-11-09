@@ -27,9 +27,9 @@ public class MES {
 
     private void makeProtocols() {
         protocolArray = new ArrayList<Protocol>();
-        Protocol RadiseCherryBelle = new Protocol(0, 0, 0, 0, 0, 0);
+        Protocol p = new Protocol("Radise CherryBelle", 0, 0, 0, 0, 0, 0);
 
-        protocolArray.add(RadiseCherryBelle);
+        protocolArray.add(p);
 
     }
 
