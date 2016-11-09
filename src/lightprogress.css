@@ -1,11 +1,11 @@
 /* lightprogress.css */
-.progress-bar {
+#lightprogress-bar {
     -fx-indeterminate-bar-length: 60;
     -fx-indeterminate-bar-escape: true;
     -fx-indeterminate-bar-flip: true;
     -fx-indeterminate-bar-animation-time: 2;
 }
-.progress-bar > .bar {
+#lightprogress-bar > .bar {
 	-fx-accent: blue;
     -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7%), derive(-fx-accent, 0%), derive(-fx-accent, -3%), derive(-fx-accent, -9%) );
     /*
@@ -18,10 +18,10 @@
 	*/
     -fx-padding: 0.5em;
 }
-.progress-bar:indeterminate > .bar {
+#lightprogress-bar:indeterminate > .bar {
     -fx-background-color: linear-gradient(to left, transparent, -fx-accent);
 }
-.progress-bar > .track {
+#lightprogress-bar > .track {
 	-fx-accent: red;
       -fx-background-color: 
           linear-gradient(to bottom, derive(-fx-accent,95%), derive(-fx-accent,10%)),
