@@ -130,6 +130,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 Thread t = new Thread(() -> {
                     try {
                         update();
+           
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
