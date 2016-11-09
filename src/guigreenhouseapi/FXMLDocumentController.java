@@ -35,7 +35,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private final ObservableList IP = FXCollections.observableArrayList(
             "192.168.0.10", "192.168.0.20", "192.168.0.30", "192.168.0.40");
 
-    private String temp1;
+    private double temp1;
     private String temp2;
     private String levelOfMoist;
     private String waterLevel;
@@ -100,6 +100,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             try {
 
                 System.out.println(api.ReadTemp1());
+                System.out.println(this.con);
 //                Temp_inside.setText(String.valueOf(api.ReadTemp1()));
 //                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
 //                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
@@ -113,7 +114,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         listOfGreenhouse.setItems(IP);
@@ -124,24 +124,88 @@ public class FXMLDocumentController extends Thread implements Initializable {
             con = new UDPConnection(5000, (String) IP.get(j));
             System.out.println(IP.get(j));
             System.out.println(con);
-            try {
 
-                api = new Greenhouse(con);
-                Thread t = new Thread(() -> {
+            switch (j) {
+                case 0:
                     try {
-                        update();
-           
-                    } catch (InterruptedException ex) {
+
+                        api = new Greenhouse(con);
+                        Thread t0 = new Thread(() -> {
+                            try {
+                                update();
+
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        );
+                        t0.start();
+                    } catch (RemoteException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-                );
-                t.start();
-            } catch (RemoteException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
 
+                    break;
+                case 1:
+                    try {
+
+                        api = new Greenhouse(con);
+                        Thread t1 = new Thread(() -> {
+                            try {
+                                update();
+
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        );
+                        t1.start();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    break;
+
+                case 2:
+                    try {
+
+                        api = new Greenhouse(con);
+                        Thread t2 = new Thread(() -> {
+                            try {
+                                update();
+                                
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        );
+                        t2.start();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    break;
+                case 3:
+                    try {
+
+                        api = new Greenhouse(con);
+                        Thread t3 = new Thread(() -> {
+                            try {
+                                update();
+
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        );
+                        t3.start();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    break;
+                default:
+                    System.out.println("");
+            }
         }
 
 //        try {
@@ -167,20 +231,14 @@ public class FXMLDocumentController extends Thread implements Initializable {
         for (int i = 0; i < IP.size(); i++) {
             System.out.println(IP.get(i));
             if (listOfGreenhouse.getValue().equals(IP.get(i))) {
+                temp1 = api.ReadTemp1() - 253;
+                tempInside.setText(String.valueOf(temp1));
+                thermometerIndicator.setProgress((temp1) / 100.0 * 2.0);
                 
-                thermometerIndicator.setProgress((api.ReadTemp1()-273)/100.0*2.0);
                 System.out.println("working");
             }
         }
 
-    }
-
-    private void clearDate() {
-
-        temp1 = null;
-        temp2 = null;
-        waterLevel = null;
-        levelOfMoist = null;
     }
 
     private String createInfoString() {

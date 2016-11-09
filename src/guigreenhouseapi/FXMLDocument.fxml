@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
     <children>
       <TabPane prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -44,7 +44,7 @@
                               <Button fx:id="refreshButton" layoutX="110.0" layoutY="263.0" onAction="#handleButtonAction" text="Refresh" />
                            </children>
                         </Pane>
-                        <ProgressBar layoutX="-31.0" layoutY="169.0" prefWidth="200.0" progress="0.39" rotate="-90.0" stylesheets="@../tempprogress.css" />
+                        <ProgressBar fx:id="thermometerIndicator" layoutX="-31.0" layoutY="169.0" prefWidth="200.0" progress="0.39" rotate="-90.0" stylesheets="@../tempprogress.css" />
                         <Button fx:id="getGreenhouseDataButton" layoutX="303.0" layoutY="27.0" mnemonicParsing="false" onAction="#getGreenhouseData" text="Connect" />
                         <Label layoutX="80.0" layoutY="70.0" text="- 50" />
                         <Label layoutX="80.0" layoutY="90.0" text="- 45" />
@@ -57,7 +57,7 @@
                         <Label layoutX="80.0" layoutY="230.0" text="- 10" />
                         <Label layoutX="80.0" layoutY="250.0" text="- 5" />
                         <Label layoutX="80.0" layoutY="268.0" text="- 0" />
-                        <TextField fx:id="Temp_inside" editable="false" layoutX="112.0" layoutY="168.0" prefHeight="25.0" prefWidth="46.0" />
+                        <TextField fx:id="tempInside" editable="false" layoutX="112.0" layoutY="168.0" prefHeight="25.0" prefWidth="46.0" />
                         <ProgressBar layoutX="110.0" layoutY="164.0" prefHeight="29.0" prefWidth="200.0" progress="0.52" rotate="-90.0" stylesheets="@../waterprogress.css" />
                         <Label layoutX="228.0" layoutY="268.0" text="- 0" />
                         <Label layoutX="228.0" layoutY="230.0" text="- 5" />
