@@ -78,6 +78,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     private IGreenhouse api;
 
+    private Thread t0;
+    private Thread t1;
+    private Thread t2;
+    private Thread t3;
+
     @FXML
 
     private void handleButtonAction(ActionEvent event) throws RemoteException {
@@ -96,6 +101,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     private void update() throws InterruptedException {
+        Thread.sleep(2000);
+        System.out.println(this.api.hashCode());
 //        while (true) {
 //            try {
 //                
@@ -120,7 +127,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
 //Starts a thread foreach greenhouse conecction 
         for (int j = 0; j < IP.size(); j++) {
-            System.out.println(j);
             con = new UDPConnection(5000, (String) IP.get(j));
             System.out.println(IP.get(j));
             System.out.println(con);
@@ -132,62 +138,37 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             switch (j) {
                 case 0:
-                    Thread t0 = new Thread(() -> {
-                        try {
+                    t0 = new Thread(() -> {
+                        System.out.println(api);
 
-                            System.out.println(api);
-                            update();
-
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                     }
                     );
-                    t0.start();
 
                     break;
                 case 1:
-                    Thread t1 = new Thread(() -> {
-                        try {
+                    t1 = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
                             System.out.println(api);
-                            update();
-
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
-                    );
-                    t1.start();
+                    });
 
                     break;
 
                 case 2:
 
-                    Thread t2 = new Thread(() -> {
-                        try {
-                            System.out.println(api);
-                            update();
-
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    t2 = new Thread(() -> {
+                        System.out.println(api);
                     }
                     );
-                    t2.start();
 
                     break;
                 case 3:
-                    Thread t3 = new Thread(() -> {
-                        try {
-                            System.out.println(api);
-                            update();
+                    t3 = new Thread(() -> {
+                        System.out.println(api);
 
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                     }
                     );
-                    t3.start();
 
                     break;
                 default:
