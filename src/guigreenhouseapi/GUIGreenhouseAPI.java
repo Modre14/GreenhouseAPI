@@ -22,9 +22,9 @@ public class GUIGreenhouseAPI extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        //scene.getStylesheets().add("/lightprogress.css");
-        //scene.getStylesheets().add("/tempprogress.css");
-        //scene.getStylesheets().add("/waterprogress.css");
+        scene.getStylesheets().add("/lightprogress.css");
+        scene.getStylesheets().add("/tempprogress.css");
+        scene.getStylesheets().add("/waterprogress.css");
         
         stage.setScene(scene);  
         stage.show();
