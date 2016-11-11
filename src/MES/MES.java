@@ -5,10 +5,18 @@
  */
 package MES;
 
+import GreenhouseAPI.Greenhouse;
+import GreenhouseAPI.IGreenhouse;
 import Protocol.Protocol;
+import java.nio.channels.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,6 +66,21 @@ public class MES {
         c.getInfoFromSCADA();
         c.sendDataToSCADA("Hello from MES");
 
+    }
+        public boolean startServer() throws RemoteException {
+
+        try {
+            Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT_MES);
+            registry.bind(IGreenhouse.OBJECT_NAME, (Remote) new Greenhouse());
+
+        } catch (AlreadyBoundException | RemoteException e) {
+            throw new Error("Error when creating server: " + e);
+        } catch (java.rmi.AlreadyBoundException ex) {
+            Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT_MES);
+        return true;
     }
 
 }
