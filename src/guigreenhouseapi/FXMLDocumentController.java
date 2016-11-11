@@ -35,12 +35,9 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLDocumentController extends Thread implements Initializable {
 
-    private final ObservableList IP = FXCollections.observableArrayList(
-            "192.168.0.10", "192.168.0.20", "192.168.0.30", "192.168.0.40");
-    
     private double temp1;
     private double temp2;
-    private String levelOfMoist;
+    private double levelOfMoist;
     private double waterLevelValue;
     @FXML
 
@@ -87,7 +84,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ArrayList<IGreenhouse> greenhouseArray;
 
     private void handleButtonAction(ActionEvent event) throws RemoteException {
-        
+
         System.out.println("You clicked me!");
 
         try {
@@ -101,69 +98,26 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     }
 
-    private void update() throws InterruptedException {
-        Thread.sleep(2000);
-//        while (true) {
-//            try {
-//                
-//                System.out.println(api.ReadTemp1());
-//                System.out.println(this.api);
-////                Temp_inside.setText(String.valueOf(api.ReadTemp1()));
-////                Temp_outside.setText(String.valueOf(api.ReadTemp2()));
-////                Level_of_moist.setText(String.valueOf(api.ReadMoist()));
-////                Water_level.setText(String.valueOf(api.ReadWaterLevel()));
-////                Height_of_plants.setText(String.valueOf(api.ReadPlantHeight()));
-//            } catch (RemoteException ex) {
-//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            Thread.sleep(50000);
-//        }
-    }
-
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        listOfGreenhouse.setItems(IP);
-
-        greenhouseArray = new ArrayList<>();
-//Starts a thread foreach greenhouse conecction 
-        for (int j = 0; j < IP.size(); j++) {
-            con = new UDPConnection(5000, (String) IP.get(j));
-            System.out.println(IP.get(j));
-            System.out.println(con);
-
-            try {
-                greenhouseArray.add(new Greenhouse(con));
-
-            } catch (RemoteException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    public void initialize(URL url, ResourceBundle rb){
+        try {
+            scada = new SCADA();
+            scada.initialize();
+            scada.getGreenhouseArray();
+        } catch (RemoteException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-//        try {
-//            api.startServer();
-////
-////        try {
-////            startUpdateThread();
-////        } catch (InvocationTargetException ex) {
-////            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-////        } catch (InterruptedException ex) {
-////            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-////        }
-//        } catch (RemoteException ex) {
-//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        
+       
     }
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
-        for (int i = 0; i < IP.size(); i++) {
+        for (int i = 0; i < scada.getGreenhouseArray().size(); i++) {
 
-            if (listOfGreenhouse.getValue().equals(IP.get(i))) {
-                
+            if (listOfGreenhouse.getValue().equals(scada.getGreenhouseArray().get(i))) {
+
                 api = greenhouseArray.get(i);
                 temp1 = api.ReadTemp1() - 253;
                 tempInside.setText(String.valueOf(temp1));
