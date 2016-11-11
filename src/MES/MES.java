@@ -36,22 +36,21 @@ public class MES {
 
     private void makeProtocols() {
         protocolArray = new ArrayList<Protocol>();
-        Protocol p1 = new Protocol("2014001", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p1 = new Protocol("2014001", 21, 16, 26, 0, 92, 8, 20);
         protocolArray.add(p1);
-        Protocol p2 = new Protocol("2014002", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p2 = new Protocol("2014002", 21, 16, 26, 0, 92, 8, 20);
         protocolArray.add(p2);
-        Protocol p3 = new Protocol("2014101", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p3 = new Protocol("2014101", 15, 10, 20, 0, 92, 8, 50);
         protocolArray.add(p3);
-        Protocol p4 = new Protocol("2014102", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p4 = new Protocol("2014102", 15, 10, 20, 0, 92, 8, 25);
         protocolArray.add(p4);
-        Protocol p5 = new Protocol("201420", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p5 = new Protocol("201420", 15, 10, 20, 0, 92, 8, 64);
         protocolArray.add(p5);
-        Protocol p6 = new Protocol("2014202", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p6 = new Protocol("2014202", 15, 10, 20, 0, 92, 8, 42);
         protocolArray.add(p6);
-        Protocol p7 = new Protocol("2014203", 0, 0, 0, 0, 0, 0, 0);
+        Protocol p7 = new Protocol("2014203", 15, 10, 20, 0, 92, 8, 52);
         protocolArray.add(p7);
-        Protocol p8 = new Protocol("2014101", 0, 0, 0, 0, 0, 0, 0);
-        protocolArray.add(p8);
+
 
     }
 
@@ -68,7 +67,8 @@ public class MES {
         c.sendDataToSCADA("Hello from MES");
 
     }
-        public boolean startServer() throws RemoteException {
+
+    public boolean startServer() throws RemoteException {
 
         try {
             Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT_MES);
