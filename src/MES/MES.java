@@ -31,6 +31,7 @@ public class MES {
         m.makeProtocols();
         m.ERPConnect();
 //        m.SCADAConnect();
+        m.startServer();
     }
 
     private void makeProtocols() {

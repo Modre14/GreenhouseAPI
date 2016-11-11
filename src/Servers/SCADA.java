@@ -67,4 +67,5 @@ public class SCADA {
         System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT_SCADA);
         return true;
     }
+    
 }
