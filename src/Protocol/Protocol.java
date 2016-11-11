@@ -12,9 +12,7 @@ package Protocol;
 public class Protocol {
     String name;
     int day;
-    int night;
-    int dayTemp;
-    int nightTemp;
+    int Temp;
     int waterFlow;
     int redLight;
     int blueLight;
@@ -30,10 +28,10 @@ public class Protocol {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest 
      */
-    public Protocol(String name, int day, int dayTemp, int waterFlow, int redLight, int blueLight, int days) {
+    public Protocol(String name, int day, int Temp, int waterFlow, int redLight, int blueLight, int days) {
         this.name = name;
         this.day = day;
-        this.dayTemp = dayTemp;
+        this.Temp = Temp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;

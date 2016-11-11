@@ -21,15 +21,29 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
-//        m.ERPConnect();
+        m.ERPConnect();
 //        m.SCADAConnect();
     }
 
     private void makeProtocols() {
         protocolArray = new ArrayList<Protocol>();
-        Protocol p = new Protocol("Radise Cherry Belle", 0, 0, 0, 0, 0, 0);
-
-        protocolArray.add(p);
+        Protocol p1 = new Protocol("2014001", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p1);
+        Protocol p2 = new Protocol("2014002", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p2);
+        Protocol p3 = new Protocol("2014101", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p3);
+         Protocol p4 = new Protocol("2014102", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p4);
+         Protocol p5 = new Protocol("201420", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p5);
+         Protocol p6 = new Protocol("2014202", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p6);
+         Protocol p7 = new Protocol("2014203", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p7);
+         Protocol p8 = new Protocol("2014101", 0, 0, 0, 0, 0, 0);
+        protocolArray.add(p8);
+        
 
     }
 
