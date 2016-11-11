@@ -41,6 +41,10 @@ public class SCADA {
         return greenhouseArray;
     }
 
+    public List getIP() {
+        return IP;
+    }
+
     public SCADA() throws RemoteException {
        
     }

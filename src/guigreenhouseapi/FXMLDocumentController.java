@@ -104,6 +104,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
             scada = new SCADA();
             scada.initialize();
             scada.getGreenhouseArray();
+            System.out.println(scada.getGreenhouseArray());
+            listOfGreenhouse.setItems((ObservableList<String>) scada.getIP());
+            
+            
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,8 +121,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         for (int i = 0; i < scada.getGreenhouseArray().size(); i++) {
 
             if (listOfGreenhouse.getValue().equals(scada.getGreenhouseArray().get(i))) {
-
-                api = greenhouseArray.get(i);
+                
+                api = scada.getGreenhouseArray().get(i);
                 temp1 = api.ReadTemp1() - 253;
                 tempInside.setText(String.valueOf(temp1));
                 thermometerIndicatorIn.setProgress((temp1) / 50.0);
