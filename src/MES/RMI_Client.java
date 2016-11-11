@@ -25,7 +25,7 @@ public class RMI_Client {
         Registry registry;
 
         try {
-            registry = LocateRegistry.getRegistry(host, IGreenhouse.REGISTRY_PORT);
+            registry = LocateRegistry.getRegistry(host, IGreenhouse.REGISTRY_PORT_SCADA);
             greenhouse = (IGreenhouse) registry.lookup(IGreenhouse.OBJECT_NAME);
         } catch (RemoteException | NotBoundException e) {
 

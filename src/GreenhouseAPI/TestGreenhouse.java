@@ -24,7 +24,6 @@ public class TestGreenhouse {
 
     private void red() throws RemoteException {
 
-        api.startServer();
     }
 
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {

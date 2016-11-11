@@ -9,6 +9,7 @@ import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
+import Servers.SCADA;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -36,7 +37,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     private final ObservableList IP = FXCollections.observableArrayList(
             "192.168.0.10", "192.168.0.20", "192.168.0.30", "192.168.0.40");
-
+    
     private double temp1;
     private double temp2;
     private String levelOfMoist;
@@ -45,8 +46,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     private TextField waterLevel;
 
-    @FXML
-    private Pane GreenhouseData;
     private TextField Temp_outside;
     @FXML
     private TextField Level_of_moist;
@@ -68,10 +67,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ProgressBar thermometerIndicatorOut;
     @FXML
     private TextField tempOutside;
+    @FXML
+    private TextField tempSpinner;
+    @FXML
+    private TextField levelOfMoistSpinner;
+    @FXML
+    private Button startProduction;
+    @FXML
+    private ChoiceBox<?> listOfOrders;
 
     public FXMLDocumentController() throws RemoteException {
 
     }
+    private SCADA scada;
     private PLCConnection con;
 
     private IGreenhouse api;
@@ -79,7 +87,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ArrayList<IGreenhouse> greenhouseArray;
 
     private void handleButtonAction(ActionEvent event) throws RemoteException {
-
+        
         System.out.println("You clicked me!");
 
         try {
