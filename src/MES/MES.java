@@ -5,18 +5,10 @@
  */
 package MES;
 
-import GreenhouseAPI.Greenhouse;
-import GreenhouseAPI.IGreenhouse;
 import Protocol.Protocol;
-import java.nio.channels.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -31,26 +23,25 @@ public class MES {
         m.makeProtocols();
         m.ERPConnect();
 //        m.SCADAConnect();
-        m.startServer();
     }
 
     private void makeProtocols() {
         protocolArray = new ArrayList<Protocol>();
-        Protocol p1 = new Protocol("2014001", 0, 0, 0, 0, 0);
+        Protocol p1 = new Protocol("2014001", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p1);
-        Protocol p2 = new Protocol("2014002", 0, 0, 0, 0, 0);
+        Protocol p2 = new Protocol("2014002", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p2);
-        Protocol p3 = new Protocol("2014101", 0, 0, 0, 0, 0);
+        Protocol p3 = new Protocol("2014101", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p3);
-        Protocol p4 = new Protocol("2014102", 0, 0, 0, 0, 0);
+        Protocol p4 = new Protocol("2014102", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p4);
-        Protocol p5 = new Protocol("201420", 0, 0, 0, 0, 0);
+        Protocol p5 = new Protocol("201420", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p5);
-        Protocol p6 = new Protocol("2014202", 0, 0, 0, 0, 0);
+        Protocol p6 = new Protocol("2014202", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p6);
-        Protocol p7 = new Protocol("2014203", 0, 0, 0, 0, 0);
+        Protocol p7 = new Protocol("2014203", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p7);
-        Protocol p8 = new Protocol("2014101", 0, 0, 0, 0, 0);
+        Protocol p8 = new Protocol("2014101", 0, 0, 0, 0, 0, 0, 0);
         protocolArray.add(p8);
 
     }
@@ -69,20 +60,4 @@ public class MES {
 
     }
 
-        public boolean startServer() throws RemoteException {
-
-        try {
-            Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT_MES);
-            registry.bind(IGreenhouse.OBJECT_NAME, (Remote) new Greenhouse());
-
-        } catch (AlreadyBoundException | RemoteException e) {
-            throw new Error("Error when creating server: " + e);
-        } catch (java.rmi.AlreadyBoundException ex) {
-            Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT_MES);
-        return true;
-    }
-    
 }

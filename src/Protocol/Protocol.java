@@ -12,19 +12,24 @@ package Protocol;
 public class Protocol {
     String name;
     int Temp;
+    int minTemp;
+    int maxTemp;
     int waterFlow;
     int redLight;
     int blueLight;
     int days;
 
     /**
-     * @param Temp is the temperature 
-     * @param waterFlow is the nuber of seconds the waterpum is on
+     * @param day is the number of hours with light
+     * @param night is the number of hours with darkness
+     * @param dayTemp is is the temperature  during the day
+     * @param nightTemp is the temperature during the day 
+     * @param waterFlow is the number of seconds the waterpump is on
      * @param redLight is the value of redLight
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest 
      */
-    public Protocol(String name,  int Temp, int waterFlow, int redLight, int blueLight, int days) {
+    public Protocol(String name, int Temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
         this.name = name;
         this.Temp = Temp;
         this.waterFlow = waterFlow;
