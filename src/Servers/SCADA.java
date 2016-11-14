@@ -5,95 +5,37 @@
  */
 package Servers;
 
-import GreenhouseAPI.Greenhouse;
-import GreenhouseAPI.IGreenhouse;
-import PLCCommunication.PLCConnection;
-import PLCCommunication.UDPConnection;
-import java.nio.channels.AlreadyBoundException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import static javafx.collections.FXCollections.observableArrayList;
-import javafx.collections.ObservableList;
-import javax.swing.JOptionPane;
+import java.util.HashMap;
+import java.util.Map;
 
+import GreenhouseAPI.Greenhouse;
+import GreenhouseAPI.IGreenhouse;
 /**
  *
  * @author Morten
  */
 public class SCADA {
 
-    private Greenhouse greenhouse;
-    private IGreenhouse iGreenhouse;
-    private final List IP = observableArrayList("192.168.0.10", "192.168.0.20", "192.168.0.30", "192.168.0.40");
-    private ArrayList<IGreenhouse> greenhouseArray;
-
-    IGreenhouse api;
-
-    public ArrayList<IGreenhouse> getGreenhouseArray() {
-        return greenhouseArray;
-    }
-
-    public List getIP() {
-        return IP;
-    }
-
-    public SCADA() throws RemoteException {
-       
-    }
-
     public static void main(String[] args) throws RemoteException {
+        Map<String, IGreenhouse> ghmap = new HashMap<>();
 
-
-    }
-
-    public void initialize() throws RemoteException {
-        greenhouseArray = new ArrayList<>();
-        startServer();
-//        clientConnect();
-        for (int i = 0; i < IP.size(); i++) {
-            PLCConnection con = new UDPConnection(5000, (String) IP.get(i));
-            IGreenhouse api = new Greenhouse(con);
-            greenhouseArray.add(api);   
+        for (int i = 0; i < SERVER_CONFIG.IP_ADRESSES.length; i++) {
+            ghmap.put(SERVER_CONFIG.IP_ADRESSES[i], new Greenhouse(SERVER_CONFIG.IP_ADRESSES[i]));
         }
-
-    }
-
-    public void clientConnect() {
-        String host = JOptionPane.showInputDialog("Server name?", "localhost");
-        Registry registry;
-
         try {
-            registry = LocateRegistry.getRegistry(host, IGreenhouse.REGISTRY_PORT_MES);
-            iGreenhouse = (IGreenhouse) registry.lookup(IGreenhouse.OBJECT_NAME);
-        } catch (RemoteException | NotBoundException e) {
 
-            throw new Error("Error" + e);
+            Registry registry = LocateRegistry.createRegistry(SERVER_CONFIG.REGISTRY_PORT);
+            registry.bind(SERVER_CONFIG.REMOTE_OBJECT_NAME, ghmap);
+        } catch (RemoteException | java.rmi.AlreadyBoundException e) {
+            throw new Error("Error creating server: "+e);
         }
-
+        System.out.println("Server running with registry on port "+SERVER_CONFIG.REGISTRY_PORT);
+        }
     }
 
-    public boolean startServer() throws RemoteException {
-
-        try {
-            Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT_SCADA);
-            registry.bind(IGreenhouse.OBJECT_NAME, (Remote) new Greenhouse());
-
-        } catch (AlreadyBoundException | RemoteException e) {
-            throw new Error("Error when creating server: " + e);
-        } catch (java.rmi.AlreadyBoundException ex) {
-            Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT_SCADA);
-        return true;
-    }
 
 }

@@ -6,6 +6,8 @@
 package GreenhouseAPI;
 
 import PLCCommunication.*;
+
+import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author Steffen Skov
  */
-public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICommands {
+public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICommands, Serializable {
 
     private PLCConnection conn;
     private Message mess;
@@ -40,8 +42,8 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      *
      * @param c connection
      */
-    public Greenhouse(PLCConnection c) throws RemoteException {
-        this.conn = c;
+    public Greenhouse(String IP) throws RemoteException {
+        this.conn = new UDPConnection(5000, IP);
 
     }
 

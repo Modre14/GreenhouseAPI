@@ -15,8 +15,7 @@ import java.rmi.RemoteException;
  */
 public class TestGreenhouse {
 
-    PLCConnection con = new UDPConnection(5000, "192.168.0.10");
-    IGreenhouse api = new Greenhouse(con);
+    IGreenhouse api = new Greenhouse("192.168.1.10");
 
     private TestGreenhouse() throws RemoteException {
 
