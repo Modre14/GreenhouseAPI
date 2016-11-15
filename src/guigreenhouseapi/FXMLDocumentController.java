@@ -13,10 +13,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.collections.FXCollections.observableArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -97,19 +99,17 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb){
-
-        Map<String, IGreenhouse> ghlist  = null;
+    public void initialize(URL url, ResourceBundle rb) {
         try {
-            SCADA.getInstance();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        for (Map.Entry<String, IGreenhouse> gh : ghlist.entrySet()){
-                //System.out.println(gh.getKey());
+            List l = observableArrayList();
+            for (Map.Entry<String , IGreenhouse> gh : SCADA.getInstance().getGreenhouses().entrySet() ) {
+                 l.add(gh.getKey());
+            listOfGreenhouse.setItems((ObservableList<String>) l);
             }
+        } catch (RemoteException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-       
     }
 
     @FXML
@@ -132,7 +132,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //
 //            }
 //        }
-
     }
 
 }

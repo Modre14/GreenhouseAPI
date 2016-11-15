@@ -20,19 +20,22 @@ import GreenhouseAPI.IGreenhouse;
  */
 public class SCADA {
 
-    private static Map<String, IGreenhouse> ghlist = null;
+    private static Map<String, IGreenhouse> ghlist;
     private static SCADA instance = null;
     protected SCADA() {
-
+        ghlist = new HashMap<>();
+        
     }
 
-    public static SCADA getInstance() throws RemoteException {
+    public static SCADA getInstance() throws RemoteException { 
+
         if (instance == null){
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++ ) {
                 ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
             }
         }
+        
         return instance;
     }
 
