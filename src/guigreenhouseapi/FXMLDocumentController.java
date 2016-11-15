@@ -5,20 +5,19 @@
  */
 package guigreenhouseapi;
 
-import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
-import PLCCommunication.UDPConnection;
-import Servers.SCADA;
-import java.lang.reflect.Array;
+import SCADA.SCADA;
+
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 
 /**
  *
@@ -100,41 +98,40 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+
+        Map<String, IGreenhouse> ghlist  = null;
         try {
-            scada = new SCADA();
-            scada.initialize();
-            scada.getGreenhouseArray();
-            System.out.println(scada.getGreenhouseArray());
-            listOfGreenhouse.setItems((ObservableList<String>) scada.getIP());
-            
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            SCADA.getInstance();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
-        
+        for (Map.Entry<String, IGreenhouse> gh : ghlist.entrySet()){
+                //System.out.println(gh.getKey());
+            }
+
        
     }
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
-        for (int i = 0; i < scada.getGreenhouseArray().size(); i++) {
-
-            if (listOfGreenhouse.getValue().equals(scada.getGreenhouseArray().get(i))) {
-                
-                api = scada.getGreenhouseArray().get(i);
-                temp1 = api.ReadTemp1() - 253;
-                tempInside.setText(String.valueOf(temp1));
-                thermometerIndicatorIn.setProgress((temp1) / 50.0);
-                temp2 = api.ReadTemp2() - 253;
-                tempOutside.setText(String.valueOf(temp2));
-                thermometerIndicatorOut.setProgress(temp2 / 50.0);
-                waterLevelValue = api.ReadWaterLevel() / 10;
-                waterLevel.setText(String.valueOf(waterLevelValue));
-                waterlevelIndicator.setProgress(waterLevelValue / 25.0);
-
-            }
-        }
+//        for (int i = 0; i < scada.getGreenhouseArray().size(); i++) {
+//
+//            if (listOfGreenhouse.getValue().equals(scada.getGreenhouseArray().get(i))) {
+//
+//                api = scada.getGreenhouseArray().get(i);
+//                temp1 = api.ReadTemp1() - 253;
+//                tempInside.setText(String.valueOf(temp1));
+//                thermometerIndicatorIn.setProgress((temp1) / 50.0);
+//                temp2 = api.ReadTemp2() - 253;
+//                tempOutside.setText(String.valueOf(temp2));
+//                thermometerIndicatorOut.setProgress(temp2 / 50.0);
+//                waterLevelValue = api.ReadWaterLevel() / 10;
+//                waterLevel.setText(String.valueOf(waterLevelValue));
+//                waterlevelIndicator.setProgress(waterLevelValue / 25.0);
+//
+//            }
+//        }
 
     }
 

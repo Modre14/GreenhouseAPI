@@ -483,7 +483,7 @@ Changes from jTDS 1.2
 06/23/2006 - Matt Brinkley
  o Fixed the flags passed for NTLMv2 authentication.  Before the fix,
    authentication would fail in configuration where Minimum Session
-   Security for NTLM SSP based (including secure RPC) Servers setting
+   Security for NTLM SSP based (including secure RPC) SCADA setting
    was set to 'Require NTLM v2 session security'.
 
 05/19/2006 - Alin Sinpalean

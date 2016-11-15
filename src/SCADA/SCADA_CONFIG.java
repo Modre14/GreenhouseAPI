@@ -1,11 +1,9 @@
-package Servers;
-
-import java.util.ArrayList;
+package SCADA;
 
 /**
  * Created by madsn on 11-11-2016.
  */
-public interface SERVER_CONFIG {
+public interface SCADA_CONFIG {
 
     public static final int REGISTRY_PORT = 8500;
     public static final String REMOTE_OBJECT_NAME = "GREENHOUSE_LIST";
