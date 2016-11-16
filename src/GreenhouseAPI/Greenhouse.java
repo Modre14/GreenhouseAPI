@@ -27,7 +27,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     private PLCConnection conn;
     private Message mess;
-    
+    private int blueLight;
+    private int lightIntensity;
+
     /**
      * Create greenhouse API
      *
@@ -104,6 +106,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         mess = new Message(REDLIGHT_SETPOINT);
         if (level >= 0 && level <= 100) {
             mess.setData(level);
+            blueLight = 100 - level;
             conn.addMessage(mess);
             if (conn.send()) {
                 return true;
@@ -125,6 +128,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         mess = new Message(BLUELIGHT_SETPOINT);
         if (level >= 0 && level <= 100) {
             mess.setData(level);
+            blueLight = level;
             conn.addMessage(mess);
             if (conn.send()) {
                 return true;
@@ -394,8 +398,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     }
 
-   
-
     @Override
     public String receiveInfo(String info) throws RemoteException {
         System.out.println(info);
@@ -409,6 +411,22 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public String sendInfoToMES() throws RemoteException {
 
         return "Message from SCADA";
+    }
+
+    @Override
+    public void setLightIntensity(int level) {
+
+        lightIntensity = level;
+    }
+
+    @Override
+    public int getLightIntensity() {
+        return lightIntensity;
+    }
+
+    @Override
+    public int getBlueLight() {
+        return blueLight;
     }
 
 }

@@ -27,6 +27,12 @@ public interface IGreenhouse extends Remote {
     public static int REGISTRY_PORT_MES = 54322;
     public static String OBJECT_NAME = "server";
 
+    public void setLightIntensity(int level) throws RemoteException;
+
+    public int getLightIntensity() throws RemoteException;
+
+    public int getBlueLight() throws RemoteException;
+
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1
      *
@@ -160,7 +166,6 @@ public interface IGreenhouse extends Remote {
      * Sends info to the MES system The return value
      */
     String sendInfoToMES() throws RemoteException;
-
 
     /**
      * Gets order information from MES

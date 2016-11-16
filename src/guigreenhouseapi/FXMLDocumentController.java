@@ -37,6 +37,13 @@ import javafx.scene.input.InputMethodEvent;
 import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.collections.FXCollections.observableList;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.color;
+import javafx.scene.shape.Circle;
 
 /**
  *
@@ -48,6 +55,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private double temp2;
     private double levelOfMoist;
     private double waterLevelValue;
+
     @FXML
 
     private TextField waterLevel;
@@ -75,11 +83,21 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private TextField levelOfMoistSpinner;
     @FXML
-    private ComboBox<String> listOfOrders;
+    private TableColumn<?, ?> listOfOrders;
     @FXML
     private Button stopProductionButton;
     @FXML
     private CheckBox stopProductionCheckBox;
+    @FXML
+    private Slider lightSlider;
+    @FXML
+    private Slider amountOfLghtSlider;
+    @FXML
+    private Circle colorIndicator;
+    @FXML
+    private TableColumn<?, ?> listOfGreenhouses;
+    @FXML
+    private TableColumn<?, ?> listOfSettings;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -118,6 +136,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+         
 
     }
 
@@ -134,10 +153,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
-        gh.SetRedLight(56);
-        gh.SetBlueLight(13);
-        disableCheckAndButton();
-       
+        lightIndicator.setProgress(50 / 100.0);
+//        gh.SetRedLight(56);
+//        gh.SetBlueLight(50);
+//        disableCheckAndButton();
+        lightSlider.setValue(gh.getBlueLight());
+        amountOfLghtSlider.setValue(gh.getLightIntensity());
+
     }
 
     @FXML
@@ -147,7 +169,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh.SetFanSpeed(0);
         gh.SetRedLight(0);
         gh.SetMoisture(0);
-        
+        disableCheckAndButton();
+        lightSlider.setValue(0);
+        amountOfLghtSlider.setValue(0);
+        updateLight();
     }
 
     @FXML
@@ -158,10 +183,23 @@ public class FXMLDocumentController extends Thread implements Initializable {
             stopProductionButton.setDisable(true);
         }
     }
-    private void disableCheckAndButton(){
+
+    private void disableCheckAndButton() {
         stopProductionButton.setDisable(true);
         stopProductionCheckBox.setSelected(false);
+
     }
-    
+
+    @FXML
+    private void updateLight() throws RemoteException {
+        IGreenhouse gh = SCADA.getInstance().getGreenhouse(listOfGreenhouse.getValue());
+
+        gh.SetRedLight((int) ((100 - lightSlider.getValue()) * amountOfLghtSlider.getValue() / 100));
+        gh.SetBlueLight((int) (lightSlider.getValue() * amountOfLghtSlider.getValue() / 100));
+        gh.setLightIntensity((int) amountOfLghtSlider.getValue());
+        int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
+        int colorBlue = (int) (255 / 100 * lightSlider.getValue());
+        colorIndicator.setFill(Color.web("rgb(" + colorRed + ",0," + colorBlue + ")"));
+    }
 
 }
