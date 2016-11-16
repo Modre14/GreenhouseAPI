@@ -15,14 +15,14 @@ import java.rmi.RemoteException;
  */
 public class TestGreenhouse {
 
-    IGreenhouse api = new Greenhouse("192.168.1.10");
+    IGreenhouse api = new Greenhouse("192.168.0.10");
 
     private TestGreenhouse() throws RemoteException {
 
     }
 
     private void red() throws RemoteException {
-
+        api.SetBlueLight(55);
     }
 
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {

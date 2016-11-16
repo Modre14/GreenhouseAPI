@@ -265,7 +265,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
             }
         }
         System.out.println("Water level is: " + level);
-        return 150;
+        return level;
     }
 
     /**
