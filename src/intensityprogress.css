@@ -1,0 +1,30 @@
+#intensityprogress-bar {
+    -fx-indeterminate-bar-length: 60;
+    -fx-indeterminate-bar-escape: true;
+    -fx-indeterminate-bar-flip: true;
+    -fx-indeterminate-bar-animation-time: 2;
+}
+#intensityprogress-bar > .bar {
+	-fx-accent: #FFFF8D;
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7%), derive(-fx-accent, 0%), derive(-fx-accent, -3%), derive(-fx-accent, -9%) );
+    /*
+	inserts= padding fra siderne
+	*/
+	-fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 2;
+	/*
+	padding= tykkelse på progress-bar
+	*/
+    -fx-padding: 0.5em;
+}
+#intensityprogress-bar:indeterminate > .bar {
+    -fx-background-color: linear-gradient(to left, transparent, -fx-accent);
+}
+#intensityprogress-bar > .track {
+	-fx-accent: #616161;
+      -fx-background-color: 
+          linear-gradient(to bottom, derive(-fx-accent,95%), derive(-fx-accent,10%)),
+        linear-gradient(to bottom, derive(-fx-accent,38%), -fx-accent);
+    -fx-background-insets: 0, 0 0 1 0, 1 1 2 1;
+    -fx-background-radius: 4, 3, 2; /* 10, 9, 8 */
+}
