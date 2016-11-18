@@ -6,6 +6,8 @@
 package MES;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,6 +16,8 @@ import java.sql.*;
 public class ERP_Connect {
 
     private Connection conn = null;
+
+    private List ordreList = new ArrayList();
 
     public Connection getConnection() {
 
@@ -49,6 +53,10 @@ public class ERP_Connect {
 
     }
 
+    public List getOrdreList() {
+        return ordreList;
+    }
+
     public void getDataFromERP() {
         try {
             Statement stmt = conn.createStatement();
@@ -62,7 +70,9 @@ public class ERP_Connect {
                         System.out.print(",  ");
                     }
                     String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+//                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                    System.out.print(columnValue);
+                    ordreList.add(columnValue);
                 }
                 System.out.println("");
             }

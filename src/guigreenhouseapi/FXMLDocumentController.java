@@ -113,14 +113,14 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ArrayList<IGreenhouse> greenhouseArray;
 
     private void updateOverview() throws RemoteException {
-        List l = FXCollections.observableArrayList();
+        List l1 = FXCollections.observableArrayList();
         List l2 = FXCollections.observableArrayList();
+        List l3 = FXCollections.observableArrayList();
         for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
-            System.out.println(gh.getKey());
-            l.add(gh.getKey());
+            l1.add(gh.getKey());
             l2.add(scada.getGreenhouse(gh.getKey()).getDaysRemaining());
         }
-        listOfGreenhouses.setItems((ObservableList<String>) l);
+        listOfGreenhouses.setItems((ObservableList<String>) l1);
         greenhouseStatus.setItems((ObservableList< String>) l2);
 
     }
@@ -130,6 +130,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         try {
             scada = SCADA.getInstance();
+            scada.startServer();
             List l = FXCollections.observableArrayList();
 
             for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {

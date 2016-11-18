@@ -17,5 +17,7 @@ public interface ISCADA {
     IGreenhouse getGreenhouse(String IP);
 
     Map<String, IGreenhouse> getGreenhouseList();
+
+    public boolean startServer();
     
 }

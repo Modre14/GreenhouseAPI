@@ -41,7 +41,7 @@ public class RMI_Client {
 
     public void sendDataToSCADA(String string) throws RemoteException {
 
-        greenhouse.receiveInfo(string);
+        greenhouse.receiveInfo("hello from MES");
     }
 
 }

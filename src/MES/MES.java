@@ -13,6 +13,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,12 +26,17 @@ import java.util.logging.Logger;
 public class MES {
 
     private List<Protocol> protocolArray;
+    ERP_Connect obj2;
+    RMI_Client c;
+    private IGreenhouse greenhouse;
+
+    private List ordreList = new ArrayList();
 
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
         m.ERPConnect();
-//        m.SCADAConnect();
+        m.SCADAConnect();
         m.startServer();
     }
 
@@ -51,17 +57,20 @@ public class MES {
         Protocol p7 = new Protocol("2014203", 15, 10, 20, 0, 92, 8, 52);
         protocolArray.add(p7);
 
-
     }
 
-    private void ERPConnect() {
-        ERP_Connect obj2 = new ERP_Connect();
+    private void ERPConnect() throws RemoteException {
+        obj2 = new ERP_Connect();
         obj2.getConnection();
         obj2.getDataFromERP();
+
+        ordreList = obj2.getOrdreList();
+        
+        
     }
 
     private void SCADAConnect() throws RemoteException {
-        RMI_Client c = new RMI_Client();
+        c = new RMI_Client();
         c.clientConnect();
         c.getInfoFromSCADA();
         c.sendDataToSCADA("Hello from MES");
