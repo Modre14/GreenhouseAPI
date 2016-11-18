@@ -4,22 +4,20 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <TabPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
    <tabs>
-      <Tab text="Greenhouse">
+      <Tab closable="false" text="Greenhouse">
          <content>
             <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0">
                 <children>
@@ -97,17 +95,16 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="Overview">
+      <Tab closable="false" text="Overview">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView layoutX="-7.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
-                    <columns>
-                      <TableColumn fx:id="listOfGreenhouses" prefWidth="238.0" text="Greenhouse" />
-                        <TableColumn fx:id="listOfSettings" prefWidth="263.0" text="Settings" />
-                      <TableColumn fx:id="listOfOrders" minWidth="0.0" prefWidth="298.0" text="Orders" />
-                    </columns>
-                  </TableView>
+                  <ListView fx:id="listOfGreenhouses" layoutX="14.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
+                  <ListView fx:id="greenhouseStatus" layoutX="214.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
+                  <ListView fx:id="greenhouseOrders" layoutX="414.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
+                  <ComboBox layoutX="39.0" layoutY="362.0" prefWidth="150.0" />
+                  <ComboBox layoutX="239.0" layoutY="362.0" prefWidth="150.0" />
+                  <Button layoutX="488.0" layoutY="362.0" mnemonicParsing="false" text="Button" />
                </children>
             </AnchorPane>
         </content>

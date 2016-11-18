@@ -8,15 +8,9 @@ package GreenhouseAPI;
 import PLCCommunication.*;
 
 import java.io.Serializable;
-import java.nio.channels.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.BitSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * API to communicate to the PLC
@@ -29,6 +23,8 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private Message mess;
     private int blueLight;
     private int lightIntensity;
+    private int days;
+    private int daysCompleted;
 
     /**
      * Create greenhouse API
@@ -427,6 +423,27 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     @Override
     public int getBlueLight() {
         return blueLight;
+    }
+
+    @Override
+    public String getDaysRemaining() throws RemoteException {
+        return Integer.toString(getDays() - getDaysCompleted()) + " Dage tilbage";
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+    public int getDaysCompleted() {
+        return daysCompleted;
+    }
+
+    public void setDaysCompleted(int daysCompleted) {
+        this.daysCompleted = daysCompleted;
     }
 
 }
