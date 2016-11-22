@@ -68,7 +68,8 @@ public class SCADA implements ISCADA {
     public boolean startServer() {
         try {
             Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_SCADA);
-            registry.bind(ISCADA.OBJECT_NAME, (Remote) new SCADA());
+            registry.bind(ISCADA.OBJECT_NAME, instance);
+            
 
         } catch (AlreadyBoundException | RemoteException e) {
             throw new Error("Error when creating server: " + e);
