@@ -11,6 +11,7 @@ import java.util.Map;
 
 import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
+import GreenhouseAPI.SimulatedGreenhouse;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.AccessException;
@@ -45,7 +46,7 @@ public class SCADA implements ISCADA {
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
         }

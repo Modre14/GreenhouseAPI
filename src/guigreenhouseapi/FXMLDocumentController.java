@@ -164,12 +164,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
 
-//        temp1 = gh.ReadTemp1() - 273;
-//        tempInside.setText(String.valueOf(temp1));
-//        thermometerIndicatorIn.setProgress((temp1) / 50.0);
-//        temp2 = gh.ReadTemp2() - 273;
-//        tempOutside.setText(String.valueOf(temp2));
-//        thermometerIndicatorOut.setProgress(temp2 / 50.0);
+        temp1 = gh.ReadTemp1() - 273;
+        tempInside.setText(String.valueOf(temp1));
+        thermometerIndicatorIn.setProgress((temp1) / 50.0);
+        temp2 = gh.ReadTemp2() - 273;
+        tempOutside.setText(String.valueOf(temp2));
+        thermometerIndicatorOut.setProgress(temp2 / 50.0);
 //        waterLevelValue = gh.ReadWaterLevel() / 10;
 //        waterLevel.setText(String.valueOf(waterLevelValue));
 //        waterlevelIndicator.setProgress(waterLevelValue / 25.0);

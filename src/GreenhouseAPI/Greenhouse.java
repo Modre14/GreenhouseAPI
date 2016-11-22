@@ -33,15 +33,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     /**
      * Create greenhouse API
      *
-     * @throws java.rmi.RemoteException
-     */
-    public Greenhouse() throws RemoteException {
-
-    }
-
-    /**
-     * Create greenhouse API
-     *
      * @param c connection
      */
     public Greenhouse(String IP) throws RemoteException {
@@ -49,6 +40,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     }
 
+    
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1
      *
@@ -397,7 +389,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return false;
 
     }
-
 
     @Override
     public void setLightIntensity(int level) {

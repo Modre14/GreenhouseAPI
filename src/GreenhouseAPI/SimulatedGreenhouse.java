@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,11 +24,11 @@ import java.util.Random;
  */
 public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable {
 
-    private int maxNumber = 30;
+    private int maxValue = 30;
     private Random generator;
     private double currentValue;
 
-    private PLCConnection conn;
+    private String conn;
     private Message mess;
     private int blueLight;
     private int lightIntensity;
@@ -34,126 +36,281 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int daysCompleted;
     private List ordreList = new ArrayList();
 
+    double temp = 0.0;
+    double temp2 = 0.0;
+
     /**
      * Create greenhouse API
      *
      * @param c connection
      */
     public SimulatedGreenhouse(String IP) throws RemoteException {
-        this.conn = new UDPConnection(5000, IP);
+        this.conn = IP;
+
+    }
+
+    public boolean SetTemperature(int kelvin) {
+
+        return false;
+    }
+
+    /**
+     * Setpoint for moisture inside Greenhouse CMD:2
+     *
+     * @param moist in % ( 10 > M > 90 )
+     * @return true if processed
+     */
+    public boolean SetMoisture(int moist) {
+        System.out.println("Set moisture level to " + moist);
+
+        return false;
+    }
+
+    /**
+     * Setpoint for red light inside Greenhouse CMD:3
+     *
+     * @param level in percent
+     * @return true if processed
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+
+    public boolean SetRedLight(int level) {
+        System.out.println("Set red light to " + level);
+
+        return false;
+    }
+
+    /**
+     * Setpoint for blue light inside Greenhouse CMD: 4
+     *
+     * @param level in percent
+     * @return true if processed
+     */
+    public boolean SetBlueLight(int level) {
+        System.out.println("Set blue light to " + level);
+
+        return false;
+    }
+
+    /**
+     * Add water for some seconds. Pump is stopped if height of water is
+     * exceeded CMD: 6
+     *
+     * @param sec : Second to turn on the pump {0 <= sec < 120}
+     * @return true if processed
+     */
+    public boolean AddWater(int sec) {
+        if (sec >= 0 && sec < 120) {
+
+        }
+        return false;
+    }
+
+    /**
+     * NOT IMPLEMENTED Add Fertiliser for some seconds. Pump is stopped if
+     * height of water is exceeded CMD: 7
+     *
+     * @param sec : Secord to turn on the pump
+     * @return true if processed
+     */
+    public boolean AddFertiliser(int sec) {
+        return true;
+    }
+
+    /**
+     * NOT IMPLEMENTED Add CO2 for some seconds. Pump is stopped if height of
+     * water is exceeded CMD: 8
+     *
+     * @param sec : Secord to turn on the valve
+     * @return true if processed
+     */
+    public boolean AddCO2(int sec) {
+        return true;
+    }
+
+    /**
+     * Read tempature inside the Greenhouse CMD:9
+     *
+     * @return Temperature in kelvin
+     */
+    public double ReadTemp1() {
+        System.out.println("Read greenhouse temperatur ");
+
+        System.out.println("Temperature is: " + temp + "celcius");
+        return temp + 273.0;
+    }
+
+    /**
+     * Read tempature outside the Greenhouse CMD: 10
+     *
+     * @return Temperature in kelvin
+     */
+    public double ReadTemp2() {
+        System.out.println("Read outdoor temperatur ");
+
+        System.out.println("");
+        System.out.println("Temperature is: " + temp2);
+        return temp2 + 273.0;
+
+    }
+
+    /**
+     * Read relative moisture inside the Greenhouse CMD: 11
+     *
+     * @return Moisture in %
+     */
+    public double ReadMoist() {
+        System.out.println("Read outdoor temperatur ");
+
+        double moist = 0.0;
+
+        System.out.println("Moisture is: " + moist + " %");
+        return moist;
+    }
+
+    /**
+     * Read level of water in the Greenhouse CMD: 17
+     *
+     * @return Level in millimeter [0 < level < 250]
+     */
+    public double ReadWaterLevel() {
+        System.out.println("Read water level ");
+
+        double level = 0.0; // level
+
+        System.out.println("Water level is: " + level);
+        return level;
+    }
+
+    /**
+     * NOT IMPLEMENTED IN THE GREENHOUSE Read higths of the plants CMD: 12
+     *
+     * @return Higths (cm?)
+     */
+    public double ReadPlantHeight() {
+        System.out.println("Read height of plants");
+
+        double level = 0.0; // level
+
+        System.out.println("Plant height is: " + level);
+        return level;
+    }
+
+    /**
+     * Read all alarms one bits pr. alarm. CMD: 13
+     *
+     * @return Alarms as BitSet
+     */
+    public BitSet ReadErrors() {
+        System.out.println("Get all alarms ");
+
+        BitSet alarms = new BitSet(32);
+
+        System.out.println("Alarm state is: " + alarms);
+        return alarms;
+    }
+
+    private BitSet fillBitSet(byte[] al) {
+        BitSet alarms = new BitSet(32);
+        if (true) {
+            if (al != null && al.length == 4) {
+                for (int i = 0; i < 4; i++) {
+                    for (int b = 0; b < 8; b++) {
+                        int ib = (al[i] >> b) & 0x1;
+                        Boolean bit;
+                        if (ib == 1) {
+                            bit = true;
+                        } else {
+                            bit = false;
+                        }
+                        alarms.set(i * 8 + b, bit);
+                    }
+                }
+            }
+        }
+        System.out.println("Alarms in set state: " + alarms);
+        return alarms;
+    }
+
+    /**
+     * Reset one alarm CMD: 14
+     *
+     * @param errorNum
+     * @return Done
+     */
+    public boolean ResetError(int errorNum) {
+
+        errorNum--;
+        if (errorNum >= 0 && errorNum < 64) // 0 - 30 grader celcius
+        {
+            System.out.println("Reset alarm " + errorNum + 1);
+
+        }
+        return false;
+    }
+
+    /**
+     * Get all values as a byte array CMD: 15
+     *
+     * @return All values
+     */
+    public byte[] GetStatus() {
+        byte[] result = new byte[100];
+        System.out.println("Get status ");
+
+        System.out.println("State is: " + result);
+        return result;
+    }
+
+    /**
+     * Set Fane speed CMD: 16
+     *
+     * @param speed : {OFF (0), LOW (1), HIGH(2)};
+     * @return Done
+     */
+    public boolean SetFanSpeed(int speed) {
+        System.out.println("Set fan speed " + speed);
+
+        return false;
 
     }
 
     @Override
-    public void setLightIntensity(int level) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setLightIntensity(int level) {
+
+        lightIntensity = level;
     }
 
     @Override
-    public int getLightIntensity() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getLightIntensity() {
+        return lightIntensity;
     }
 
     @Override
-    public int getBlueLight() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDays(int days) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDaysCompleted(int daysCompleted) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getBlueLight() {
+        return blueLight;
     }
 
     @Override
     public String getDaysRemaining() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Integer.toString(getDays() - getDaysCompleted()) + " Dage tilbage";
     }
 
-    @Override
-    public boolean SetTemperature(int kelvin) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getDays() {
+        return days;
     }
 
-    @Override
-    public boolean SetMoisture(int moist) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setDays(int days) {
+        this.days = days;
     }
 
-    @Override
-    public boolean SetRedLight(int level) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getDaysCompleted() {
+        return daysCompleted;
     }
 
-    @Override
-    public boolean SetBlueLight(int level) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean AddWater(int sec) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean AddFertiliser(int sec) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean AddCO2(int sec) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double ReadTemp1() throws RemoteException {
-        currentValue = generator.nextInt(maxNumber);
-        return currentValue;
-    }
-
-    @Override
-    public double ReadTemp2() throws RemoteException {
-        currentValue = generator.nextInt(maxNumber);
-        return currentValue;
-    }
-
-    @Override
-    public double ReadMoist() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double ReadWaterLevel() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double ReadPlantHeight() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public BitSet ReadErrors() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean ResetError(int errorNum) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public byte[] GetStatus() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean SetFanSpeed(int speed) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setDaysCompleted(int daysCompleted) {
+        this.daysCompleted = daysCompleted;
     }
 
 }
