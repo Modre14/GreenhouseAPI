@@ -25,6 +25,7 @@ public class GUIGreenhouseAPI extends Application {
         scene.getStylesheets().add("/lightprogress.css");
         scene.getStylesheets().add("/tempprogress.css");
         scene.getStylesheets().add("/waterprogress.css");
+        scene.getStylesheets().add("/intensityprogress.css");
         
         stage.setScene(scene);  
         stage.show();
