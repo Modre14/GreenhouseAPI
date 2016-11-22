@@ -38,10 +38,12 @@ import javafx.scene.input.InputMethodEvent;
 import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.collections.FXCollections.observableList;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -101,6 +103,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ListView<String> greenhouseStatus;
     @FXML
     private ListView<String> greenhouseOrders;
+    @FXML
+    private ImageView fanImg;
+    @FXML
+    private ProgressBar amountOfLghtProgress;
+    @FXML
+    private Label levelOfMoistLabel;
 
     public FXMLDocumentController() throws RemoteException {
 
