@@ -6,8 +6,9 @@
 package MES;
 
 import GreenhouseAPI.Greenhouse;
-import GreenhouseAPI.IGreenhouse;
 import Protocol.Protocol;
+import SCADA.ISCADA;
+import SCADA.SCADA;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -28,16 +29,15 @@ public class MES {
     private List<Protocol> protocolArray;
     ERP_Connect obj2;
     RMI_Client c;
-    private IGreenhouse greenhouse;
-
-    private List ordreList = new ArrayList();
+    private ISCADA scada;
+    private ArrayList ordreList = new ArrayList();
 
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
         m.ERPConnect();
         m.SCADAConnect();
-        m.startServer();
+//        m.startServer();
     }
 
     private void makeProtocols() {
@@ -64,24 +64,22 @@ public class MES {
         obj2.getConnection();
         obj2.getDataFromERP();
 
-        ordreList = obj2.getOrdreList();
-        
-        
     }
 
     private void SCADAConnect() throws RemoteException {
         c = new RMI_Client();
         c.clientConnect();
+        ordreList = obj2.getOrdreList();
         c.getInfoFromSCADA();
-        c.sendDataToSCADA("Hello from MES");
+        c.sendDataToSCADA(ordreList);
 
     }
 
     public boolean startServer() throws RemoteException {
 
         try {
-            Registry registry = LocateRegistry.createRegistry(IGreenhouse.REGISTRY_PORT_MES);
-            registry.bind(IGreenhouse.OBJECT_NAME, (Remote) new Greenhouse());
+            Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_MES);
+            registry.bind(ISCADA.OBJECT_NAME, (Remote) new SCADA());
 
         } catch (AlreadyBoundException | RemoteException e) {
             throw new Error("Error when creating server: " + e);
@@ -89,7 +87,7 @@ public class MES {
             Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-        System.out.println("Server running with registry on port " + IGreenhouse.REGISTRY_PORT_MES);
+        System.out.println("Server running with registry on port " + ISCADA.REGISTRY_PORT_MES);
         return true;
     }
 

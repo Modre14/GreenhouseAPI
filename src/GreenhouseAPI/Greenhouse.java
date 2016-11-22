@@ -8,9 +8,12 @@ package GreenhouseAPI;
 import PLCCommunication.*;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 
 /**
  * API to communicate to the PLC
@@ -25,6 +28,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int lightIntensity;
     private int days;
     private int daysCompleted;
+    private List ordreList = new ArrayList();
 
     /**
      * Create greenhouse API
@@ -394,20 +398,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     }
 
-    @Override
-    public String receiveInfo(String info) throws RemoteException {
-        System.out.println(info);
-        return info;
-    }
-
-    /**
-     * Sends info to the MES system The returns a string to the client
-     */
-    @Override
-    public String sendInfoToMES() throws RemoteException {
-
-        return "Message from SCADA";
-    }
 
     @Override
     public void setLightIntensity(int level) {

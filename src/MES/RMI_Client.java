@@ -6,10 +6,13 @@
 package MES;
 
 import GreenhouseAPI.IGreenhouse;
+import SCADA.ISCADA;
+import java.lang.reflect.Array;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,15 +21,13 @@ import javax.swing.JOptionPane;
  */
 public class RMI_Client {
 
-    private IGreenhouse greenhouse;
-
     public void clientConnect() {
         String host = JOptionPane.showInputDialog("Server name?", "localhost");
         Registry registry;
 
         try {
-            registry = LocateRegistry.getRegistry(host, IGreenhouse.REGISTRY_PORT_SCADA);
-            greenhouse = (IGreenhouse) registry.lookup(IGreenhouse.OBJECT_NAME);
+            registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
+            ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);
         } catch (RemoteException | NotBoundException e) {
 
             throw new Error("Error" + e);
@@ -36,12 +37,12 @@ public class RMI_Client {
 
     public void getInfoFromSCADA() throws RemoteException {
 
-        System.out.println(greenhouse.sendInfoToMES().toString());
+        System.out.println(SCADA.SCADA.getInstance().sendInfoToMES().toString());
     }
 
-    public void sendDataToSCADA(String string) throws RemoteException {
+    public ArrayList sendDataToSCADA(ArrayList info) throws RemoteException {
+        return info;
 
-        greenhouse.receiveInfo("hello from MES");
     }
 
 }

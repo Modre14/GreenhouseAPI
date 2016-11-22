@@ -17,7 +17,7 @@ public class ERP_Connect {
 
     private Connection conn = null;
 
-    private List ordreList = new ArrayList();
+    private ArrayList ordreList = new ArrayList();
 
     public Connection getConnection() {
 
@@ -53,7 +53,7 @@ public class ERP_Connect {
 
     }
 
-    public List getOrdreList() {
+    public ArrayList getOrdreList() {
         return ordreList;
     }
 

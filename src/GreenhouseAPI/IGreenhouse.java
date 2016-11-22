@@ -1,7 +1,9 @@
 package GreenhouseAPI;
 
+import java.lang.reflect.Array;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.BitSet;
 
 /*
@@ -23,9 +25,6 @@ public interface IGreenhouse extends Remote {
     final byte LOW = 1;
     final byte HIGH = 2;
 
-    public static int REGISTRY_PORT_SCADA = 54323;
-    public static int REGISTRY_PORT_MES = 54322;
-    public static String OBJECT_NAME = "server";
 
     public void setLightIntensity(int level) throws RemoteException;
 
@@ -168,17 +167,5 @@ public interface IGreenhouse extends Remote {
      */
     boolean SetFanSpeed(int speed) throws RemoteException;
 
-    /**
-     * Sends info to the MES system The return value
-     */
-    String sendInfoToMES() throws RemoteException;
-
-    /**
-     * Gets order information from MES
-     *
-     * @return
-     * @throws RemoteException
-     */
-    String receiveInfo(String info) throws RemoteException;
-
+    
 }
