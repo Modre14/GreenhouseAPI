@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 /**
  *
@@ -136,6 +137,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public double ReadTemp1() {
         System.out.println("Read greenhouse temperatur ");
+        
+        
 
         System.out.println("Temperature is: " + temp + "celcius");
         return temp + 273.0;
