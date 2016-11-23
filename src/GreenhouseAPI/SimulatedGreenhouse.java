@@ -28,7 +28,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int maxValue = 30;
     private Random generator;
     private double currentValue;
-
     private String conn;
     private Message mess;
     private int blueLight;
@@ -51,7 +50,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     public boolean SetTemperature(int kelvin) {
-
+        
         return false;
     }
 

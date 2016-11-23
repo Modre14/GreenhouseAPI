@@ -181,6 +181,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        amountOfLghtSlider.setValue(gh.getLightIntensity());
         gh.setDays(50);
         gh.setDaysCompleted(6);
+        
         updateOverview();
     }
 

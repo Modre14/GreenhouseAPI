@@ -11,7 +11,7 @@ package Protocol;
  */
 public class Protocol {
 
-    String name;
+    String id;
     int Temp;
     int minTemp;
     int maxTemp;
@@ -26,8 +26,8 @@ public class Protocol {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      */
-    public Protocol(String name, int Temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
-        this.name = name;
+    public Protocol(String id, int Temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
+        this.id = id;
         this.Temp = Temp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
@@ -35,8 +35,8 @@ public class Protocol {
         this.days = days;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
 }
