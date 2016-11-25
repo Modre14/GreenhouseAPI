@@ -10,7 +10,9 @@ import Protocol.Ordre;
 import Protocol.Protocol;
 import SCADA.ISCADA;
 import SCADA.SCADA;
+import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +31,8 @@ import java.util.logging.Logger;
  */
 public class MES {
 
-    private ArrayList<Protocol> protocolArray = new ArrayList<Protocol>();;
+    private ArrayList<Protocol> protocolArray = new ArrayList<Protocol>();
+    ;
     ERP_Connect obj2;
     RMI_Client c;
     private ISCADA scada;
@@ -38,9 +42,11 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
-        m.ERPConnect();
-        m.gennerateOrdres();
-//        m.SCADAConnect();
+//        m.ERPConnect();
+//        m.gennerateOrdres();
+     
+        m.sendOrdresToScada();
+        
 //        m.startServer();
     }
 
@@ -70,47 +76,42 @@ public class MES {
             String line = (String) ordreList.get(i).toString();
 //            System.out.println(line);
             String[] tokens = line.split(",");
-            for (int j = 0; j <protocolArray.size(); j++) {
+            for (int j = 0; j < protocolArray.size(); j++) {
                 if (protocolArray.get(j).getId().equals(tokens[0])) {
                     System.out.print(protocolArray.get(j).getId());
                     System.out.println(":   " + j);
-                    
+
                     //Start Date
                     String startDateConvert = tokens[3];
                     Date startDate = new Date();
                     String[] dateTokens = startDateConvert.split("-");
-                    
-                    
+
                     String sdate = dateTokens[2];
                     String[] startDateTokens = sdate.split(" ");
-    
-                    
-                    startDate.setYear(Integer.valueOf(dateTokens[0])-1900);
+
+                    startDate.setYear(Integer.valueOf(dateTokens[0]) - 1900);
                     startDate.setMonth(Integer.valueOf(dateTokens[1]));
                     startDate.setDate(Integer.valueOf(startDateTokens[0]));
-                    
-                    
+
                     //end Date
                     String endDateConvert = tokens[4];
                     Date endDate = new Date();
                     String[] edateTokens = endDateConvert.split("-");
-                    
-         
+
                     String edate = dateTokens[2];
                     String[] endDateTokens = edate.split(" ");
-                    
-                    
-                    endDate.setYear(Integer.valueOf(edateTokens[0])-1900);
+
+                    endDate.setYear(Integer.valueOf(edateTokens[0]) - 1900);
                     endDate.setMonth(Integer.valueOf(edateTokens[1]));
                     endDate.setDate(Integer.valueOf(endDateTokens[0]));
-                    
-                    
+
                     Double q = Double.valueOf(tokens[2]);
                     int quantity = (int) (q + 0);
                     Ordre ordre = new Ordre(tokens[1], protocolArray.get(j), startDate, endDate, quantity);
-                    System.out.println("Name: "+tokens[1] + " Protocol " + protocolArray.get(j)+" Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
+                    System.out.println("Name: " + tokens[1] + " Protocol " + protocolArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
                     ordres.add(ordre);
-                    System.out.println(ordres.size());
+                    System.out.println(ordres);
+                    
                 }
             }
 
@@ -127,12 +128,21 @@ public class MES {
 
     }
 
-    private void SCADAConnect() throws RemoteException {
-        c = new RMI_Client();
-        c.clientConnect();
-        ordreList = obj2.getOrdreList();
-        c.getInfoFromSCADA();
-        c.sendDataToSCADA(ordreList);
+    public void sendOrdresToScada() throws RemoteException {
+        String host = JOptionPane.showInputDialog("Server name?", "localhost");
+        Registry registry;
+        Date date = new Date();
+
+        Ordre ordre = new Ordre("Blomster", protocolArray.get(0), date, date, 30);
+        ordres.add( ordre);
+        try {
+            registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
+            ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);
+            scada.receiveInfo(ordres);
+        } catch (RemoteException | NotBoundException e) {
+
+            throw new Error("Error" + e);
+        }
 
     }
 

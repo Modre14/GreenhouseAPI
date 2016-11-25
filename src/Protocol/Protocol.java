@@ -5,11 +5,13 @@
  */
 package Protocol;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Morten
  */
-public class Protocol {
+public class Protocol implements Serializable {
 
     String id;
     int Temp;
@@ -37,6 +39,11 @@ public class Protocol {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Protocol{" + "id=" + id + ", Temp=" + Temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
 }

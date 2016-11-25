@@ -5,13 +5,14 @@
  */
 package Protocol;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Morten
  */
-public class Ordre {
+public class Ordre implements Serializable {
 
     private Protocol protocol;
     private String name;
@@ -20,12 +21,17 @@ public class Ordre {
     private int quantity;
 
     public Ordre(String name, Protocol protocol, Date startDate, Date endDate, int quantity) {
-        
+
         this.name = name;
         this.protocol = protocol;
         this.startDate = startDate;
         this.endDate = endDate;
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Navn:" + name + " Protocol: " + protocol + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
     }
 
 }

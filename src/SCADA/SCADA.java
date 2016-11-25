@@ -9,31 +9,28 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
 import GreenhouseAPI.SimulatedGreenhouse;
-import java.lang.reflect.InvocationTargetException;
+import Protocol.Ordre;
+import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Morten
  */
-public class SCADA implements ISCADA {
+public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Serializable {
 
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADA instance = null;
     private IGreenhouse greenhouse;
-    private ArrayList ordreList = new ArrayList();
+    private ArrayList<Ordre> ordreList = new ArrayList<Ordre>();
 
     public SCADA() throws RemoteException {
         ghlist = new HashMap<>();
@@ -70,7 +67,6 @@ public class SCADA implements ISCADA {
         try {
             Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_SCADA);
             registry.bind(ISCADA.OBJECT_NAME, instance);
-            
 
         } catch (AlreadyBoundException | RemoteException e) {
             throw new Error("Error when creating server: " + e);
@@ -81,21 +77,10 @@ public class SCADA implements ISCADA {
         return true;
     }
 
-    public ArrayList getOrdres() throws RemoteException {
-
-        return ordreList;
-
-    }
-
     @Override
-    public String sendInfoToMES() throws RemoteException {
-        return "hello from SCADA";
-    }
-
-    @Override
-    public ArrayList receiveInfo(ArrayList info) throws RemoteException {
+    public void receiveInfo(ArrayList info) throws RemoteException {
         ordreList = info;
-        return info;
+        System.out.println(info.get(0));
     }
 
 }
