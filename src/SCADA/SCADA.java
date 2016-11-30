@@ -5,39 +5,82 @@
  */
 package SCADA;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.HashMap;
 import java.util.Map;
 
-import GreenhouseAPI.Greenhouse;
 import GreenhouseAPI.IGreenhouse;
+import GreenhouseAPI.SimulatedGreenhouse;
+import Protocol.Order;
+import java.io.Serializable;
+import java.nio.channels.AlreadyBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Morten
  */
-public class SCADA {
+public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Serializable {
 
-    private static Map<String, IGreenhouse> ghlist = null;
-    private static SCADA instance = null;
-    private SCADA() throws RemoteException {
-        for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++ ) {
-            ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
-        }
+    private static Map<String, IGreenhouse> ghlist;
+    private static ISCADA instance = null;
+    private IGreenhouse greenhouse;
+    private ArrayList<Order> orderList = new ArrayList<Order>();
+
+    public SCADA() throws RemoteException {
+        ghlist = new HashMap<>();
+
     }
 
-    public static SCADA getInstance() throws RemoteException {
-        if (instance == null){
+    public static ISCADA getInstance() throws RemoteException {
+
+        if (instance == null) {
             instance = new SCADA();
+            for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
+
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                System.out.println(ghlist);
+            }
         }
+
         return instance;
     }
 
-    public static Map<String, IGreenhouse> getGreenhouses(){
+    @Override
+    public Map<String, IGreenhouse> getGreenhouseList() throws RemoteException {
         System.out.println("Given list");
         return ghlist;
+    }
+
+    @Override
+    public IGreenhouse getGreenhouse(String IP) throws RemoteException {
+
+        return ghlist.get(IP);
+    }
+
+    public boolean startServer() {
+        try {
+            Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_SCADA);
+            registry.bind(ISCADA.OBJECT_NAME, instance);
+
+        } catch (AlreadyBoundException | RemoteException e) {
+            throw new Error("Error when creating server: " + e);
+        } catch (java.rmi.AlreadyBoundException ex) {
+            Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Server running with registry on port " + ISCADA.REGISTRY_PORT_SCADA);
+        return true;
+    }
+
+    @Override
+    public void receiveInfo(ArrayList info) throws RemoteException {
+        orderList = info;
+        System.out.println(info.get(0));
     }
 
 }

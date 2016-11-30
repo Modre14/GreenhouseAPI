@@ -5,24 +5,30 @@
  */
 package GreenhouseAPI;
 
-import PLCCommunication.*;
-
+import PLCCommunication.ICommands;
+import PLCCommunication.Message;
+import PLCCommunication.PLCConnection;
+import PLCCommunication.UDPConnection;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 /**
- * API to communicate to the PLC
  *
- * @author Steffen Skov
+ * @author Morten
  */
-public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICommands, Serializable {
+public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable {
 
-    private PLCConnection conn;
+    private int maxValue = 30;
+    private Random generator;
+    private double currentValue;
+    private String conn;
     private Message mess;
     private int blueLight;
     private int lightIntensity;
@@ -30,36 +36,21 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int daysCompleted;
     private List orderList = new ArrayList();
 
+    double temp = 0.0;
+    double temp2 = 0.0;
+
     /**
      * Create greenhouse API
      *
      * @param c connection
      */
-    public Greenhouse(String IP) throws RemoteException {
-        this.conn = new UDPConnection(5000, IP);
+    public SimulatedGreenhouse(String IP) throws RemoteException {
+        this.conn = IP;
 
     }
 
-    
-    /**
-     * Setpoint for temperature inside Greenhouse CMD: 1
-     *
-     * @param kelvin : temperature in kelvin (273 > T > 303)
-     * @return true if processed
-     */
     public boolean SetTemperature(int kelvin) {
-        mess = new Message(TEMP_SETPOINT);
-        if (kelvin > 273 && kelvin < 303) // 0 - 30 grader celcius
-        {
-            System.out.println("Set temperatur setpoint to " + kelvin);
-            mess.setData(kelvin - 273);
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        
         return false;
     }
 
@@ -71,16 +62,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public boolean SetMoisture(int moist) {
         System.out.println("Set moisture level to " + moist);
-        mess = new Message(MOIST_SETPOINT);
-        if (moist > 10 && moist < 90) {
-            mess.setData(moist);
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
         return false;
     }
 
@@ -95,17 +77,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public boolean SetRedLight(int level) {
         System.out.println("Set red light to " + level);
-        mess = new Message(REDLIGHT_SETPOINT);
-        if (level >= 0 && level <= 100) {
-            mess.setData(level);
-            blueLight = 100 - level;
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
         return false;
     }
 
@@ -117,17 +89,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public boolean SetBlueLight(int level) {
         System.out.println("Set blue light to " + level);
-        mess = new Message(BLUELIGHT_SETPOINT);
-        if (level >= 0 && level <= 100) {
-            mess.setData(level);
-            blueLight = level;
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
         return false;
     }
 
@@ -140,14 +102,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            mess = new Message(ADDWATER);
-            mess.setData(sec);
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
+
         }
         return false;
     }
@@ -180,19 +135,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp1() {
-        System.out.println("Read greenhouse temperatur ");
-        mess = new Message(READ_GREENHOUSE_TEMP);
-        double temp = 0.0;
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        conn.addMessage(mess);
-        if (conn.send()) {
-            if (mess.getResultData() != null) {
-                temp = (double) (mess.getResultData())[0];
-            } else {
-                temp = 19.99; // return a dummy value
-            }
-        }
+        System.out.println("Read greenhouse temperature ");
+        
+        
+
         System.out.println("Temperature is: " + temp + "celcius");
         return temp + 273.0;
     }
@@ -203,18 +149,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp2() {
-        System.out.println("Read outdoor temperatur ");
-        mess = new Message(READ_OUTDOOR_TEMP);
-        double temp2 = 0.0;
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            if (mess.getResultData() != null) {
-                temp2 = (double) (mess.getResultData())[0];
-            } else {
-                temp2 = 19.99; // return a dummy value
-            }
-        }
+        System.out.println("Read outdoor temperature ");
+
+        System.out.println("");
         System.out.println("Temperature is: " + temp2);
         return temp2 + 273.0;
 
@@ -226,18 +163,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Moisture in %
      */
     public double ReadMoist() {
-        System.out.println("Read outdoor temperatur ");
-        mess = new Message(READ_MOISTURE);
+        System.out.println("Read outdoor temperature ");
+
         double moist = 0.0;
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            if (mess.getResultData() != null) {
-                moist = (double) (mess.getResultData())[0];
-            } else {
-                moist = 1.0; // return a dummy value
-            }                               // In real world moist will never be so low
-        }
+
         System.out.println("Moisture is: " + moist + " %");
         return moist;
     }
@@ -249,17 +178,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public double ReadWaterLevel() {
         System.out.println("Read water level ");
-        mess = new Message(READ_WATER_LEVEL);
+
         double level = 0.0; // level
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            if (mess.getResultData() != null) {
-                level = (mess.getResultData())[0] * 10.0;
-            } else {
-                level = 1000.0; // return a dummy value
-            }
-        }
+
         System.out.println("Water level is: " + level);
         return level;
     }
@@ -271,17 +192,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public double ReadPlantHeight() {
         System.out.println("Read height of plants");
-        mess = new Message(READ_PLANT_HEIGHT);
+
         double level = 0.0; // level
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            if (mess.getResultData() != null) {
-                level = (mess.getResultData())[0];
-            } else {
-                level = 1000.0; // return a dummy value
-            }
-        }
+
         System.out.println("Plant height is: " + level);
         return level;
     }
@@ -293,14 +206,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public BitSet ReadErrors() {
         System.out.println("Get all alarms ");
-        mess = new Message(READ_ALL_ALARMS);
+
         BitSet alarms = new BitSet(32);
 
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            alarms = fillBitSet(mess.getResultData());
-        }
         System.out.println("Alarm state is: " + alarms);
         return alarms;
     }
@@ -334,18 +242,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Done
      */
     public boolean ResetError(int errorNum) {
-        mess = new Message(RESET_ALARMS);
+
         errorNum--;
         if (errorNum >= 0 && errorNum < 64) // 0 - 30 grader celcius
         {
             System.out.println("Reset alarm " + errorNum + 1);
-            mess.setData(errorNum);
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
+
         }
         return false;
     }
@@ -358,12 +260,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public byte[] GetStatus() {
         byte[] result = new byte[100];
         System.out.println("Get status ");
-        mess = new Message(GET_STATUS);
-        mess.setData(); //None data
-        conn.addMessage(mess);
-        if (conn.send()) {
-            result = mess.getResultData();
-        }
+
         System.out.println("State is: " + result);
         return result;
     }
@@ -376,16 +273,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public boolean SetFanSpeed(int speed) {
         System.out.println("Set fan speed " + speed);
-        mess = new Message(SET_FAN_SPEED);
-        if (speed >= 0 && speed <= 2) {
-            mess.setData(speed);
-            conn.addMessage(mess);
-            if (conn.send()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
         return false;
 
     }

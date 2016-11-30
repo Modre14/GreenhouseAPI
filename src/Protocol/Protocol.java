@@ -5,13 +5,16 @@
  */
 package Protocol;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Morten
  */
-public class Protocol {
-    String name;
-    int Temp;
+public class Protocol implements Serializable {
+
+    String id;
+    int temp;
     int minTemp;
     int maxTemp;
     int waterFlow;
@@ -20,22 +23,27 @@ public class Protocol {
     int days;
 
     /**
-     * @param day is the number of hours with light
-     * @param night is the number of hours with darkness
-     * @param dayTemp is is the temperature  during the day
-     * @param nightTemp is the temperature during the day 
      * @param waterFlow is the number of seconds the waterpump is on
      * @param redLight is the value of redLight
      * @param blueLight is the value of blueLight
-     * @param days is the amount of before harvest 
+     * @param days is the amount of before harvest
      */
-    public Protocol(String name, int Temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
-        this.name = name;
-        this.Temp = Temp;
+    public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
+        this.id = id;
+        this.temp = temp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
 }
