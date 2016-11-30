@@ -6,6 +6,7 @@
 package GreenhouseAPI;
 
 import PLCCommunication.*;
+import Protocol.Order;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -28,7 +29,17 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int lightIntensity;
     private int days;
     private int daysCompleted;
-    private List orderList = new ArrayList();
+    private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+
 
     /**
      * Create greenhouse API

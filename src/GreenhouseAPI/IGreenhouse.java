@@ -1,5 +1,7 @@
 package GreenhouseAPI;
 
+import Protocol.Order;
+
 import java.lang.reflect.Array;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -35,6 +37,10 @@ public interface IGreenhouse extends Remote {
     public void setDays(int days) throws RemoteException;
     
     public void setDaysCompleted(int daysCompleted) throws RemoteException;
+
+    public void setOrder(Order order) throws RemoteException;
+
+    public Order getOrder() throws RemoteException;
 
     public String getDaysRemaining() throws RemoteException;
 

@@ -31,7 +31,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADA instance = null;
     private IGreenhouse greenhouse;
-    private ArrayList<Order> orderList = new ArrayList<Order>();
+    private ArrayList<Order> orderList = new ArrayList<>();
 
     public SCADA() throws RemoteException {
         ghlist = new HashMap<>();
@@ -86,7 +86,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     }
 
     @Override
-    public ArrayList getOrdres() throws RemoteException {
+    public ArrayList<Order> getOrders() throws RemoteException {
        return orderList;
     }
 

@@ -9,6 +9,8 @@ import PLCCommunication.ICommands;
 import PLCCommunication.Message;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
+import Protocol.Order;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -313,6 +315,16 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public void setDaysCompleted(int daysCompleted) {
         this.daysCompleted = daysCompleted;
+    }
+
+    @Override
+    public void setOrder(Order order) {
+
+    }
+
+    @Override
+    public Order getOrder() {
+        return null;
     }
 
 }
