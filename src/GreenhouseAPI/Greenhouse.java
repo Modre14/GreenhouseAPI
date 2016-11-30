@@ -28,7 +28,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int lightIntensity;
     private int days;
     private int daysCompleted;
-    private List ordreList = new ArrayList();
+    private List orderList = new ArrayList();
 
     /**
      * Create greenhouse API

@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Morten
  */
-public class Ordre implements Serializable {
+public class Order implements Serializable {
 
     private Protocol protocol;
     private String name;
@@ -20,7 +20,7 @@ public class Ordre implements Serializable {
     private Date endDate;
     private int quantity;
 
-    public Ordre(String name, Protocol protocol, Date startDate, Date endDate, int quantity) {
+    public Order(String name, Protocol protocol, Date startDate, Date endDate, int quantity) {
 
         this.name = name;
         this.protocol = protocol;

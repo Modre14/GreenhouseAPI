@@ -53,7 +53,7 @@ public class ERP_Connect {
 
     }
 
-    public ArrayList getOrdreList() {
+    public ArrayList getOrderList() {
         return ordreList;
     }
 
