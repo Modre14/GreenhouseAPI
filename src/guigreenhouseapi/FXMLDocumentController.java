@@ -99,15 +99,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
 
+
         Map<String, IGreenhouse> ghlist  = null;
         try {
-            SCADA.getInstance();
+            ghlist = SCADA.getInstance().getGreenhouses();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         for (Map.Entry<String, IGreenhouse> gh : ghlist.entrySet()){
-                //System.out.println(gh.getKey());
-            }
+                System.out.println(gh.getKey());
+        }
 
        
     }
