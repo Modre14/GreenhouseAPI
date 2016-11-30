@@ -116,8 +116,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
             l1.add(gh.getKey());
             l2.add(scada.getGreenhouse(gh.getKey()).getDaysRemaining());
         }
+
         listOfGreenhouses.setItems((ObservableList<String>) l1);
         greenhouseStatus.setItems((ObservableList< String>) l2);
+
     }
 
     @Override
@@ -125,7 +127,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         try {
             scada = SCADA.getInstance();
-            
+
             List l = FXCollections.observableArrayList();
 
             for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
@@ -139,7 +141,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        } try {
+        }
+        try {
             scada.startServer();
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -150,25 +153,25 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-
+        
         temp1 = gh.ReadTemp1() - 273;
         tempInside.setText(String.valueOf(temp1));
         thermometerIndicatorIn.setProgress((temp1) / 50.0);
         temp2 = gh.ReadTemp2() - 273;
         tempOutside.setText(String.valueOf(temp2));
         thermometerIndicatorOut.setProgress(temp2 / 50.0);
-//        waterLevelValue = gh.ReadWaterLevel() / 10;
-//        waterLevel.setText(String.valueOf(waterLevelValue));
-//        waterlevelIndicator.setProgress(waterLevelValue / 25.0);
-//        lightIndicator.setProgress(50 / 100.0);
-////        gh.SetRedLight(56);
-////        gh.SetBlueLight(50);
-////        disableCheckAndButton();
-//        lightSlider.setValue(gh.getBlueLight());
-//        amountOfLghtSlider.setValue(gh.getLightIntensity());
+        waterLevelValue = gh.ReadWaterLevel() / 10;
+        waterLevel.setText(String.valueOf(waterLevelValue));
+        waterlevelIndicator.setProgress(waterLevelValue / 25.0);
+        lightIndicator.setProgress(50 / 100.0);
+//        gh.SetRedLight(56);
+//        gh.SetBlueLight(50);
+//        disableCheckAndButton();
+        lightSlider.setValue(gh.getBlueLight());
+        amountOfLghtSlider.setValue(gh.getLightIntensity());
         gh.setDays(50);
         gh.setDaysCompleted(6);
-        
+
         updateOverview();
     }
 

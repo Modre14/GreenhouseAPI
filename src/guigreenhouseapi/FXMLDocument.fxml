@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<TabPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
+<TabPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
    <tabs>
       <Tab closable="false" text="Greenhouse">
          <content>
@@ -116,9 +116,9 @@
                   <ListView fx:id="listOfGreenhouses" layoutX="14.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
                   <ListView fx:id="greenhouseStatus" layoutX="214.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
                   <ListView fx:id="greenhouseOrders" layoutX="414.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
-                  <ComboBox layoutX="39.0" layoutY="362.0" prefWidth="150.0" />
-                  <ComboBox layoutX="239.0" layoutY="362.0" prefWidth="150.0" />
-                  <Button layoutX="488.0" layoutY="362.0" mnemonicParsing="false" text="Button" />
+                  <Button layoutX="514.0" layoutY="456.0" mnemonicParsing="false" text="Button" />
+                  <ListView fx:id="listOfGreenhouses1" layoutX="14.0" layoutY="353.0" prefHeight="231.0" prefWidth="200.0" />
+                  <ListView fx:id="listOfGreenhouses2" layoutX="246.0" layoutY="354.0" prefHeight="232.0" prefWidth="200.0" />
                </children>
             </AnchorPane>
         </content>

@@ -5,6 +5,7 @@
  */
 package SCADA;
 
+import GreenhouseAPI.Greenhouse;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
         }
@@ -81,6 +82,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     public void receiveInfo(ArrayList info) throws RemoteException {
         orderList = info;
         System.out.println(info.get(0));
+        System.out.println(info.get(1));
+    }
+
+    @Override
+    public ArrayList getOrdres() throws RemoteException {
+       return orderList;
     }
 
 }

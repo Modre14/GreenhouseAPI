@@ -42,8 +42,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
-//        m.ERPConnect();
-//        m.gennerateOrdres();
+        m.ERPConnect();
+        m.generateOrders();
      
         m.sendOrdersToScada();
         
@@ -112,13 +112,24 @@ public class MES {
                     orders.add(ordre);
                     System.out.println(orders);
                     
-                }
+                    
+                }   
+
             }
 
 //            System.out.println(protocolArray);
         }
 
 //        ordres.add(protocolArray.equals(tokens[0]), "name", date, date, 1);
+
+                System.out.println(orders.get(0));
+                System.out.println(orders.get(1));                
+                System.out.println(orders.get(2));
+                System.out.println(orders.get(3));
+                System.out.println(orders.get(4));
+                System.out.println(orders.get(5));
+                System.out.println(orders.get(6));
+                System.out.println(orders.get(7));
     }
 
     private void ERPConnect() throws RemoteException {

@@ -31,7 +31,11 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Navn:" + name + " Protocol: " + protocol + " Start date: " + startDate + " EndDate: " + endDate + " quantity: " + quantity;
+        return "Navn:" + name + " Protocol: " + protocol + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
