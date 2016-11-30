@@ -34,7 +34,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int lightIntensity;
     private int days;
     private int daysCompleted;
-    private List ordreList = new ArrayList();
+    private List orderList = new ArrayList();
 
     double temp = 0.0;
     double temp2 = 0.0;
@@ -135,7 +135,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Temperature in kelvin
      */
     public double ReadTemp1() {
-        System.out.println("Read greenhouse temperatur ");
+        System.out.println("Read greenhouse temperature ");
         
         
 
@@ -149,7 +149,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Temperature in kelvin
      */
     public double ReadTemp2() {
-        System.out.println("Read outdoor temperatur ");
+        System.out.println("Read outdoor temperature ");
 
         System.out.println("");
         System.out.println("Temperature is: " + temp2);
@@ -163,7 +163,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Moisture in %
      */
     public double ReadMoist() {
-        System.out.println("Read outdoor temperatur ");
+        System.out.println("Read outdoor temperature ");
 
         double moist = 0.0;
 

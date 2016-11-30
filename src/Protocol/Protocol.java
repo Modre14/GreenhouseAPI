@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Protocol implements Serializable {
 
     String id;
-    int Temp;
+    int temp;
     int minTemp;
     int maxTemp;
     int waterFlow;
@@ -28,9 +28,9 @@ public class Protocol implements Serializable {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      */
-    public Protocol(String id, int Temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
+    public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
         this.id = id;
-        this.Temp = Temp;
+        this.temp = temp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;
@@ -43,7 +43,7 @@ public class Protocol implements Serializable {
 
     @Override
     public String toString() {
-        return "Protocol{" + "id=" + id + ", Temp=" + Temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
+        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
 }

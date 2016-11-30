@@ -11,7 +11,7 @@ import java.util.Map;
 
 import GreenhouseAPI.IGreenhouse;
 import GreenhouseAPI.SimulatedGreenhouse;
-import Protocol.Ordre;
+import Protocol.Order;
 import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.registry.LocateRegistry;
@@ -30,7 +30,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADA instance = null;
     private IGreenhouse greenhouse;
-    private ArrayList<Ordre> ordreList = new ArrayList<Ordre>();
+    private ArrayList<Order> orderList = new ArrayList<Order>();
 
     public SCADA() throws RemoteException {
         ghlist = new HashMap<>();
@@ -79,7 +79,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     @Override
     public void receiveInfo(ArrayList info) throws RemoteException {
-        ordreList = info;
+        orderList = info;
         System.out.println(info.get(0));
     }
 
