@@ -42,8 +42,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeProtocols();
-//        m.ERPConnect();
-//        m.gennerateOrdres();
+        m.ERPConnect();
+        m.gennerateOrdres();
      
         m.sendOrdresToScada();
         
@@ -108,17 +108,27 @@ public class MES {
                     Double q = Double.valueOf(tokens[2]);
                     int quantity = (int) (q + 0);
                     Ordre ordre = new Ordre(tokens[1], protocolArray.get(j), startDate, endDate, quantity);
-                    System.out.println("Name: " + tokens[1] + " Protocol " + protocolArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
+                   
                     ordres.add(ordre);
-                    System.out.println(ordres);
                     
-                }
+                    
+                }   
+
             }
 
 //            System.out.println(protocolArray);
         }
 
 //        ordres.add(protocolArray.equals(tokens[0]), "name", date, date, 1);
+
+                System.out.println(ordres.get(0));
+                System.out.println(ordres.get(1));                
+                System.out.println(ordres.get(2));
+                System.out.println(ordres.get(3));
+                System.out.println(ordres.get(4));
+                System.out.println(ordres.get(5));
+                System.out.println(ordres.get(6));
+                System.out.println(ordres.get(7));
     }
 
     private void ERPConnect() throws RemoteException {
@@ -131,10 +141,10 @@ public class MES {
     public void sendOrdresToScada() throws RemoteException {
         String host = JOptionPane.showInputDialog("Server name?", "localhost");
         Registry registry;
-        Date date = new Date();
-
-        Ordre ordre = new Ordre("Blomster", protocolArray.get(0), date, date, 30);
-        ordres.add( ordre);
+//        Date date = new Date();
+//
+//        Ordre ordre = new Ordre("Blomster", protocolArray.get(0), date, date, 30);
+//        ordres.add( ordre);
         try {
             registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
             ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);

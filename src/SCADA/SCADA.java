@@ -81,6 +81,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     public void receiveInfo(ArrayList info) throws RemoteException {
         ordreList = info;
         System.out.println(info.get(0));
+        System.out.println(info.get(1));
+    }
+
+    @Override
+    public ArrayList getOrdres() throws RemoteException {
+       return ordreList;
     }
 
 }

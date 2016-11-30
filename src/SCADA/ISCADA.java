@@ -27,6 +27,7 @@ public interface ISCADA extends  Remote {
 
     public boolean startServer() throws RemoteException;
 
+    ArrayList getOrdres()throws RemoteException;
     /**
      * Sends info to the MES system The return value
 //     */
