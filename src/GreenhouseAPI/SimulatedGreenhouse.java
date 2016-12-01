@@ -29,7 +29,7 @@ import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable {
 
     private int maxValue = 30;
-  
+
     private double currentValue;
     private String conn;
     private Message mess;
@@ -38,9 +38,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int days;
     private int daysCompleted;
     private List orderList = new ArrayList();
+    private Order order;
 
-    double temp = 0.0;
-    double temp2 = 0.0;
+    double temp = 15.0;
+    double temp2 = 20.0;
+    int fanSpeed = 0;
 
     /**
      * Create greenhouse API
@@ -52,37 +54,43 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     }
 
-    public boolean SetTemperature(int kelvin) {
-        
+    public boolean SetTemperature(int kelvin) throws RemoteException {
+
         new Thread(() -> {
-               Random generator = new Random();
-            while (temp < (kelvin+0.0)) {
-                double valD =0;
-                int r = generator.nextInt(5)+1;
-                
+            Random generator = new Random();
+            while (true) {
+                if (temp > (kelvin - 273.0)) {
+                    SetFanSpeed(2);
+                } else {
+                    SetFanSpeed(0);
+
+                }
+                double valD = 0;
+                int r = generator.nextInt(5) + 1;
 
                 int neg = generator.nextInt(2);
-                System.out.println("                   "+neg);
-                
-                switch(neg){
+                System.out.println("|   |" + neg);
+
+                switch (neg) {
                     case 0:
-                        valD = r / 10.0;
+                        valD = r / 5.0;
                         break;
                     case 1:
-                        valD = (r / 10.0)*(-1);
+                        valD = (r / ((10.0) / fanSpeed * 2)) * (-1);
                         break;
+
                 }
-                temp= temp+valD;
+                temp = temp + valD;
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                System.out.println(temp + "");
+
+                System.out.print("temp: " + temp + "");
             }
         }).start();
-        
+
         return false;
     }
 
@@ -167,12 +175,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Temperature in kelvin
      */
     public double ReadTemp1() {
-        System.out.println("Read greenhouse temperature ");
-        
-        
+//        System.out.println("Read greenhouse temperature ");
 
-        System.out.println("Temperature is: " + temp + "celcius");
-        return temp + 273.0;
+//        System.out.println("Temperature is: " + temp + "celcius");
+        return temp + 273;
     }
 
     /**
@@ -181,10 +187,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Temperature in kelvin
      */
     public double ReadTemp2() {
-        System.out.println("Read outdoor temperature ");
-
-        System.out.println("");
-        System.out.println("Temperature is: " + temp2);
+//        System.out.println("Read outdoor temperature ");
+//
+//        System.out.println("");
+//        System.out.println("Temperature is: " + temp2);
         return temp2 + 273.0;
 
     }
@@ -304,8 +310,18 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Done
      */
     public boolean SetFanSpeed(int speed) {
-        System.out.println("Set fan speed " + speed);
-
+//        System.out.println("Set fan speed " + speed);
+        switch (speed) {
+            case 0:
+                fanSpeed = 0;
+                break;
+            case 1:
+                fanSpeed = 1;
+                break;
+            case 2:
+                fanSpeed = 2;
+                break;
+        }
         return false;
 
     }

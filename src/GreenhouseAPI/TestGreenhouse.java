@@ -18,14 +18,15 @@ import java.util.logging.Logger;
  */
 public class TestGreenhouse {
 
-    IGreenhouse api = new Greenhouse("192.168.0.10");
+    IGreenhouse api = new SimulatedGreenhouse("192.168.0.10");
 
     private TestGreenhouse() throws RemoteException {
 
     }
 
     private void red() throws RemoteException {
-        api.SetTemperature(25);
+        api.SetTemperature(300);
+        
         while (true) {            
             System.out.println(api.ReadTemp1());
             try {
@@ -38,6 +39,7 @@ public class TestGreenhouse {
 
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {
         TestGreenhouse t = new TestGreenhouse();
+        
         t.red();
 //        PLCConnection con = new UDPConnection(1025, "localhost"); 
 //        PLCConnection con = new SerialConnection("COM4");

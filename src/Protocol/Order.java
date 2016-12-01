@@ -38,4 +38,20 @@ public class Order implements Serializable {
         return name;
     }
 
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
 }

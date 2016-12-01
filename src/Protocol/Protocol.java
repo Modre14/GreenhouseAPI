@@ -46,4 +46,32 @@ public class Protocol implements Serializable {
         return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
+    public int getTemp() {
+        return temp;
+    }
+
+    public int getMinTemp() {
+        return minTemp;
+    }
+
+    public int getMaxTemp() {
+        return maxTemp;
+    }
+
+    public int getWaterFlow() {
+        return waterFlow;
+    }
+
+    public int getRedLight() {
+        return redLight;
+    }
+
+    public int getBlueLight() {
+        return blueLight;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
 }
