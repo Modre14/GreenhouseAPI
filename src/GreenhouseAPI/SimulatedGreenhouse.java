@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
@@ -50,6 +51,35 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     public boolean SetTemperature(int kelvin) {
+        
+        new Thread(() -> {
+            
+            while (temp < (kelvin+0.0)) {
+                double valD =0;
+                int r = generator.nextInt(5)+1;
+                
+
+                int neg = generator.nextInt(2);
+                System.out.println("                   "+neg);
+                
+                switch(neg){
+                    case 0:
+                        valD = r / 10.0;
+                        break;
+                    case 1:
+                        valD = (r / 10.0)*(-1);
+                        break;
+                }
+                temp= temp+valD;
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                System.out.println(temp + "");
+            }
+        }).start();
         
         return false;
     }

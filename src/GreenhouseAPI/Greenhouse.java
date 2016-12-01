@@ -426,5 +426,4 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public void setDaysCompleted(int daysCompleted) {
         this.daysCompleted = daysCompleted;
     }
-
 }
