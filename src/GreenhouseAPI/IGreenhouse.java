@@ -1,5 +1,7 @@
 package GreenhouseAPI;
 
+import Protocol.Order;
+
 import java.lang.reflect.Array;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -35,6 +37,10 @@ public interface IGreenhouse extends Remote {
     public void setDays(int days) throws RemoteException;
     
     public void setDaysCompleted(int daysCompleted) throws RemoteException;
+
+    public void setOrder(Order order) throws RemoteException;
+
+    public Order getOrder() throws RemoteException;
 
     public String getDaysRemaining() throws RemoteException;
 
@@ -152,7 +158,7 @@ public interface IGreenhouse extends Remote {
      *
      * @return All values 1: temp inside greenhouse [celcius] 2. temp outside
      * greenhouse [celcius] 3: moisture [0 - 100 %] 4: waterlevel [0 - 25 cm] 5:
-     * red ligth level [0 - 100] 6: blue light level [0 - 100] 7: fan level [0,
+     * red ligth l0evel [0 - 100] 6: blue light level [0 - 100] 7: fan level [0,
      * 1, 2] 8: water pump state [ON,OFF] 9: Fertiliser pump state 10: CO2 valve
      * state 11: Temperature setpoint 12: Moisture setpoint 13 - 20: NO 21 - 24:
      * All alarms 25 - 99: AUX

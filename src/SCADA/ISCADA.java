@@ -32,7 +32,7 @@ public interface ISCADA extends  Remote {
 //     */
 //    String sendInfoToMES() throws RemoteException;
 //
-//    ArrayList getOrdres() throws RemoteException;
+    ArrayList getOrders() throws RemoteException;
 
     /**
      * Gets order information from MES
