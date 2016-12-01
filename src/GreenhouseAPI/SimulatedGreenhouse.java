@@ -29,7 +29,7 @@ import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable {
 
     private int maxValue = 30;
-    private Random generator;
+  
     private double currentValue;
     private String conn;
     private Message mess;
@@ -55,7 +55,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     public boolean SetTemperature(int kelvin) {
         
         new Thread(() -> {
-            
+               Random generator = new Random();
             while (temp < (kelvin+0.0)) {
                 double valD =0;
                 int r = generator.nextInt(5)+1;

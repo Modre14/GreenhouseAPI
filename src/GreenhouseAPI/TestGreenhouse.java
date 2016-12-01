@@ -7,6 +7,9 @@ package GreenhouseAPI;
 
 import PLCCommunication.*;
 import java.rmi.RemoteException;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * API tester
@@ -22,7 +25,15 @@ public class TestGreenhouse {
     }
 
     private void red() throws RemoteException {
-        api.SetBlueLight(55);
+        api.SetTemperature(25);
+        while (true) {            
+            System.out.println(api.ReadTemp1());
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TestGreenhouse.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static void main(String[] args) throws RemoteException, java.rmi.AlreadyBoundException {
