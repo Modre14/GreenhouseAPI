@@ -27,6 +27,7 @@ public interface IGreenhouse extends Remote {
     final byte LOW = 1;
     final byte HIGH = 2;
 
+    public int getFanspeed() throws RemoteException;
 
     public void setLightIntensity(int level) throws RemoteException;
 
@@ -35,7 +36,7 @@ public interface IGreenhouse extends Remote {
     public int getBlueLight() throws RemoteException;
 
     public void setDays(int days) throws RemoteException;
-    
+
     public void setDaysCompleted(int daysCompleted) throws RemoteException;
 
     public void setOrder(Order order) throws RemoteException;
@@ -173,5 +174,4 @@ public interface IGreenhouse extends Remote {
      */
     boolean SetFanSpeed(int speed) throws RemoteException;
 
-    
 }

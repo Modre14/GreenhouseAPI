@@ -30,6 +30,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int days;
     private int daysCompleted;
     private Order order;
+    int fanSpeed = 0;
 
     public Order getOrder() {
         return order;
@@ -38,8 +39,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public void setOrder(Order order) {
         this.order = order;
     }
-
-
 
     /**
      * Create greenhouse API
@@ -51,7 +50,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     }
 
-    
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1
      *
@@ -387,6 +385,8 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      */
     public boolean SetFanSpeed(int speed) {
         System.out.println("Set fan speed " + speed);
+        fanSpeed = speed;
+        
         mess = new Message(SET_FAN_SPEED);
         if (speed >= 0 && speed <= 2) {
             mess.setData(speed);
@@ -436,5 +436,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public void setDaysCompleted(int daysCompleted) {
         this.daysCompleted = daysCompleted;
+    }
+
+    @Override
+    public int getFanspeed() throws RemoteException {
+        return fanSpeed;
     }
 }

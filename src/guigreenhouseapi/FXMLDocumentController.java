@@ -63,8 +63,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField waterLevel;
 
     private TextField Temp_outside;
-    @FXML
-    private TextField Level_of_moist;
     private TextField Water_level;
     @FXML
     private ComboBox<String> listOfGreenhouse;
@@ -80,10 +78,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ProgressBar thermometerIndicatorOut;
     @FXML
     private TextField tempOutside;
-    @FXML
-    private TextField tempSpinner;
-    @FXML
-    private TextField levelOfMoistSpinner;
     @FXML
     private Button stopProductionButton;
     @FXML
@@ -182,6 +176,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     public void run() {
 //                        System.out.println("hello");
                         try {
+                            
                             updateValues();
                         } catch (Exception e) {
                         }
@@ -189,13 +184,33 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 });
             }
         }, 5000, 5000);
+        
+        Timer fan = new java.util.Timer();
+
+        fan.schedule(new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+//                        System.out.println("hello");
+                        try {
+                            if (gh.getFanspeed() != 0) {
+                                
+                            fanImg.setRotate(fanImg.getRotate() + 15);
+                            }
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        }, 200, 200);
+        
     }
 
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-        gh.SetTemperature(293);
+        gh.SetTemperature(292);
 
         updateOverview();
 
@@ -206,10 +221,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
 ////        gh.SetRedLight(56);
 ////        gh.SetBlueLight(50);
 ////        disableCheckAndButton();
-//        lightSlider.setValue(gh.getBlueLight());
-//        amountOfLghtSlider.setValue(gh.getLightIntensity());
-//        gh.setDays(50);
+        lightSlider.setValue(gh.getBlueLight());
+        amountOfLghtSlider.setValue(gh.getLightIntensity());
+//        gh.setDays(50);a
 //        gh.setDaysCompleted(6);
+        gh.SetFanSpeed(2);
     }
 
     @FXML
@@ -265,17 +281,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
-        gh.setDays( o.getProtocol().getDays());
-       
+        gh.setDays(o.getProtocol().getDays());
+
         updateOverview();
     }
 
-    private void updateValues() {
+    private void updateValues() throws RemoteException {
 
         try {
 
             try {
                 temp1 = gh.ReadTemp1() - 273;
+                temp1 = (double) Math.round(temp1 * 100) / 100;
+                System.out.println(temp1);
                 tempInside.setText(String.valueOf(temp1));
                 thermometerIndicatorIn.setProgress(temp1 / 50.0);
             } catch (RemoteException ex) {
@@ -288,6 +306,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        levelOfMoistLabel.setText(String.valueOf(gh.ReadMoist()));
+
     }
 
 }

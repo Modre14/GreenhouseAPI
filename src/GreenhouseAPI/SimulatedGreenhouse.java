@@ -66,21 +66,21 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 }
                 double valD = 0;
-                int r = generator.nextInt(5) + 1;
+                int r = generator.nextInt(2) + 1;
 
                 int neg = generator.nextInt(2);
-                System.out.println("|   |" + neg);
 
                 switch (neg) {
                     case 0:
                         valD = r / 5.0;
                         break;
                     case 1:
-                        valD = (r / ((10.0) / fanSpeed * 2)) * (-1);
+                        valD = (r / ((10.0)) * (1 + fanSpeed)) * (-1);
                         break;
 
                 }
                 temp = temp + valD;
+                
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ex) {
@@ -88,6 +88,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 }
 
                 System.out.print("temp: " + temp + "");
+                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
             }
         }).start();
 
@@ -176,7 +177,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public double ReadTemp1() {
 //        System.out.println("Read greenhouse temperature ");
-
+        
 //        System.out.println("Temperature is: " + temp + "celcius");
         return temp + 273;
     }
@@ -371,6 +372,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
     public Order getOrder() {
         return null;
+    }
+
+    @Override
+    public int getFanspeed() throws RemoteException {
+        return fanSpeed;
     }
 
 }

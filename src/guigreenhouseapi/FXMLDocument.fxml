@@ -13,7 +13,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
@@ -83,16 +82,6 @@
                   <CheckBox fx:id="stopProductionCheckBox" layoutX="597.0" layoutY="381.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
                   <Slider fx:id="lightSlider" layoutX="722.0" layoutY="97.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
                   <Slider fx:id="amountOfLghtSlider" layoutX="536.0" layoutY="97.0" onMousePressed="#updateLight" orientation="VERTICAL" />
-                  <Pane layoutX="14.0" layoutY="487.0" prefHeight="107.0" prefWidth="776.0">
-                     <children>
-                        <Label layoutX="23.0" layoutY="50.0" text="Temp" />
-                        <Label layoutX="65.0" layoutY="50.0" text="Level of moist" />
-                        <TextField fx:id="tempSpinner" editable="false" layoutX="15.0" layoutY="74.0" prefHeight="25.0" prefWidth="46.0" />
-                        <TextField fx:id="levelOfMoistSpinner" editable="false" layoutX="79.0" layoutY="74.0" prefHeight="25.0" prefWidth="46.0" />
-                        <TextField fx:id="Level_of_moist" editable="false" layoutX="442.0" layoutY="78.0" prefHeight="25.0" prefWidth="91.0" />
-                        <Label layoutX="454.0" layoutY="48.0" text="Level of moist" />
-                     </children>
-                  </Pane>
                   <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="322.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../fan-512.png" />
