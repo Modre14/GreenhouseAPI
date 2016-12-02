@@ -21,20 +21,21 @@ public class Protocol implements Serializable {
     int redLight;
     int blueLight;
     int days;
-
+    int lightIntensity;
     /**
      * @param waterFlow is the number of seconds the waterpump is on
      * @param redLight is the value of redLight
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      */
-    public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days) {
+    public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days, int lightIntensity) {
         this.id = id;
         this.temp = temp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
+        this.lightIntensity = lightIntensity;
     }
 
     public String getId() {
@@ -72,6 +73,10 @@ public class Protocol implements Serializable {
 
     public int getDays() {
         return days;
+    }
+
+    public int getLightIntensity() {
+        return lightIntensity;
     }
 
 }

@@ -43,7 +43,6 @@
                   <Label layoutX="340.0" layoutY="150.0" text="- 15" />
                   <Label layoutX="340.0" layoutY="190.0" text="- 10" />
                   <TextField fx:id="waterLevel" editable="false" layoutX="369.0" layoutY="168.0" prefHeight="25.0" prefWidth="63.0" />
-                  <ProgressBar id="lightprogress-bar" fx:id="lightIndicator" layoutX="536.0" layoutY="251.0" prefWidth="200.0" progress="0.12" />
                   <Circle fx:id="colorIndicator" fill="DODGERBLUE" layoutX="636.0" layoutY="156.0" radius="67.0" stroke="BLACK" strokeType="INSIDE" />
                   <ProgressBar id="tempprogress-bar" fx:id="thermometerIndicatorOut" layoutX="89.0" layoutY="169.0" prefWidth="200.0" progress="0.39" rotate="270.0" />
                   <Label layoutX="200.0" layoutY="70.0" text="- 50" />
@@ -87,7 +86,7 @@
                         <Image url="@../fan-512.png" />
                      </image>
                   </ImageView>
-                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="405.0" layoutY="141.0" prefWidth="200.0" progress="0.33" rotate="-90.0" />
+                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="405.0" layoutY="141.0" prefWidth="200.0" progress="0.0" rotate="-90.0" />
                   <ImageView fitHeight="211.0" fitWidth="240.0" layoutX="14.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ATbrrkLac.png" />

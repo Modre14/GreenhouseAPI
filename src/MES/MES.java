@@ -51,19 +51,19 @@ public class MES {
     }
 
     private void makeProtocols() {
-        Protocol p1 = new Protocol("2014001", 21, 16, 26, 0, 92, 8, 20);
+        Protocol p1 = new Protocol("2014001", 21, 16, 26, 0, 92, 8, 20,100);
         protocolArray.add(p1);
-        Protocol p2 = new Protocol("2014002", 21, 16, 26, 0, 92, 8, 20);
+        Protocol p2 = new Protocol("2014002", 21, 16, 26, 0, 92, 8, 20,100);
         protocolArray.add(p2);
-        Protocol p3 = new Protocol("2014101", 15, 10, 20, 0, 92, 8, 50);
+        Protocol p3 = new Protocol("2014101", 15, 10, 20, 0, 92, 8, 50,100);
         protocolArray.add(p3);
-        Protocol p4 = new Protocol("2014102", 15, 10, 20, 0, 92, 8, 25);
+        Protocol p4 = new Protocol("2014102", 15, 10, 20, 0, 92, 8, 25,100);
         protocolArray.add(p4);
-        Protocol p5 = new Protocol("2014201", 15, 10, 20, 0, 92, 8, 64);
+        Protocol p5 = new Protocol("2014201", 15, 10, 20, 0, 92, 8, 64,100);
         protocolArray.add(p5);
-        Protocol p6 = new Protocol("2014202", 15, 10, 20, 0, 92, 8, 42);
+        Protocol p6 = new Protocol("2014202", 15, 10, 20, 0, 92, 8, 42,100);
         protocolArray.add(p6);
-        Protocol p7 = new Protocol("2014203", 15, 10, 20, 0, 92, 8, 52);
+        Protocol p7 = new Protocol("2014203", 15, 10, 20, 0, 92, 8, 52,100);
         protocolArray.add(p7);
 
     }
@@ -89,9 +89,9 @@ public class MES {
                     String sdate = dateTokens[2];
                     String[] startDateTokens = sdate.split(" ");
 
-                    startDate.setYear(Integer.valueOf(dateTokens[0]) - 1900);
-                    startDate.setMonth(Integer.valueOf(dateTokens[1]));
-                    startDate.setDate(Integer.valueOf(startDateTokens[0]));
+//                    startDate.setYear(Integer.valueOf(dateTokens[0]) - 1900);
+//                    startDate.setMonth(Integer.valueOf(dateTokens[1]));
+//                    startDate.setDate(Integer.valueOf(startDateTokens[0]));
 
                     //end Date
                     String endDateConvert = tokens[4];

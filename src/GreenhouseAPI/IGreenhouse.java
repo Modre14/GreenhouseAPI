@@ -35,15 +35,9 @@ public interface IGreenhouse extends Remote {
 
     public int getBlueLight() throws RemoteException;
 
-    public void setDays(int days) throws RemoteException;
-
-    public void setDaysCompleted(int daysCompleted) throws RemoteException;
-
     public void setOrder(Order order) throws RemoteException;
 
     public Order getOrder() throws RemoteException;
-
-    public String getDaysRemaining() throws RemoteException;
 
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1

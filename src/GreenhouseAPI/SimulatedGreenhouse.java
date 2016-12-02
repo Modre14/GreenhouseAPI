@@ -80,7 +80,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 }
                 temp = temp + valD;
-                
+
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ex) {
@@ -177,7 +177,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public double ReadTemp1() {
 //        System.out.println("Read greenhouse temperature ");
-        
+
 //        System.out.println("Temperature is: " + temp + "celcius");
         return temp + 273;
     }
@@ -341,27 +341,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
     public int getBlueLight() {
         return blueLight;
-    }
-
-    @Override
-    public String getDaysRemaining() throws RemoteException {
-        return Integer.toString(getDays() - getDaysCompleted()) + " Dage tilbage";
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    public void setDays(int days) {
-        this.days = days;
-    }
-
-    public int getDaysCompleted() {
-        return daysCompleted;
-    }
-
-    public void setDaysCompleted(int daysCompleted) {
-        this.daysCompleted = daysCompleted;
     }
 
     @Override

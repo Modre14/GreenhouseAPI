@@ -28,7 +28,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int blueLight;
     private int lightIntensity;
     private int days;
-    private int daysCompleted;
+
     private Order order;
     int fanSpeed = 0;
 
@@ -38,6 +38,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public void setOrder(Order order) {
         this.order = order;
+        
     }
 
     /**
@@ -386,7 +387,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public boolean SetFanSpeed(int speed) {
         System.out.println("Set fan speed " + speed);
         fanSpeed = speed;
-        
+
         mess = new Message(SET_FAN_SPEED);
         if (speed >= 0 && speed <= 2) {
             mess.setData(speed);
@@ -417,25 +418,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return blueLight;
     }
 
-    @Override
-    public String getDaysRemaining() throws RemoteException {
-        return Integer.toString(getDays() - getDaysCompleted()) + " Dage tilbage";
-    }
-
     public int getDays() {
         return days;
     }
 
     public void setDays(int days) {
         this.days = days;
-    }
-
-    public int getDaysCompleted() {
-        return daysCompleted;
-    }
-
-    public void setDaysCompleted(int daysCompleted) {
-        this.daysCompleted = daysCompleted;
     }
 
     @Override
