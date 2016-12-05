@@ -37,7 +37,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int lightIntensity;
     private int days;
     private int daysCompleted;
-    private List orderList = new ArrayList();
     private Order order;
 
     double temp = 15.0;
@@ -345,12 +344,12 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     @Override
     public void setOrder(Order order) {
-
+        this.order = order; 
     }
 
     @Override
     public Order getOrder() {
-        return null;
+        return order;
     }
 
     @Override

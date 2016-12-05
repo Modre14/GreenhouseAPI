@@ -38,7 +38,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public void setOrder(Order order) {
         this.order = order;
-        
+
     }
 
     /**
@@ -199,6 +199,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         if (conn.send()) {
             if (mess.getResultData() != null) {
                 temp = (double) (mess.getResultData())[0];
+                System.out.println(temp);
             } else {
                 temp = 19.99; // return a dummy value
             }

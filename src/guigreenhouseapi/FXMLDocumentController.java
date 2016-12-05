@@ -123,10 +123,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
 
-                if ((gh.getValue().getOrder().getProtocol().getDays() - (d.getTime() - gh.getValue().getOrder().getStartDate().getTime()) / 3600 / 24) == 0) {
+                if (gh.getValue().getOrder().getDaysCompleted() == 0) {
                     l2.add("Complete");
                 } else {
-                    l2.add((gh.getValue().getOrder().getProtocol().getDays() - (d.getTime() - gh.getValue().getOrder().getStartDate().getTime()) / 3600 / 24));
+                    l2.add(gh.getValue().getOrder().getDaysCompleted());
 
                 }
             } else {
@@ -219,12 +219,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-//        gh.SetTemperature(292);
-
-        lightSlider.setValue(gh.getBlueLight());
-        amountOfLghtSlider.setValue(gh.getLightIntensity());
-
-        updateOverview();
+        gh.SetTemperature(292);
+//
+//        lightSlider.setValue(gh.getBlueLight());
+//        amountOfLghtSlider.setValue(gh.getLightIntensity());
 
 //        lightIndicator.setProgress(50 / 100.0);
 ////        gh.SetRedLight(56);
@@ -232,6 +230,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 ////        disableCheckAndButton();
 //        gh.setDays(50);a
 //        gh.setDaysCompleted(6);
+        updateOverview();
         updateLight();
 
     }
@@ -291,14 +290,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
-
+        lightSlider.setValue(o.getProtocol().getBlueLight());
+        amountOfLghtSlider.setValue(o.getProtocol().getLightIntensity());
         gh.SetTemperature(o.getProtocol().getTemp());
 //        gh.setDays(o.getProtocol().getDays());
-
-        gh.SetBlueLight(o.getProtocol().getBlueLight());
+        System.out.println(gh.SetTemperature(o.getProtocol().getTemp()));
+        gh.SetTemperature(o.getProtocol().getTemp());
+        System.out.println(gh.SetBlueLight(o.getProtocol().getBlueLight()));
+//        
         gh.SetRedLight(o.getProtocol().getRedLight());
         gh.setLightIntensity(o.getProtocol().getLightIntensity());
         updateOverview();
+        System.out.println(gh.getOrder().getDaysCompleted());
+        
     }
 
     private void updateValues() throws RemoteException {
@@ -306,8 +310,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
         try {
 
             try {
+                System.out.println(gh.ReadTemp1());
                 temp1 = gh.ReadTemp1() - 273;
-                temp1 = (double) Math.round(temp1 * 100) / 100;
+                temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
+
                 System.out.println(temp1);
                 tempInside.setText(String.valueOf(temp1));
                 thermometerIndicatorIn.setProgress(temp1 / 50.0);
@@ -321,11 +327,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        levelOfMoistLabel.setText(String.valueOf(gh.ReadMoist()));
+        levelOfMoistLabel.setText(String.valueOf(gh.ReadMoist()) + "%");
 
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
+ 
 
     }
 

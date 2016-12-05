@@ -44,26 +44,26 @@ public class MES {
         m.makeProtocols();
         m.ERPConnect();
         m.generateOrders();
-     
+
         m.sendOrdersToScada();
-        
+
 //        m.startServer();
     }
 
     private void makeProtocols() {
-        Protocol p1 = new Protocol("2014001", 21, 16, 26, 0, 92, 8, 20,100);
+        Protocol p1 = new Protocol("2014001", 23, 16, 26, 50, 92, 8, 20, 100);
         protocolArray.add(p1);
-        Protocol p2 = new Protocol("2014002", 21, 16, 26, 0, 92, 8, 20,100);
+        Protocol p2 = new Protocol("2014002", 23, 16, 26, 50, 92, 8, 20, 100);
         protocolArray.add(p2);
-        Protocol p3 = new Protocol("2014101", 15, 10, 20, 0, 92, 8, 50,100);
+        Protocol p3 = new Protocol("2014101", 15, 10, 20, 50, 92, 8, 50, 100);
         protocolArray.add(p3);
-        Protocol p4 = new Protocol("2014102", 15, 10, 20, 0, 92, 8, 25,100);
+        Protocol p4 = new Protocol("2014102", 15, 10, 20, 50, 92, 8, 25, 100);
         protocolArray.add(p4);
-        Protocol p5 = new Protocol("2014201", 15, 10, 20, 0, 92, 8, 64,100);
+        Protocol p5 = new Protocol("2014201", 15, 10, 20, 50, 92, 8, 64, 100);
         protocolArray.add(p5);
-        Protocol p6 = new Protocol("2014202", 15, 10, 20, 0, 92, 8, 42,100);
+        Protocol p6 = new Protocol("2014202", 15, 10, 20, 50, 92, 8, 42, 100);
         protocolArray.add(p6);
-        Protocol p7 = new Protocol("2014203", 15, 10, 20, 0, 92, 8, 52,100);
+        Protocol p7 = new Protocol("2014203", 15, 10, 20, 50, 92, 8, 52, 100);
         protocolArray.add(p7);
 
     }
@@ -92,7 +92,6 @@ public class MES {
 //                    startDate.setYear(Integer.valueOf(dateTokens[0]) - 1900);
 //                    startDate.setMonth(Integer.valueOf(dateTokens[1]));
 //                    startDate.setDate(Integer.valueOf(startDateTokens[0]));
-
                     //end Date
                     String endDateConvert = tokens[4];
                     Date endDate = new Date();
@@ -111,9 +110,8 @@ public class MES {
                     System.out.println("Name: " + tokens[1] + " Protocol " + protocolArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
                     orders.add(ordre);
                     System.out.println(orders);
-                    
-                    
-                }   
+
+                }
 
             }
 
@@ -121,15 +119,14 @@ public class MES {
         }
 
 //        ordres.add(protocolArray.equals(tokens[0]), "name", date, date, 1);
-
-                System.out.println(orders.get(0));
-                System.out.println(orders.get(1));                
-                System.out.println(orders.get(2));
-                System.out.println(orders.get(3));
-                System.out.println(orders.get(4));
-                System.out.println(orders.get(5));
-                System.out.println(orders.get(6));
-                System.out.println(orders.get(7));
+        System.out.println(orders.get(0));
+        System.out.println(orders.get(1));
+        System.out.println(orders.get(2));
+        System.out.println(orders.get(3));
+        System.out.println(orders.get(4));
+        System.out.println(orders.get(5));
+        System.out.println(orders.get(6));
+        System.out.println(orders.get(7));
     }
 
     private void ERPConnect() throws RemoteException {
@@ -145,7 +142,7 @@ public class MES {
         Date date = new Date();
 
         Order ordre = new Order("Blomster", protocolArray.get(0), date, date, 30);
-        orders.add( ordre);
+        orders.add(ordre);
         try {
             registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
             ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);

@@ -19,7 +19,7 @@ public class Order implements Serializable {
     private Date startDate;
     private Date endDate;
     private int quantity;
-    private int days;
+    private int daysCompleted;
 
     public Order(String name, Protocol protocol, Date startDate, Date endDate, int quantity) {
 
@@ -28,7 +28,7 @@ public class Order implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.quantity = quantity;
-        this.days = 0;
+        this.daysCompleted = 0;
     }
 
     @Override
@@ -56,12 +56,9 @@ public class Order implements Serializable {
         return quantity;
     }
 
-    public int getDays() {
-        return days;
-    }
-
-    public void setDays(int days) {
-        this.days = days;
+    public int getDaysCompleted() {
+        Date d = new Date();
+        return (int) (getProtocol().getDays() - (d.getTime()+178000 - getStartDate().getTime()) / 3600 / 24);
     }
 
 }

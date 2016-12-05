@@ -19,6 +19,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +35,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     private ArrayList<Order> orderList = new ArrayList<>();
 
     public SCADA() throws RemoteException {
+
         ghlist = new HashMap<>();
 
     }
@@ -47,6 +49,8 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                 ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
+            instance.automate();
+
         }
 
         return instance;
@@ -87,7 +91,41 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     @Override
     public ArrayList<Order> getOrders() throws RemoteException {
-       return orderList;
+        return orderList;
     }
 
+    public void automate() throws RemoteException {
+        new Thread(() -> {
+            while (true) {
+                //timeStamp
+                for (Map.Entry<String, IGreenhouse> ghl : ghlist.entrySet()) {
+                    IGreenhouse gh = ghl.getValue();
+                    try {
+                        if (gh.getOrder() != null) {
+                            System.out.println(ghl.getKey() + " : Checked");
+                            if (gh.ReadMoist() < gh.getOrder().getProtocol().getWaterFlow()) {
+                                gh.AddWater(5);
+                               
+                            }
+                            if (gh.ReadTemp1() > gh.getOrder().getProtocol().getMaxTemp()) {
+                                gh.SetFanSpeed(2);
+                            }else  {
+                                gh.SetFanSpeed(0);
+                            }
+                        }
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+
+                try {
+                    TimeUnit.SECONDS.sleep(60);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }).start();
+    }
 }
