@@ -22,6 +22,7 @@ public class Protocol implements Serializable {
     int blueLight;
     int days;
     int lightIntensity;
+
     /**
      * @param waterFlow is the number of seconds the waterpump is on
      * @param redLight is the value of redLight
@@ -31,6 +32,8 @@ public class Protocol implements Serializable {
     public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days, int lightIntensity) {
         this.id = id;
         this.temp = temp;
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
         this.waterFlow = waterFlow;
         this.redLight = redLight;
         this.blueLight = blueLight;

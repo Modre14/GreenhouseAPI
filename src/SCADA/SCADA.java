@@ -46,7 +46,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -105,11 +105,11 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             System.out.println(ghl.getKey() + " : Checked");
                             if (gh.ReadMoist() < gh.getOrder().getProtocol().getWaterFlow()) {
                                 gh.AddWater(5);
-                               
+
                             }
                             if (gh.ReadTemp1() > gh.getOrder().getProtocol().getMaxTemp()) {
                                 gh.SetFanSpeed(2);
-                            }else  {
+                            } else {
                                 gh.SetFanSpeed(0);
                             }
                         }

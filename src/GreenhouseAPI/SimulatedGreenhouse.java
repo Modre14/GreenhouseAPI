@@ -38,6 +38,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int days;
     private int daysCompleted;
     private Order order;
+    private int moist;
 
     double temp = 15.0;
     double temp2 = 20.0;
@@ -142,7 +143,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-
+            moist = moist + sec;
         }
         return false;
     }
@@ -201,9 +202,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Moisture in %
      */
     public double ReadMoist() {
-        System.out.println("Read outdoor temperature ");
-
-        double moist = 0.0;
 
         System.out.println("Moisture is: " + moist + " %");
         return moist;
@@ -344,7 +342,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     @Override
     public void setOrder(Order order) {
-        this.order = order; 
+        this.order = order;
     }
 
     @Override
