@@ -99,6 +99,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ProgressBar amountOfLghtProgress;
     @FXML
     private Label levelOfMoistLabel;
+    @FXML
+    private TextField daysLeftTextField;
+    @FXML
+    private TextField timerTextField;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -123,14 +127,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
 
-                if (gh.getValue().getOrder().getDaysCompleted() == 0) {
+                if (gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24 == 0) {
                     l2.add("Complete");
                 } else {
-                    l2.add(gh.getValue().getOrder().getDaysCompleted());
+                    l2.add(gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24);
 
                 }
             } else {
                 l2.add("None");
+                ArrayList<Order> orders = SCADA.getInstance().getOrders();
+
                 l3.add("None");
             }
 
@@ -299,8 +305,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        
         gh.SetRedLight(o.getRecipe().getRedLight());
 //        gh.setLightIntensity(o.getRecipe().getLightIntensity());
+        Date d = new Date();
+        gh.getOrder().setStartDate(d);
         updateOverview();
-        System.out.println(gh.getOrder().getDaysCompleted());
+        System.out.println(gh.getOrder().getSecondsElapsed());
 
     }
 
@@ -329,7 +337,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
-        
+        daysLeftTextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24));
+
+        Date d = new Date();
+        long currentDate = ((d.getTime() - gh.getOrder().getStartDate().getTime()) / 1000);
+
+        timerTextField.setText(String.format("%02d", (int) Math.floor(currentDate / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(currentDate / 60 % 60)));
         updateLight();
 
     }

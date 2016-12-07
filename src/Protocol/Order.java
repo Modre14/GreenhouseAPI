@@ -56,9 +56,13 @@ public class Order implements Serializable {
         return quantity;
     }
 
-    public int getDaysCompleted() {
+    public int getSecondsElapsed() {
         Date d = new Date();
-        return (int) (getRecipe().getDays() - (d.getTime()+178000 - getStartDate().getTime()) / 3600 / 24);
+        return (int) ((d.getTime() - getStartDate().getTime()) / 1000);
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
 }

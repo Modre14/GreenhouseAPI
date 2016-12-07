@@ -101,11 +101,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
         new Thread(() -> {
 
             //simulate 24 hours
-            int hours = 1;
-
             while (true) {
                 //timeStamp
-
+                double hours = 0;
                 for (Map.Entry<String, IGreenhouse> ghl : ghlist.entrySet()) {
 
                     try {
@@ -113,6 +111,22 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                         //add water
                         if (gh.getOrder() != null) {
+
+                            Date startDate = gh.getOrder().getStartDate();
+                            SimpleDateFormat simpDate;
+
+                            simpDate = new SimpleDateFormat("kk:mm");
+                            System.out.println(simpDate.format(startDate));
+                            Date d = new Date();
+                            int currentHour = (int) ((d.getTime() - startDate.getTime()) / 3600000 % 24);
+
+                            double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2;
+
+                            System.out.println(currentHour + "???");
+                            System.out.println("Current hour:" + Math.floor(currentHour));
+                            System.out.println("Current min:" + Math.floor(currentHour % 60));
+
+                            System.out.println(d);
                             if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterFlow()) {
                                 gh.AddWater(5);
                             }
@@ -120,26 +134,24 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             double hoursDay = gh.getOrder().getRecipe().getHoursDay();
 
                             System.out.println(hours);
-                            if (hours < gh.getOrder().getRecipe().getHoursDay()) {
-                                System.out.println("its: " + hours);
-                                if (hours <= (hoursDay / 2.0)) {
-                                    System.out.println("set light ++++ ");
-                                    gh.setLightIntensity((int) Math.round(100 / (hoursDay / 2.0) + gh.getLightIntensity()));
-                                    if (gh.getLightIntensity() > 100) {
-                                        gh.setLightIntensity(100);
-                                    }
-                                } else {
-                                    System.out.println("set light ---- ");
-                                    gh.setLightIntensity((int) (gh.getLightIntensity() - (100 / (hoursDay / 2.0))));
-                                }
-                            } else {
 
-                                System.out.println("its dark");
-                                gh.setLightIntensity(0);
-                            }
-                            hours++;
+                            System.out.println("set light ++++ ");
+                            gh.setLightIntensity((int) Math.round(100 / (hoursDay / 2.0) + gh.getLightIntensity()));
 
+                            System.out.println("set light ---- ");
+                            gh.setLightIntensity((int) (gh.getLightIntensity() - (100 / (hoursDay / 2.0))));
+
+                            System.out.println("its dark");
+                            gh.setLightIntensity(0);
+
+                            
                             System.out.println(gh.getLightIntensity());
+                            try {
+                                TimeUnit.SECONDS.sleep(6);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
                         }
 
                         //Change light acording to hours
@@ -148,18 +160,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                     }
                 }
 
-                //test to simulate a day
-                if (hours == 24) {
-                    hours = 0;
-                }
-                try {
-                    TimeUnit.SECONDS.sleep(4);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
             }
-        }).start();
+        }).
+                start();
     }
 
 }
