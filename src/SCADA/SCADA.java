@@ -122,6 +122,15 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                             double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2;
 
+                            double time = (gh.getOrder().getSecondsElapsed() / 3600) % 24;
+
+                            if (time > maxLight){
+                                gh.setLightIntensity((int) (time/maxLight) * 100);
+                            }
+                            else{
+                                gh.setLightIntensity((int) (time - ((time - maxLight) / time)));
+                            }
+
                             System.out.println(currentHour + "???");
                             System.out.println("Current hour:" + Math.floor(currentHour));
                             System.out.println("Current min:" + Math.floor(currentHour % 60));

@@ -406,6 +406,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     @Override
     public void setLightIntensity(int level) {
 
+        if(level < 0){
+            level = 0;
+        }
         lightIntensity = level;
     }
 
