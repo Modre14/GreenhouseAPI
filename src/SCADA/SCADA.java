@@ -111,52 +111,30 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                         //add water
                         if (gh.getOrder() != null) {
-
-                            Date startDate = gh.getOrder().getStartDate();
-                            SimpleDateFormat simpDate;
-
-                            simpDate = new SimpleDateFormat("kk:mm");
-                            System.out.println(simpDate.format(startDate));
                             Date d = new Date();
-                            int currentHour = (int) ((d.getTime() - startDate.getTime()) / 3600000 % 24);
 
-                            double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2;
+                            double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
 
-                            double time = (gh.getOrder().getSecondsElapsed() / 3600) % 24;
+                            double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
 
-                            if (time > maxLight){
-                                gh.setLightIntensity((int) (time/maxLight) * 100);
+                            if (time < maxLight) {
+                                System.out.println(" timm > maxLight");
+
+                                gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+                            } else {
+                                System.out.println("else");
+                                gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                             }
-                            else{
-                                gh.setLightIntensity((int) (time - ((time - maxLight) / time)));
-                            }
-
-                            System.out.println(currentHour + "???");
-                            System.out.println("Current hour:" + Math.floor(currentHour));
-                            System.out.println("Current min:" + Math.floor(currentHour % 60));
-
+                            System.out.println(gh.getOrder().getSecondsElapsed() / 3600);
+                            System.out.println((time / maxLight) * 100);
                             System.out.println(d);
                             if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterFlow()) {
                                 gh.AddWater(5);
                             }
 
-                            double hoursDay = gh.getOrder().getRecipe().getHoursDay();
-
-                            System.out.println(hours);
-
-                            System.out.println("set light ++++ ");
-                            gh.setLightIntensity((int) Math.round(100 / (hoursDay / 2.0) + gh.getLightIntensity()));
-
-                            System.out.println("set light ---- ");
-                            gh.setLightIntensity((int) (gh.getLightIntensity() - (100 / (hoursDay / 2.0))));
-
-                            System.out.println("its dark");
-                            gh.setLightIntensity(0);
-
-                            
                             System.out.println(gh.getLightIntensity());
                             try {
-                                TimeUnit.SECONDS.sleep(6);
+                                TimeUnit.SECONDS.sleep(2);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                             }

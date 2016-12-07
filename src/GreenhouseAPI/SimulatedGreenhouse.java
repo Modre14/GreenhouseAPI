@@ -34,7 +34,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private String conn;
     private Message mess;
     private int blueLight;
-    private int lightIntensity;
+    private double lightIntensity;
     private int days;
     private int daysCompleted;
     private Order order;
@@ -320,13 +320,20 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public void setLightIntensity(int level) {
+    public void setLightIntensity(double level) {
 
+        if (level < 0.0) {
+            level = 0.0;
+            System.out.println("<100");
+        } else if (level > 99.0) {
+            level = 100.0;
+            System.out.println("> 100");
+        }
         lightIntensity = level;
     }
 
     @Override
-    public int getLightIntensity() {
+    public double getLightIntensity() {
         return lightIntensity;
     }
 

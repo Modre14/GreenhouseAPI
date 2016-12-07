@@ -26,7 +26,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private PLCConnection conn;
     private Message mess;
     private int blueLight;
-    private int lightIntensity;
+    private double lightIntensity;
     private int days;
 
     private Order order;
@@ -404,16 +404,18 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     }
 
     @Override
-    public void setLightIntensity(int level) {
+    public void setLightIntensity(double level) {
 
-        if(level < 0){
+        if (level < 0) {
             level = 0;
+        } else if (level > 99) {
+            level = 100;
         }
         lightIntensity = level;
     }
 
     @Override
-    public int getLightIntensity() {
+    public double getLightIntensity() {
         return lightIntensity;
     }
 

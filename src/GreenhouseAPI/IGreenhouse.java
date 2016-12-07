@@ -29,9 +29,9 @@ public interface IGreenhouse extends Remote {
 
     public int getFanspeed() throws RemoteException;
 
-    public void setLightIntensity(int level) throws RemoteException;
+    public void setLightIntensity(double level) throws RemoteException;
 
-    public int getLightIntensity() throws RemoteException;
+    public double getLightIntensity() throws RemoteException;
 
     public int getBlueLight() throws RemoteException;
 

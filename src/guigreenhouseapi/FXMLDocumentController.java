@@ -339,10 +339,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
         daysLeftTextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24));
 
-        Date d = new Date();
-        long currentDate = ((d.getTime() - gh.getOrder().getStartDate().getTime()) / 1000);
-
-        timerTextField.setText(String.format("%02d", (int) Math.floor(currentDate / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(currentDate / 60 % 60)));
+        timerTextField.setText(String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60)));
         updateLight();
 
     }
