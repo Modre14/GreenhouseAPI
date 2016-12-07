@@ -59,12 +59,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         new Thread(() -> {
             Random generator = new Random();
             while (true) {
-                if (temp > (kelvin - 273.0)) {
-                    SetFanSpeed(2);
-                } else {
-                    SetFanSpeed(0);
 
-                }
                 double valD = 0;
                 int r = generator.nextInt(2) + 1;
 
@@ -87,8 +82,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                System.out.print("temp: " + temp + "");
-                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
+//                System.out.print("temp: " + temp + "");
+//                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
             }
         }).start();
 
@@ -117,7 +112,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
 
     public boolean SetRedLight(int level) {
-        System.out.println("Set red light to " + level);
+//        System.out.println("Set red light to " + level);
 
         return false;
     }
@@ -129,7 +124,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return true if processed
      */
     public boolean SetBlueLight(int level) {
-        System.out.println("Set blue light to " + level);
+//        System.out.println("Set blue light to " + level);
 
         return false;
     }
@@ -179,7 +174,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 //        System.out.println("Read greenhouse temperature ");
 
 //        System.out.println("Temperature is: " + temp + "celcius");
-        return temp + 273;
+        return temp;
     }
 
     /**
@@ -203,7 +198,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public double ReadMoist() {
 
-        System.out.println("Moisture is: " + moist + " %");
+//        System.out.println("Moisture is: " + moist + " %");
         return moist;
     }
 
@@ -213,11 +208,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Level in millimeter [0 < level < 250]
      */
     public double ReadWaterLevel() {
-        System.out.println("Read water level ");
+//        System.out.println("Read water level ");
 
         double level = 0.0; // level
 
-        System.out.println("Water level is: " + level);
+//        System.out.println("Water level is: " + level);
         return level;
     }
 

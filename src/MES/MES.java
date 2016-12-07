@@ -7,7 +7,7 @@ package MES;
 
 import GreenhouseAPI.Greenhouse;
 import Protocol.Order;
-import Protocol.Protocol;
+import Protocol.Recipe;
 import SCADA.ISCADA;
 import SCADA.SCADA;
 import java.io.Serializable;
@@ -31,8 +31,7 @@ import javax.swing.JOptionPane;
  */
 public class MES {
 
-    private ArrayList<Protocol> protocolArray = new ArrayList<Protocol>();
-    ;
+    private ArrayList<Recipe> recipeArray = new ArrayList<Recipe>();
     ERP_Connect obj2;
     RMI_Client c;
     private ISCADA scada;
@@ -41,7 +40,7 @@ public class MES {
 
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
-        m.makeProtocols();
+        m.makeRecipes();
         m.ERPConnect();
         m.generateOrders();
 
@@ -50,21 +49,21 @@ public class MES {
 //        m.startServer();
     }
 
-    private void makeProtocols() {
-        Protocol p1 = new Protocol("2014001", 23, 16, 26, 50, 92, 8, 20, 100);
-        protocolArray.add(p1);
-        Protocol p2 = new Protocol("2014002", 23, 16, 26, 50, 92, 8, 20, 100);
-        protocolArray.add(p2);
-        Protocol p3 = new Protocol("2014101", 15, 10, 20, 50, 92, 8, 50, 100);
-        protocolArray.add(p3);
-        Protocol p4 = new Protocol("2014102", 15, 10, 20, 50, 92, 8, 25, 100);
-        protocolArray.add(p4);
-        Protocol p5 = new Protocol("2014201", 15, 10, 20, 50, 92, 8, 64, 100);
-        protocolArray.add(p5);
-        Protocol p6 = new Protocol("2014202", 15, 10, 20, 50, 92, 8, 42, 100);
-        protocolArray.add(p6);
-        Protocol p7 = new Protocol("2014203", 15, 10, 20, 50, 92, 8, 52, 100);
-        protocolArray.add(p7);
+    private void makeRecipes() {
+        Recipe p1 = new Recipe("2014001", 23, 16, 26, 50, 92, 8, 20, 16);
+        recipeArray.add(p1);
+        Recipe p2 = new Recipe("2014002", 23, 16, 26, 50, 92, 8, 20, 16);
+        recipeArray.add(p2);
+        Recipe p3 = new Recipe("2014101", 15, 10, 20, 50, 92, 8, 50, 16);
+        recipeArray.add(p3);
+        Recipe p4 = new Recipe("2014102", 15, 10, 20, 50, 92, 8, 25, 16);
+        recipeArray.add(p4);
+        Recipe p5 = new Recipe("2014201", 15, 10, 20, 50, 92, 8, 64, 16);
+        recipeArray.add(p5);
+        Recipe p6 = new Recipe("2014202", 15, 10, 20, 50, 92, 8, 42, 16);
+        recipeArray.add(p6);
+        Recipe p7 = new Recipe("2014203", 15, 10, 20, 50, 92, 8, 52, 16);
+        recipeArray.add(p7);
 
     }
 
@@ -76,9 +75,9 @@ public class MES {
             String line = (String) orderList.get(i).toString();
 //            System.out.println(line);
             String[] tokens = line.split(",");
-            for (int j = 0; j < protocolArray.size(); j++) {
-                if (protocolArray.get(j).getId().equals(tokens[0])) {
-                    System.out.print(protocolArray.get(j).getId());
+            for (int j = 0; j < recipeArray.size(); j++) {
+                if (recipeArray.get(j).getId().equals(tokens[0])) {
+                    System.out.print(recipeArray.get(j).getId());
                     System.out.println(":   " + j);
 
                     //Start Date
@@ -106,8 +105,8 @@ public class MES {
 
                     Double q = Double.valueOf(tokens[2]);
                     int quantity = (int) (q + 0);
-                    Order ordre = new Order(tokens[1], protocolArray.get(j), startDate, endDate, quantity);
-                    System.out.println("Name: " + tokens[1] + " Protocol " + protocolArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
+                    Order ordre = new Order(tokens[1], recipeArray.get(j), startDate, endDate, quantity);
+                    System.out.println("Name: " + tokens[1] + " Protocol " + recipeArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
                     orders.add(ordre);
                     System.out.println(orders);
 
@@ -115,10 +114,10 @@ public class MES {
 
             }
 
-//            System.out.println(protocolArray);
+//            System.out.println(recipeArray);
         }
 
-//        ordres.add(protocolArray.equals(tokens[0]), "name", date, date, 1);
+//        ordres.add(recipeArray.equals(tokens[0]), "name", date, date, 1);
         System.out.println(orders.get(0));
         System.out.println(orders.get(1));
         System.out.println(orders.get(2));
@@ -141,7 +140,7 @@ public class MES {
         Registry registry;
         Date date = new Date();
 
-        Order ordre = new Order("Blomster", protocolArray.get(0), date, date, 30);
+        Order ordre = new Order("Blomster", recipeArray.get(0), date, date, 30);
         orders.add(ordre);
         try {
             registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);

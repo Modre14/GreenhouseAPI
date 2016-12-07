@@ -192,7 +192,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 5000, 5000);
+        }, 1000, 1000);
 
         Timer fan = new java.util.Timer();
 
@@ -219,11 +219,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-        gh.SetTemperature(292);
+
 //
 //        lightSlider.setValue(gh.getBlueLight());
 //        amountOfLghtSlider.setValue(gh.getLightIntensity());
-
 //        lightIndicator.setProgress(50 / 100.0);
 ////        gh.SetRedLight(56);
 ////        gh.SetBlueLight(50);
@@ -268,11 +267,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         gh.SetRedLight((int) ((100 - lightSlider.getValue()) * amountOfLghtSlider.getValue() / 100));
         gh.SetBlueLight((int) (lightSlider.getValue() * amountOfLghtSlider.getValue() / 100));
-        gh.setLightIntensity((int) amountOfLghtSlider.getValue());
+//        gh.setLightIntensity((int) gh.getLightIntensity());
         int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
         int colorBlue = (int) (255 / 100 * lightSlider.getValue());
         colorIndicator.setFill(Color.web("rgb(" + colorRed + ",0," + colorBlue + ")"));
-        amountOfLghtProgress.progressProperty().set(amountOfLghtSlider.getValue() / 100);
+        amountOfLghtProgress.progressProperty().set(gh.getLightIntensity() / 100.0);
 
     }
 
@@ -290,19 +289,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
-        lightSlider.setValue(o.getProtocol().getBlueLight());
-        amountOfLghtSlider.setValue(o.getProtocol().getLightIntensity());
-        gh.SetTemperature(o.getProtocol().getTemp());
-//        gh.setDays(o.getProtocol().getDays());
-        System.out.println(gh.SetTemperature(o.getProtocol().getTemp()));
-        gh.SetTemperature(o.getProtocol().getTemp());
-        System.out.println(gh.SetBlueLight(o.getProtocol().getBlueLight()));
+        lightSlider.setValue(o.getRecipe().getBlueLight());
+//        amountOfLghtSlider.setValue(o.getRecipe().getLightIntensity());
+        gh.SetTemperature(o.getRecipe().getTemp());
+//        gh.setDays(o.getRecipe().getDays());
+        System.out.println(gh.SetTemperature(o.getRecipe().getTemp()));
+        gh.SetTemperature(o.getRecipe().getTemp());
+        System.out.println(gh.SetBlueLight(o.getRecipe().getBlueLight()));
 //        
-        gh.SetRedLight(o.getProtocol().getRedLight());
-        gh.setLightIntensity(o.getProtocol().getLightIntensity());
+        gh.SetRedLight(o.getRecipe().getRedLight());
+//        gh.setLightIntensity(o.getRecipe().getLightIntensity());
         updateOverview();
         System.out.println(gh.getOrder().getDaysCompleted());
-        
+
     }
 
     private void updateValues() throws RemoteException {
@@ -310,11 +309,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
         try {
 
             try {
-                System.out.println(gh.ReadTemp1());
-                temp1 = gh.ReadTemp1() - 273;
+                temp1 = gh.ReadTemp1();
                 temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
 
-                System.out.println(temp1);
                 tempInside.setText(String.valueOf(temp1));
                 thermometerIndicatorIn.setProgress(temp1 / 50.0);
             } catch (RemoteException ex) {
@@ -332,7 +329,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
- 
+        
+        updateLight();
 
     }
 

@@ -93,6 +93,21 @@
                      </image>
                   </ImageView>
                   <Label fx:id="levelOfMoistLabel" layoutX="121.0" layoutY="423.0" />
+                  <Label layoutX="656.0" layoutY="6.0" text="Days left:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="daysLeftTextField" layoutX="734.0" layoutY="5.0" prefHeight="30.0" prefWidth="51.0" promptText="100">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="timerTextField" layoutX="733.0" layoutY="37.0" prefHeight="30.0" prefWidth="54.0" promptText="00:00">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
                 </children>
             </AnchorPane>
          </content>

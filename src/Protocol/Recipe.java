@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Morten
  */
-public class Protocol implements Serializable {
+public class Recipe implements Serializable {
 
     String id;
     int temp;
@@ -21,7 +21,7 @@ public class Protocol implements Serializable {
     int redLight;
     int blueLight;
     int days;
-    int lightIntensity;
+    double hoursDay;
 
     /**
      * @param waterFlow is the number of seconds the waterpump is on
@@ -29,7 +29,7 @@ public class Protocol implements Serializable {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      */
-    public Protocol(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days, int lightIntensity) {
+    public Recipe(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days, double hoursDay) {
         this.id = id;
         this.temp = temp;
         this.maxTemp = maxTemp;
@@ -38,7 +38,7 @@ public class Protocol implements Serializable {
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
-        this.lightIntensity = lightIntensity;
+        this.hoursDay = hoursDay;
     }
 
     public String getId() {
@@ -78,8 +78,8 @@ public class Protocol implements Serializable {
         return days;
     }
 
-    public int getLightIntensity() {
-        return lightIntensity;
+    public double getHoursDay() {
+        return hoursDay;
     }
 
 }

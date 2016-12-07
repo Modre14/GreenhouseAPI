@@ -14,17 +14,17 @@ import java.util.Date;
  */
 public class Order implements Serializable {
 
-    private Protocol protocol;
+    private Recipe recipe;
     private String name;
     private Date startDate;
     private Date endDate;
     private int quantity;
     private int daysCompleted;
 
-    public Order(String name, Protocol protocol, Date startDate, Date endDate, int quantity) {
+    public Order(String name, Recipe recipe, Date startDate, Date endDate, int quantity) {
 
         this.name = name;
-        this.protocol = protocol;
+        this.recipe = recipe;
         this.startDate = startDate;
         this.endDate = endDate;
         this.quantity = quantity;
@@ -33,15 +33,15 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return name + "\t - " + protocol + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
+        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
     }
 
     public String getName() {
         return name;
     }
 
-    public Protocol getProtocol() {
-        return protocol;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
     public Date getStartDate() {
@@ -58,7 +58,7 @@ public class Order implements Serializable {
 
     public int getDaysCompleted() {
         Date d = new Date();
-        return (int) (getProtocol().getDays() - (d.getTime()+178000 - getStartDate().getTime()) / 3600 / 24);
+        return (int) (getRecipe().getDays() - (d.getTime()+178000 - getStartDate().getTime()) / 3600 / 24);
     }
 
 }
