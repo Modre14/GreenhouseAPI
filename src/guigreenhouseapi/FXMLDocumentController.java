@@ -41,7 +41,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -103,26 +102,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField daysLeftTextField;
     @FXML
     private TextField timerTextField;
-    @FXML
-    private TextField Order_TextField;
-    @FXML
-    private TextField Quantity_TextField;
-    @FXML
-    private TextField Temp_TextField;
-    @FXML
-    private TextField MinTemp_TextField;
-    @FXML
-    private TextField MaxTemp_TextField;
-    @FXML
-    private TextField WF_TextField;
-    @FXML
-    private TextField RedLight_TextField;
-    @FXML
-    private TextField BlueLight_TextField;
-    @FXML
-    private TextField Days_TextField;
-    @FXML
-    private ComboBox<?> listOfGreenhouse3;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -167,7 +146,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
         listOfGreenhouses.setItems((ObservableList<String>) l1);
         greenhouseStatus.setItems((ObservableList< String>) l2);
         greenhouseOrders.setItems((ObservableList<String>) l3);
-        
 
         for (Order order : orders) {
             l4.add(order.toString());
@@ -193,10 +171,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             listOfGreenhouse.setItems((ObservableList<String>) l);
             listOfGreenhouse2.setItems((ObservableList) l);
-            listOfGreenhouse3.setItems((ObservableList) l);
 
             updateOverview();
-            
 
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,7 +238,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
         updateLight();
 
     }
-    
 
     @FXML
     private void stopProduction(ActionEvent event) throws RemoteException {
@@ -367,18 +342,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
         timerTextField.setText(String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60)));
         updateLight();
 
-    }
-
-   
-
-    @FXML
-    private void getRecipe(ActionEvent event) throws RemoteException {
-        gh = scada.getGreenhouse((String) listOfGreenhouse3.getValue());
-        Order_TextField.setText(gh.getOrder().getName());
-        Quantity_TextField.setText(String.valueOf(gh.getOrder().getQuantity()));
-//        Temp_TextField.setText(String.valueOf(gh.getOrder().getTemp2()));
-              
-        
     }
 
 }
