@@ -80,7 +80,6 @@
                   </Button>
                   <CheckBox fx:id="stopProductionCheckBox" layoutX="597.0" layoutY="381.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
                   <Slider fx:id="lightSlider" layoutX="722.0" layoutY="97.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
-                  <Slider fx:id="amountOfLghtSlider" layoutX="536.0" layoutY="97.0" onMousePressed="#updateLight" orientation="VERTICAL" />
                   <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="322.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../fan-512.png" />

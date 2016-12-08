@@ -83,7 +83,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private CheckBox stopProductionCheckBox;
     @FXML
     private Slider lightSlider;
-    @FXML
     private Slider amountOfLghtSlider;
     @FXML
     private Circle colorIndicator;
@@ -217,7 +216,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 200, 200);
+        }, 20, 20);
 
     }
 
@@ -271,13 +270,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void updateLight() throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-        gh.SetRedLight((int) ((100 - lightSlider.getValue()) * amountOfLghtSlider.getValue() / 100));
-        gh.SetBlueLight((int) (lightSlider.getValue() * amountOfLghtSlider.getValue() / 100));
+        amountOfLghtProgress.progressProperty().set(gh.getLightIntensity() / 100.0);
+
 //        gh.setLightIntensity((int) gh.getLightIntensity());
         int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
         int colorBlue = (int) (255 / 100 * lightSlider.getValue());
         colorIndicator.setFill(Color.web("rgb(" + colorRed + ",0," + colorBlue + ")"));
-        amountOfLghtProgress.progressProperty().set(gh.getLightIntensity() / 100.0);
 
     }
 
@@ -298,9 +296,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
         lightSlider.setValue(o.getRecipe().getBlueLight());
 //        amountOfLghtSlider.setValue(o.getRecipe().getLightIntensity());
         gh.SetTemperature(o.getRecipe().getTemp());
+        System.out.println("Temp:  " + o.getRecipe().getTemp());
 //        gh.setDays(o.getRecipe().getDays());
         System.out.println(gh.SetTemperature(o.getRecipe().getTemp()));
-        gh.SetTemperature(o.getRecipe().getTemp());
         System.out.println(gh.SetBlueLight(o.getRecipe().getBlueLight()));
 //        
         gh.SetRedLight(o.getRecipe().getRedLight());

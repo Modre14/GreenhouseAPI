@@ -205,7 +205,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
             }
         }
         System.out.println("Temperature is: " + temp + "celcius");
-        return temp + 273.0;
+        return temp ;
     }
 
     /**

@@ -49,7 +49,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -125,6 +125,10 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                                 System.out.println("else");
                                 gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                             }
+
+                            gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
+                            gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
+
                             System.out.println(gh.getOrder().getSecondsElapsed() / 3600);
                             System.out.println((time / maxLight) * 100);
                             System.out.println(d);
@@ -132,9 +136,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                                 gh.AddWater(5);
                             }
 
-                            System.out.println(gh.getLightIntensity());
+                            System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
                             try {
-                                TimeUnit.SECONDS.sleep(2);
+                                TimeUnit.SECONDS.sleep(4);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                             }

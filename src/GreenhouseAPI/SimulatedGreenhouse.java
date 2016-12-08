@@ -41,7 +41,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int moist;
 
     double temp = 15.0;
-    double temp2 = 20.0;
+    double temp2 = 15.0;
     int fanSpeed = 0;
 
     /**
@@ -65,19 +65,32 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 int neg = generator.nextInt(2);
 
+                System.out.println("kelvin + 4 " + (kelvin + 4));
+                
+                if (temp > (kelvin + 4)) {
+                    System.out.println("temp>  " + temp);
+
+                    fanSpeed = 2;
+                } else if (temp > kelvin) {
+                    System.out.println("temp > +4");
+                    fanSpeed = 1;
+                } else {
+                    fanSpeed = 0;
+                }
+
                 switch (neg) {
                     case 0:
                         valD = r / 5.0;
                         break;
                     case 1:
-                        valD = (r / ((10.0)) * (1 + fanSpeed)) * (-1);
+                        valD = ((r / (10.0)) * (1 + fanSpeed)) * (-1);
                         break;
 
                 }
                 temp = temp + valD;
 
                 try {
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
