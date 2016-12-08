@@ -25,10 +25,16 @@ public class Recipe implements Serializable {
     double hoursDay;
 
     /**
-     * @param waterFlow is the number of seconds the waterpump is on
+     * @param id
+     * @param temp
+     * @param minTemp
+     * @param maxTemp
+     * @param waterTime is the number of seconds the waterpump is on
+     * @param irriationPrDay
      * @param redLight is the value of redLight
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
+     * @param hoursDay
      */
     public Recipe(String id, int temp, int minTemp, int maxTemp, int waterTime, int irriationPrDay, int redLight, int blueLight, int days, double hoursDay) {
         this.id = id;

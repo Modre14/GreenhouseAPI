@@ -21,6 +21,14 @@ public class Order implements Serializable {
     private int quantity;
     private int daysCompleted;
 
+   /**
+    * 
+    * @param name
+    * @param recipe
+    * @param startDate
+    * @param endDate
+    * @param quantity 
+    */
     public Order(String name, Recipe recipe, Date startDate, Date endDate, int quantity) {
 
         this.name = name;
