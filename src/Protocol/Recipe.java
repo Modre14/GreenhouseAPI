@@ -17,7 +17,8 @@ public class Recipe implements Serializable {
     int temp;
     int minTemp;
     int maxTemp;
-    int waterFlow;
+    int waterTime;
+    double irrigationPrDay;
     int redLight;
     int blueLight;
     int days;
@@ -29,12 +30,13 @@ public class Recipe implements Serializable {
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      */
-    public Recipe(String id, int temp, int minTemp, int maxTemp, int waterFlow, int redLight, int blueLight, int days, double hoursDay) {
+    public Recipe(String id, int temp, int minTemp, int maxTemp, int waterTime, int irriationPrDay, int redLight, int blueLight, int days, double hoursDay) {
         this.id = id;
         this.temp = temp;
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
-        this.waterFlow = waterFlow;
+        this.waterTime = waterTime;
+        this.irrigationPrDay = irriationPrDay;
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
@@ -47,7 +49,7 @@ public class Recipe implements Serializable {
 
     @Override
     public String toString() {
-        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterFlow=" + waterFlow + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
+        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterTime=" + waterTime + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
     public int getTemp() {
@@ -62,8 +64,8 @@ public class Recipe implements Serializable {
         return maxTemp;
     }
 
-    public int getWaterFlow() {
-        return waterFlow;
+    public int getWaterTime() {
+        return waterTime;
     }
 
     public int getRedLight() {
@@ -80,6 +82,14 @@ public class Recipe implements Serializable {
 
     public double getHoursDay() {
         return hoursDay;
+    }
+
+    public void setRedLight(int redLight) {
+        this.redLight = redLight;
+    }
+
+    public void setBlueLight(int blueLight) {
+        this.blueLight = blueLight;
     }
 
 }

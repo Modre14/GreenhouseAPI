@@ -216,7 +216,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 20, 20);
+        }, 200, 200);
 
     }
 
@@ -224,7 +224,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-
+        lightSlider.setValue(gh.getOrder().getRecipe().getBlueLight());
 //
 //        lightSlider.setValue(gh.getBlueLight());
 //        amountOfLghtSlider.setValue(gh.getLightIntensity());
@@ -272,6 +272,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         amountOfLghtProgress.progressProperty().set(gh.getLightIntensity() / 100.0);
 
+        gh.getOrder().getRecipe().setBlueLight((int) lightSlider.getValue());
+        gh.getOrder().getRecipe().setRedLight(100 - gh.getOrder().getRecipe().getBlueLight());
 //        gh.setLightIntensity((int) gh.getLightIntensity());
         int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
         int colorBlue = (int) (255 / 100 * lightSlider.getValue());

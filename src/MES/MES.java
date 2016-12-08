@@ -50,19 +50,19 @@ public class MES {
     }
 
     private void makeRecipes() {
-        Recipe p1 = new Recipe("2014001", 23, 16, 26, 50, 92, 8, 20, 16);
+        Recipe p1 = new Recipe("2014001", 23, 16, 26, 15, 2, 92, 8, 20, 16);
         recipeArray.add(p1);
-        Recipe p2 = new Recipe("2014002", 23, 16, 26, 50, 92, 8, 20, 16);
+        Recipe p2 = new Recipe("2014002", 23, 16, 26, 15, 2, 92, 8, 20, 16);
         recipeArray.add(p2);
-        Recipe p3 = new Recipe("2014101", 15, 10, 20, 50, 92, 8, 50, 16);
+        Recipe p3 = new Recipe("2014101", 15, 10, 20, 15, 2, 92, 8, 50, 16);
         recipeArray.add(p3);
-        Recipe p4 = new Recipe("2014102", 15, 10, 20, 50, 92, 8, 25, 16);
+        Recipe p4 = new Recipe("2014102", 15, 10, 20, 15, 2, 92, 8, 25, 16);
         recipeArray.add(p4);
-        Recipe p5 = new Recipe("2014201", 15, 10, 20, 50, 92, 8, 64, 16);
+        Recipe p5 = new Recipe("2014201", 15, 10, 20, 15, 2, 92, 8, 64, 16);
         recipeArray.add(p5);
-        Recipe p6 = new Recipe("2014202", 15, 10, 20, 50, 92, 8, 42, 16);
+        Recipe p6 = new Recipe("2014202", 15, 10, 20, 15, 2, 92, 8, 42, 16);
         recipeArray.add(p6);
-        Recipe p7 = new Recipe("2014203", 15, 10, 20, 50, 92, 8, 52, 16);
+        Recipe p7 = new Recipe("2014203", 15, 10, 20, 15, 2, 92, 8, 52, 16);
         recipeArray.add(p7);
 
     }

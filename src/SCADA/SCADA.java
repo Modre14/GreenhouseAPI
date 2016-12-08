@@ -132,13 +132,13 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             System.out.println(gh.getOrder().getSecondsElapsed() / 3600);
                             System.out.println((time / maxLight) * 100);
                             System.out.println(d);
-                            if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterFlow()) {
+                            if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterTime()) {
                                 gh.AddWater(5);
                             }
 
                             System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
                             try {
-                                TimeUnit.SECONDS.sleep(4);
+                                TimeUnit.SECONDS.sleep(3);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                             }
