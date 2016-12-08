@@ -385,7 +385,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void changeButton(ActionEvent event) throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
-        Order o = gh.getOrder();
         lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
         gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(MaxTemp_TextField.getText()));
         gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(MinTemp_TextField.getText()));
