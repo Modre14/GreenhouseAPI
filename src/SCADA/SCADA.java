@@ -130,7 +130,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
 
                             //add water;
-                            double irriation = 24.0 / gh.getOrder().getRecipe().getIrrigationPrDay();
+                            double irriation = 24.0 / gh.getOrder().getRecipe().getIrrigationsPrDay();
 
                             if (lastIrriation == 0) {
 

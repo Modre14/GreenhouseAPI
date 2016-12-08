@@ -18,7 +18,7 @@ public class Recipe implements Serializable {
     int minTemp;
     int maxTemp;
     int waterTime;
-    double irrigationPrDay;
+    double irrigationsPrDay;
     int redLight;
     int blueLight;
     int days;
@@ -42,7 +42,7 @@ public class Recipe implements Serializable {
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
         this.waterTime = waterTime;
-        this.irrigationPrDay = irriationPrDay;
+        this.irrigationsPrDay = irriationPrDay;
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
@@ -90,6 +90,10 @@ public class Recipe implements Serializable {
         return hoursDay;
     }
 
+    public void setHoursDay(double hoursDay) {
+        this.hoursDay = hoursDay;
+    }
+
     public void setRedLight(int redLight) {
         this.redLight = redLight;
     }
@@ -98,8 +102,16 @@ public class Recipe implements Serializable {
         this.blueLight = blueLight;
     }
 
-    public double getIrrigationPrDay() {
-        return irrigationPrDay;
+    public double getIrrigationsPrDay() {
+        return irrigationsPrDay;
     }
 
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+    
 }

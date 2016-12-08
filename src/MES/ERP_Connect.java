@@ -17,7 +17,7 @@ public class ERP_Connect {
 
     private Connection conn = null;
 
-    private ArrayList ordreList = new ArrayList();
+    private ArrayList orderList = new ArrayList();
 
     public Connection getConnection() {
 
@@ -54,7 +54,7 @@ public class ERP_Connect {
     }
 
     public ArrayList getOrderList() {
-        return ordreList;
+        return orderList;
     }
 
     public void getDataFromERP() {
@@ -76,7 +76,7 @@ public class ERP_Connect {
                     System.out.print(columnValue);
                     sb.append(columnValue);
                 }
-                ordreList.add(sb);
+                orderList.add(sb);
                 System.out.println("");
             }
             System.out.println("");
