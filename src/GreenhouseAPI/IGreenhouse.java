@@ -135,7 +135,7 @@ public interface IGreenhouse extends Remote {
     /**
      * Read all alarms one bits pr. alarm. CMD: 13
      *
-     * @return Alarms Bit 0: Temperatur Bit 1: Moisture Bit 2: Waterlevel to
+     * @return Alarms Bit 0: Temperature Bit 1: Moisture Bit 2: Waterlevel to
      * high Bit 3: Water pump error ......
      */
     BitSet ReadErrors() throws RemoteException;

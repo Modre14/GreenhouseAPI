@@ -61,7 +61,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         mess = new Message(TEMP_SETPOINT);
         if (kelvin > 273 && kelvin < 303) // 0 - 30 grader celcius
         {
-            System.out.println("Set temperatur setpoint to " + kelvin);
+            System.out.println("Set temperature setpoint to " + kelvin);
             mess.setData(kelvin - 273);
             conn.addMessage(mess);
             if (conn.send()) {
@@ -190,7 +190,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp1() {
-        System.out.println("Read greenhouse temperatur ");
+        System.out.println("Read greenhouse temperature ");
         mess = new Message(READ_GREENHOUSE_TEMP);
         double temp = 0.0;
         mess.setData(); //None data
@@ -214,7 +214,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp2() {
-        System.out.println("Read outdoor temperatur ");
+        System.out.println("Read outdoor temperature ");
         mess = new Message(READ_OUTDOOR_TEMP);
         double temp2 = 0.0;
         mess.setData(); //None data
@@ -237,7 +237,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Moisture in %
      */
     public double ReadMoist() {
-        System.out.println("Read outdoor temperatur ");
+        System.out.println("Read outdoor temperature ");
         mess = new Message(READ_MOISTURE);
         double moist = 0.0;
         mess.setData(); //None data
