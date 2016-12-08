@@ -65,14 +65,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 int neg = generator.nextInt(2);
 
-                System.out.println("kelvin + 4 " + (kelvin + 4));
                 
                 if (temp > (kelvin + 4)) {
-                    System.out.println("temp>  " + temp);
 
                     fanSpeed = 2;
                 } else if (temp > kelvin) {
-                    System.out.println("temp > +4");
                     fanSpeed = 1;
                 } else {
                     fanSpeed = 0;
@@ -94,7 +91,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 } catch (InterruptedException ex) {
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                
 //                System.out.print("temp: " + temp + "");
 //                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
             }
@@ -151,7 +148,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            moist = moist + sec;
+            
         }
         return false;
     }

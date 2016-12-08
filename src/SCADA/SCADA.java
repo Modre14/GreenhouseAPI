@@ -49,7 +49,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -99,8 +99,8 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     public void automate() throws RemoteException {
         new Thread(() -> {
+            int lastIrriation = 0;
 
-            //simulate 24 hours
             while (true) {
                 //timeStamp
                 double hours = 0;
@@ -113,39 +113,45 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                         if (gh.getOrder() != null) {
                             Date d = new Date();
 
+                            //set the light
                             double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
-
                             double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
-
                             if (time < maxLight) {
-                                System.out.println(" timm > maxLight");
 
                                 gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
                             } else {
-                                System.out.println("else");
+
                                 gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                             }
 
                             gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
                             gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
 
-                            System.out.println(gh.getOrder().getSecondsElapsed() / 3600);
-                            System.out.println((time / maxLight) * 100);
-                            System.out.println(d);
-                            if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterTime()) {
-                                gh.AddWater(5);
+                            System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
+
+                            //add water;
+                            double irriation = 24.0 / gh.getOrder().getRecipe().getIrrigationPrDay();
+
+                            if (lastIrriation == 0) {
+
+                                lastIrriation = (int) gh.getOrder().getStartDate().getTime();
+                                System.out.println("lastIrriation start= " + lastIrriation);
+                            } else if (lastIrriation + (irriation * 3600) < gh.getOrder().getSecondsElapsed()) {
+                                gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+                                lastIrriation = gh.getOrder().getSecondsElapsed();
+                                System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
+                                System.out.println("lastIrriation  = " + lastIrriation);
+
                             }
 
-                            System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
                             try {
-                                TimeUnit.SECONDS.sleep(3);
+                                TimeUnit.SECONDS.sleep(1);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                             }
 
                         }
 
-                        //Change light acording to hours
                     } catch (RemoteException ex) {
                         Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                     }

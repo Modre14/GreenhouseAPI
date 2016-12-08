@@ -98,4 +98,8 @@ public class Recipe implements Serializable {
         this.blueLight = blueLight;
     }
 
+    public double getIrrigationPrDay() {
+        return irrigationPrDay;
+    }
+
 }
