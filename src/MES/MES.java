@@ -41,8 +41,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeRecipes();
-        m.ERPConnect();
-        m.generateOrders();
+//        m.ERPConnect();
+//        m.generateOrders();
 
         m.sendOrdersToScada();
 
@@ -50,7 +50,7 @@ public class MES {
     }
 
     private void makeRecipes() {
-        Recipe p1 = new Recipe("2014001", 23, 16, 26, 15, 2, 92, 8, 20, 16);
+        Recipe p1 = new Recipe("2014001", 23, 16, 26, 15, 2, 92, 8, 1, 16);
         recipeArray.add(p1);
         Recipe p2 = new Recipe("2014002", 23, 16, 26, 15, 2, 92, 8, 20, 16);
         recipeArray.add(p2);

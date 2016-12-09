@@ -110,7 +110,8 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                         IGreenhouse gh = ghl.getValue();
 
                         //add water
-                        if (gh.getOrder() != null) {
+                        if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
+                            
                             Date d = new Date();
 
                             //set the light
