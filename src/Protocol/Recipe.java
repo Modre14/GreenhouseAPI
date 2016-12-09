@@ -113,5 +113,21 @@ public class Recipe implements Serializable {
     public void setMaxTemp(int maxTemp) {
         this.maxTemp = maxTemp;
     }
+
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
+
+    public void setWaterTime(int waterTime) {
+        this.waterTime = waterTime;
+    }
+
+    public void setIrrigationsPrDay(double irrigationsPrDay) {
+        this.irrigationsPrDay = irrigationsPrDay;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
     
 }

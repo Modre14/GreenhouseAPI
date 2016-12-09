@@ -124,6 +124,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField WaterTime_TextField;
     @FXML
     private TextField HoursDay_TextField;
+    @FXML
+    private TextField Days_TextField;
     
     public FXMLDocumentController() throws RemoteException {
         
@@ -380,14 +382,24 @@ public class FXMLDocumentController extends Thread implements Initializable {
         IrrDay_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getIrrigationsPrDay()));
         WaterTime_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getWaterTime()));
         HoursDay_TextField.setText(String.valueOf(String.valueOf(gh.getOrder().getRecipe().getHoursDay())));
+        Days_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays()));
     }
 
     @FXML
     private void changeButton(ActionEvent event) throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
-        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
-        gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(MaxTemp_TextField.getText()));
-        gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(MinTemp_TextField.getText()));
+        gh.getOrder().getRecipe().setBlueLight(Integer.parseInt(BlueLight_TextField.getText()));
+        gh.getOrder().getRecipe().setRedLight(Integer.parseInt(RedLight_TextField.getText()));
+//        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
+//        gh.getOrder().getRecipe().setMaxTemp(Double.parseDouble(MaxTemp_TextField.getText()));
+//        gh.getOrder().getRecipe().setMinTemp(Double.parseDouble(MinTemp_TextField.getText()));
+        gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
+        gh.getOrder().getRecipe().setDays(Integer.parseInt(Days_TextField.getText()));
+        gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
+        gh.getOrder().getRecipe().setWaterTime(Integer.parseInt(WaterTime_TextField.getText()));
+        gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
+        
     }
+
     
 }

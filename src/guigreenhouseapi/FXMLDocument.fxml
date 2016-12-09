@@ -158,6 +158,8 @@
                   <TextField fx:id="WaterTime_TextField" layoutX="171.0" layoutY="425.0" />
                   <TextField fx:id="HoursDay_TextField" layoutX="171.0" layoutY="457.0" />
                   <Button layoutX="455.0" layoutY="206.0" mnemonicParsing="false" onAction="#changeButton" text="Change Recipe" />
+                  <Text layoutX="51.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" />
+                  <TextField fx:id="Days_TextField" layoutX="178.0" layoutY="508.0" />
                </children>
             </AnchorPane>
         </content>
