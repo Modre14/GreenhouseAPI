@@ -42,6 +42,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -414,7 +415,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
-    @FXML
     private void checkLightValue(KeyEvent event) {
         if(event.getSource().toString().toLowerCase().contains("bluelight_textfield")){
            int value = Integer.parseInt(BlueLight_TextField.getText());
@@ -426,4 +426,4 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
   
     
-}
+}}
