@@ -15,8 +15,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<TabPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
+<TabPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
    <tabs>
       <Tab closable="false" text="Greenhouse">
          <content>
@@ -127,6 +128,38 @@
                   <ComboBox fx:id="listOfGreenhouse2" layoutX="636.0" layoutY="384.0" prefWidth="150.0" />
                   <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Get orders" />
                   <Button layoutX="636.0" layoutY="416.0" mnemonicParsing="false" onAction="#addOrderButton" text="Add order to greenhouse" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab text="Change Recipe">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ComboBox fx:id="listOfGreenhouse3" layoutX="46.0" layoutY="45.0" onAction="#changeRecipe" prefWidth="150.0" />
+                  <Text layoutX="46.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order" />
+                  <TextField fx:id="Order_TextField" layoutX="121.0" layoutY="114.0" />
+                  <Text layoutX="46.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity" />
+                  <TextField fx:id="Quantity_TextField" layoutX="121.0" layoutY="156.0" />
+                  <Text layoutX="46.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temperature" />
+                  <TextField fx:id="Temp_TextField" layoutX="171.0" layoutY="195.0" />
+                  <Text layoutX="46.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max Temp" />
+                  <TextField fx:id="MaxTemp_TextField" layoutX="171.0" layoutY="235.0" />
+                  <Text layoutX="46.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min Temp" />
+                  <Text layoutX="46.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue Light" />
+                  <Text layoutX="46.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red Light" />
+                  <TextField fx:id="MinTemp_TextField" layoutX="171.0" layoutY="274.0" />
+                  <TextField fx:id="BlueLight_TextField" layoutX="171.0" layoutY="313.0" />
+                  <TextField fx:id="RedLight_TextField" layoutX="171.0" layoutY="347.0" />
+                  <Text layoutX="46.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Irrigations/day" />
+                  <Text layoutX="46.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watering Time" />
+                  <Text layoutX="46.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daylight Hours" />
+                  <TextField fx:id="IrrDay_TextField" layoutX="171.0" layoutY="388.0" />
+                  <TextField fx:id="WaterTime_TextField" layoutX="171.0" layoutY="425.0" />
+                  <TextField fx:id="HoursDay_TextField" layoutX="171.0" layoutY="457.0" />
+                  <Button layoutX="455.0" layoutY="206.0" mnemonicParsing="false" onAction="#changeButton" text="Change Recipe" />
+                  <Text layoutX="51.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" />
+                  <TextField fx:id="Days_TextField" layoutX="178.0" layoutY="508.0" />
                </children>
             </AnchorPane>
         </content>

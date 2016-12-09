@@ -99,7 +99,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     public void automate() throws RemoteException {
         new Thread(() -> {
-            int lastIrriation = 0;
+            int lastIrrigation = 0;
 
             while (true) {
                 //timeStamp
@@ -131,17 +131,17 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
 
                             //add water;
-                            double irriation = 24.0 / gh.getOrder().getRecipe().getIrrigationPrDay();
+                            double irrigation = 24.0 / gh.getOrder().getRecipe().getIrrigationsPrDay();
 
-                            if (lastIrriation == 0) {
+                            if (lastIrrigation == 0) {
 
-                                lastIrriation = (int) gh.getOrder().getStartDate().getTime();
-                                System.out.println("lastIrriation start= " + lastIrriation);
-                            } else if (lastIrriation + (irriation * 3600) < gh.getOrder().getSecondsElapsed()) {
+                                lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
+                                System.out.println("lastIrrigation start= " + lastIrrigation);
+                            } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
                                 gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
-                                lastIrriation = gh.getOrder().getSecondsElapsed();
+                                lastIrrigation = gh.getOrder().getSecondsElapsed();
                                 System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
-                                System.out.println("lastIrriation  = " + lastIrriation);
+                                System.out.println("lastIrrigation  = " + lastIrrigation);
 
                             }
 

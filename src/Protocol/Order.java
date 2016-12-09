@@ -41,7 +41,7 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
+        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantity: " + quantity;
     }
 
     public String getName() {
@@ -71,6 +71,10 @@ public class Order implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 }

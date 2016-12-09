@@ -45,6 +45,6 @@ public interface ISCADA extends Remote {
      */
 //    ArrayList receiveInfo(ArrayList info) throws RemoteException;
 //
-//    ArrayList receiveOrdre(ArrayList ordre) throws RemoteException;
+//    ArrayList receiveOrder(ArrayList order) throws RemoteException;
     void receiveInfo(ArrayList info) throws RemoteException;
 }

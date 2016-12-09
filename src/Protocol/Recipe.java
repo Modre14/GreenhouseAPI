@@ -18,7 +18,7 @@ public class Recipe implements Serializable {
     int minTemp;
     int maxTemp;
     int waterTime;
-    double irrigationPrDay;
+    double irrigationsPrDay;
     int redLight;
     int blueLight;
     int days;
@@ -30,19 +30,19 @@ public class Recipe implements Serializable {
      * @param minTemp
      * @param maxTemp
      * @param waterTime is the number of seconds the waterpump is on
-     * @param irriationPrDay
+     * @param irrigationPrDay
      * @param redLight is the value of redLight
      * @param blueLight is the value of blueLight
      * @param days is the amount of before harvest
      * @param hoursDay
      */
-    public Recipe(String id, int temp, int minTemp, int maxTemp, int waterTime, int irriationPrDay, int redLight, int blueLight, int days, double hoursDay) {
+    public Recipe(String id, int temp, int minTemp, int maxTemp, int waterTime, int irrigationPrDay, int redLight, int blueLight, int days, double hoursDay) {
         this.id = id;
         this.temp = temp;
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
         this.waterTime = waterTime;
-        this.irrigationPrDay = irriationPrDay;
+        this.irrigationsPrDay = irrigationPrDay;
         this.redLight = redLight;
         this.blueLight = blueLight;
         this.days = days;
@@ -90,6 +90,10 @@ public class Recipe implements Serializable {
         return hoursDay;
     }
 
+    public void setHoursDay(double hoursDay) {
+        this.hoursDay = hoursDay;
+    }
+
     public void setRedLight(int redLight) {
         this.redLight = redLight;
     }
@@ -98,8 +102,32 @@ public class Recipe implements Serializable {
         this.blueLight = blueLight;
     }
 
-    public double getIrrigationPrDay() {
-        return irrigationPrDay;
+    public double getIrrigationsPrDay() {
+        return irrigationsPrDay;
     }
 
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
+
+    public void setWaterTime(int waterTime) {
+        this.waterTime = waterTime;
+    }
+
+    public void setIrrigationsPrDay(double irrigationsPrDay) {
+        this.irrigationsPrDay = irrigationsPrDay;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+    
 }

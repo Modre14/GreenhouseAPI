@@ -105,9 +105,9 @@ public class MES {
 
                     Double q = Double.valueOf(tokens[2]);
                     int quantity = (int) (q + 0);
-                    Order ordre = new Order(tokens[1], recipeArray.get(j), startDate, endDate, quantity);
+                    Order order = new Order(tokens[1], recipeArray.get(j), startDate, endDate, quantity);
                     System.out.println("Name: " + tokens[1] + " Protocol " + recipeArray.get(j) + " Start: " + startDate + " End: " + endDate + " quantity: " + quantity);
-                    orders.add(ordre);
+                    orders.add(order);
                     System.out.println(orders);
 
                 }
@@ -117,7 +117,7 @@ public class MES {
 //            System.out.println(recipeArray);
         }
 
-//        ordres.add(recipeArray.equals(tokens[0]), "name", date, date, 1);
+//       orders.add(recipeArray.equals(tokens[0]), "name", date, date, 1);
         System.out.println(orders.get(0));
         System.out.println(orders.get(1));
         System.out.println(orders.get(2));
@@ -140,8 +140,8 @@ public class MES {
         Registry registry;
         Date date = new Date();
 
-        Order ordre = new Order("Blomster", recipeArray.get(0), date, date, 30);
-        orders.add(ordre);
+        Order order = new Order("Blomster", recipeArray.get(0), date, date, 30);
+        orders.add(order);
         try {
             registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
             ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);

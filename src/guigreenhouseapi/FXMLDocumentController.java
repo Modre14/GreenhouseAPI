@@ -51,18 +51,18 @@ import javafx.scene.shape.Circle;
  * @author Morten
  */
 public class FXMLDocumentController extends Thread implements Initializable {
-
+    
     public ListView listOfOrders;
     public ComboBox<String> listOfGreenhouse2;
     private double temp1;
     private double temp2;
     private double levelOfMoist;
     private double waterLevelValue;
-
+    
     @FXML
-
+    
     private TextField waterLevel;
-
+    
     private TextField Temp_outside;
     private TextField Water_level;
     @FXML
@@ -102,17 +102,41 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField daysLeftTextField;
     @FXML
     private TextField timerTextField;
-
+    @FXML
+    private ComboBox<String> listOfGreenhouse3;
+    @FXML
+    private TextField Order_TextField;
+    @FXML
+    private TextField Quantity_TextField;
+    @FXML
+    private TextField Temp_TextField;
+    @FXML
+    private TextField MaxTemp_TextField;
+    @FXML
+    private TextField MinTemp_TextField;
+    @FXML
+    private TextField BlueLight_TextField;
+    @FXML
+    private TextField RedLight_TextField;
+    @FXML
+    private TextField IrrDay_TextField;
+    @FXML
+    private TextField WaterTime_TextField;
+    @FXML
+    private TextField HoursDay_TextField;
+    @FXML
+    private TextField Days_TextField;
+    
     public FXMLDocumentController() throws RemoteException {
-
+        
     }
     private PLCConnection con;
-
+    
     private IGreenhouse gh;
     private ISCADA scada;
-
+    
     private ArrayList<IGreenhouse> greenhouseArray;
-
+    
     private void updateOverview() throws RemoteException {
         List l1 = FXCollections.observableArrayList();
         List l2 = FXCollections.observableArrayList();
@@ -120,60 +144,61 @@ public class FXMLDocumentController extends Thread implements Initializable {
         List l4 = FXCollections.observableArrayList();
         for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
             l1.add(gh.getKey());
-
+            
             if (scada.getGreenhouse(gh.getKey()).getOrder() != null) {
                 Date d = new Date();
-
+                
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
 
                 if (gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
                     l2.add("Complete");
                 } else {
                     l2.add(gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24);
-
+                    
                 }
             } else {
                 l2.add("None");
                 ArrayList<Order> orders = SCADA.getInstance().getOrders();
-
+                
                 l3.add("None");
             }
-
+            
         }
-
+        
         ArrayList<Order> orders = SCADA.getInstance().getOrders();
-
+        
         listOfGreenhouses.setItems((ObservableList<String>) l1);
         greenhouseStatus.setItems((ObservableList< String>) l2);
         greenhouseOrders.setItems((ObservableList<String>) l3);
-
+        
         for (Order order : orders) {
             l4.add(order.toString());
         }
-
+        
         listOfOrders.setItems((ObservableList) l4);
-
+        
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         try {
             scada = SCADA.getInstance();
-
+            
             List l = FXCollections.observableArrayList();
-
+            
             for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
                 System.out.println(gh.getKey());
                 l.add(gh.getKey());
-
+                
             }
-
+            
             listOfGreenhouse.setItems((ObservableList<String>) l);
             listOfGreenhouse2.setItems((ObservableList) l);
-
+            listOfGreenhouse3.setItems((ObservableList<String>) l);
+            
             updateOverview();
-
+            
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -183,14 +208,14 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Timer timer = new java.util.Timer();
-
+        
         timer.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
 //                        System.out.println("hello");
                         try {
-
+                            
                             updateValues();
                         } catch (Exception e) {
                         }
@@ -198,9 +223,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 });
             }
         }, 1000, 1000);
-
+        
         Timer fan = new java.util.Timer();
-
+        
         fan.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
@@ -208,7 +233,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //                        System.out.println("hello");
                         try {
                             if (gh.getFanspeed() != 0) {
-
+                                
                                 fanImg.setRotate(fanImg.getRotate() + 15);
                             }
                         } catch (Exception e) {
@@ -217,12 +242,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 });
             }
         }, 200, 200);
-
+        
     }
-
+    
     @FXML
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
-
+        
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         lightSlider.setValue(gh.getOrder().getRecipe().getBlueLight());
 //
@@ -236,9 +261,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        gh.setDaysCompleted(6);
         updateOverview();
         updateLight();
-
+        
     }
-
+    
     @FXML
     private void stopProduction(ActionEvent event) throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
@@ -253,7 +278,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         amountOfLghtSlider.setValue(0);
         updateLight();
     }
-
+    
     @FXML
     private void stopProductionCheck(ActionEvent event) {
         if (stopProductionCheckBox.isSelected()) {
@@ -262,27 +287,27 @@ public class FXMLDocumentController extends Thread implements Initializable {
             stopProductionButton.setDisable(true);
         }
     }
-
+    
     private void disableCheckAndButton() {
         stopProductionButton.setDisable(true);
         stopProductionCheckBox.setSelected(false);
-
+        
     }
-
+    
     @FXML
     private void updateLight() throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         amountOfLghtProgress.progressProperty().set(gh.getLightIntensity() / 100.0);
-
+        
         gh.getOrder().getRecipe().setBlueLight((int) lightSlider.getValue());
         gh.getOrder().getRecipe().setRedLight(100 - gh.getOrder().getRecipe().getBlueLight());
 //        gh.setLightIntensity((int) gh.getLightIntensity());
         int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
         int colorBlue = (int) (255 / 100 * lightSlider.getValue());
         colorIndicator.setFill(Color.web("rgb(" + colorRed + ",0," + colorBlue + ")"));
-
+        
     }
-
+    
     @FXML
     private void getOrderList() {
         try {
@@ -291,7 +316,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             e.printStackTrace();
         }
     }
-
+    
     @FXML
     private void addOrderButton() throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
@@ -311,23 +336,23 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh.getOrder().setStartDate(d);
         updateOverview();
         System.out.println(gh.getOrder().getSecondsElapsed());
-
+        
     }
-
+    
     private void updateValues() throws RemoteException {
-
+        
         try {
-
+            
             try {
                 temp1 = gh.ReadTemp1();
                 temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
-
+                
                 tempInside.setText(String.valueOf(temp1));
                 thermometerIndicatorIn.setProgress(temp1 / 50.0);
             } catch (RemoteException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             temp2 = gh.ReadTemp2() - 273;
             tempOutside.setText(String.valueOf(temp2));
             thermometerIndicatorOut.setProgress(temp2 / 50.0);
@@ -335,7 +360,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         levelOfMoistLabel.setText(String.valueOf(gh.ReadMoist()) + "%");
-
+        
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
@@ -352,7 +377,40 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         
         updateLight();
-
+        
+    }
+    
+    @FXML
+    private void changeRecipe() throws RemoteException {
+        gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
+        Order_TextField.setText(gh.getOrder().getName());
+        Quantity_TextField.setText(String.valueOf(gh.getOrder().getQuantity()));
+        Temp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getTemp()));
+        MaxTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMaxTemp()));
+        MinTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMinTemp()));
+        BlueLight_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getBlueLight()));
+        RedLight_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getRedLight()));
+        IrrDay_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getIrrigationsPrDay()));
+        WaterTime_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getWaterTime()));
+        HoursDay_TextField.setText(String.valueOf(String.valueOf(gh.getOrder().getRecipe().getHoursDay())));
+        Days_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays()));
     }
 
+    @FXML
+    private void changeButton(ActionEvent event) throws RemoteException {
+        gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
+        gh.getOrder().getRecipe().setBlueLight(Integer.parseInt(BlueLight_TextField.getText()));
+        gh.getOrder().getRecipe().setRedLight(Integer.parseInt(RedLight_TextField.getText()));
+//        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
+//        gh.getOrder().getRecipe().setMaxTemp(Double.parseDouble(MaxTemp_TextField.getText()));
+//        gh.getOrder().getRecipe().setMinTemp(Double.parseDouble(MinTemp_TextField.getText()));
+        gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
+        gh.getOrder().getRecipe().setDays(Integer.parseInt(Days_TextField.getText()));
+        gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
+        gh.getOrder().getRecipe().setWaterTime(Integer.parseInt(WaterTime_TextField.getText()));
+        gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
+        
+    }
+
+    
 }
