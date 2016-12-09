@@ -401,16 +401,29 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
         gh.getOrder().getRecipe().setBlueLight(Integer.parseInt(BlueLight_TextField.getText()));
         gh.getOrder().getRecipe().setRedLight(Integer.parseInt(RedLight_TextField.getText()));
+
 //        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
-//        gh.getOrder().getRecipe().setMaxTemp(Double.parseDouble(MaxTemp_TextField.getText()));
-//        gh.getOrder().getRecipe().setMinTemp(Double.parseDouble(MinTemp_TextField.getText()));
+        gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(MaxTemp_TextField.getText()));
+        gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(MinTemp_TextField.getText()));
         gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
         gh.getOrder().getRecipe().setDays(Integer.parseInt(Days_TextField.getText()));
         gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
         gh.getOrder().getRecipe().setWaterTime(Integer.parseInt(WaterTime_TextField.getText()));
         gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
-        
+        gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
+
     }
 
+    @FXML
+    private void checkLightValue(KeyEvent event) {
+        if(event.getSource().toString().toLowerCase().contains("bluelight_textfield")){
+           int value = Integer.parseInt(BlueLight_TextField.getText());
+                RedLight_TextField.setText(String.valueOf(100 - value)); 
+        }else if(event.getSource().toString().toLowerCase().contains("redlight_textfield")){
+            int value = Integer.parseInt(RedLight_TextField.getText());
+                BlueLight_TextField.setText(String.valueOf(100 - value));
+        }  
+
+  
     
 }
