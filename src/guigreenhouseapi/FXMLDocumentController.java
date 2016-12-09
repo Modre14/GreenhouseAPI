@@ -415,15 +415,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
+    @FXML
     private void checkLightValue(KeyEvent event) {
-        if(event.getSource().toString().toLowerCase().contains("bluelight_textfield")){
+ if(event.getSource().toString().toLowerCase().contains("bluelight_textfield")){
            int value = Integer.parseInt(BlueLight_TextField.getText());
                 RedLight_TextField.setText(String.valueOf(100 - value)); 
         }else if(event.getSource().toString().toLowerCase().contains("redlight_textfield")){
             int value = Integer.parseInt(RedLight_TextField.getText());
                 BlueLight_TextField.setText(String.valueOf(100 - value));
         }  
+    }
 
+    
+       
   
     
-}}
+}
