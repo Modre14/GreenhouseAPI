@@ -402,8 +402,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
         gh.getOrder().getRecipe().setBlueLight(Integer.parseInt(BlueLight_TextField.getText()));
         gh.getOrder().getRecipe().setRedLight(Integer.parseInt(RedLight_TextField.getText()));
-
-//        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
+        lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
         gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(MaxTemp_TextField.getText()));
         gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(MinTemp_TextField.getText()));
         gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
