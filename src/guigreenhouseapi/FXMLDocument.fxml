@@ -149,8 +149,8 @@
                   <Text layoutX="46.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue Light" />
                   <Text layoutX="46.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red Light" />
                   <TextField fx:id="MinTemp_TextField" layoutX="171.0" layoutY="274.0" />
-                  <TextField fx:id="BlueLight_TextField" layoutX="171.0" layoutY="313.0" />
-                  <TextField fx:id="RedLight_TextField" layoutX="171.0" layoutY="347.0" />
+                  <TextField fx:id="BlueLight_TextField" layoutX="171.0" layoutY="313.0" onKeyReleased="#checkLightValue" />
+                  <TextField fx:id="RedLight_TextField" layoutX="171.0" layoutY="347.0" onKeyReleased="#checkLightValue" />
                   <Text layoutX="46.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Irrigations/day" />
                   <Text layoutX="46.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watering Time" />
                   <Text layoutX="46.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daylight Hours" />
