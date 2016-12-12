@@ -11,6 +11,7 @@ import Protocol.Order;
 import SCADA.ISCADA;
 import SCADA.ISCADAHMI;
 import SCADA.SCADA;
+import java.io.File;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -28,11 +29,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressBar;
@@ -46,6 +50,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.PopupBuilder;
+import javax.swing.Popup;
 
 /**
  *
@@ -129,6 +135,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField Days_TextField;
     @FXML
     private TextField inProductionTextField;
+    @FXML
+    private ImageView lightBulb;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -257,7 +265,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         lightSlider.setValue(gh.getOrder().getRecipe().getBlueLight());
 
-        inProductionTextField.setText(gh.getOrder().getName());
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Alarm!");
+        alert.setHeaderText("There is an alarm on greenhouse ");
+        alert.showAndWait();
 
         updateOverview();
         updateLight();
@@ -320,6 +331,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void addOrderButton() throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
+        listOfGreenhouse.setValue(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
         lightSlider.setValue(o.getRecipe().getBlueLight());
@@ -342,6 +354,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     private void updateValues() throws RemoteException {
 
+        inProductionTextField.setText(gh.getOrder().getName());
         temp1 = gh.ReadTemp1();
         temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
         tempInside.setText(String.valueOf(temp1));
@@ -354,7 +367,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
         waterLevelValue = gh.ReadWaterLevel() / 10;
         waterLevel.setText(String.valueOf(waterLevelValue));
         waterlevelIndicator.setProgress(waterLevelValue / 25.0);
-
+        if (gh.getLightIntensity() > 0) {
+            Image im = new Image("sun.png");
+            lightBulb.setImage(im);
+        } else {
+            Image im = new Image("moon.png");
+            lightBulb.setImage(im);
+        }
         if (gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
             daysLeftTextField.setText("Complete");
             timerTextField.setText("00:00");

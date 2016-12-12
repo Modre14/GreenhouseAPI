@@ -73,7 +73,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="listOfGreenhouse" layoutX="28.0" layoutY="14.0" onAction="#getGreenhouseData" prefWidth="150.0" />
+                  <ComboBox fx:id="listOfGreenhouse" layoutX="27.0" layoutY="38.0" onAction="#getGreenhouseData" prefWidth="150.0" />
                   <Button fx:id="stopProductionButton" disable="true" layoutX="596.0" layoutY="401.0" mnemonicParsing="false" onAction="#stopProduction" text="Stop">
                      <font>
                         <Font size="20.0" />
@@ -86,7 +86,7 @@
                         <Image url="@../fan-512.png" />
                      </image>
                   </ImageView>
-                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="405.0" layoutY="141.0" prefWidth="200.0" progress="0.0" rotate="-90.0" />
+                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="405.0" layoutY="169.0" prefWidth="200.0" progress="0.0" rotate="-90.0" />
                   <ImageView fitHeight="211.0" fitWidth="240.0" layoutX="14.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ATbrrkLac.png" />
@@ -113,12 +113,22 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="189.0" layoutY="18.0" text="In production:">
+                  <Label layoutX="189.0" layoutY="41.0" text="In production:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="inProductionTextField" layoutX="281.0" layoutY="16.0" />
+                  <TextField fx:id="inProductionTextField" layoutX="281.0" layoutY="40.0" />
+                  <ImageView fx:id="lightBulb" fitHeight="58.0" fitWidth="59.0" layoutX="476.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../moon.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="23.0" layoutY="10.0" text="Greenhouse">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                 </children>
             </AnchorPane>
          </content>
