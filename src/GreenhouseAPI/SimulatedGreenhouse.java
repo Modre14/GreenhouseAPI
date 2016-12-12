@@ -353,8 +353,9 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(Order o) {
+        order = o;
+
     }
 
     @Override

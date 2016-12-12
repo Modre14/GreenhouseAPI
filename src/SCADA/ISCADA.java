@@ -6,6 +6,7 @@
 package SCADA;
 
 import GreenhouseAPI.IGreenhouse;
+import Protocol.Order;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public interface ISCADA extends Remote {
     public boolean startServer() throws RemoteException;
 
     public void automate() throws RemoteException;
+
+    public void removeOrder(Order order)throws RemoteException;
 
     /**
      * Sends info to the MES system The return value //

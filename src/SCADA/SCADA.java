@@ -40,9 +40,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     public SCADA() throws RemoteException {
 
         ghlist = new HashMap<>();
-
+       
     }
 
+    public void removeOrder(Order order){
+         orderList.remove(order);
+    }
     public static ISCADA getInstance() throws RemoteException {
 
         if (instance == null) {

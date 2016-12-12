@@ -329,11 +329,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        gh.setDays(o.getRecipe().getDays());
         System.out.println(gh.SetTemperature(o.getRecipe().getTemp()));
         System.out.println(gh.SetBlueLight(o.getRecipe().getBlueLight()));
-//        
+        
         gh.SetRedLight(o.getRecipe().getRedLight());
 //        gh.setLightIntensity(o.getRecipe().getLightIntensity());
         Date d = new Date();
         gh.getOrder().setStartDate(d);
+        scada.removeOrder(o);
         updateOverview();
         System.out.println(gh.getOrder().getSecondsElapsed());
         

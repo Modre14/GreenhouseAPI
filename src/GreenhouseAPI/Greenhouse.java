@@ -36,8 +36,8 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return order;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(Order o) {
+        order = o;
 
     }
 

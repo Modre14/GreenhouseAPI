@@ -41,8 +41,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeRecipes();
-//        m.ERPConnect();
-//        m.generateOrders();
+        m.ERPConnect();
+        m.generateOrders();
 
         m.sendOrdersToScada();
 
@@ -141,7 +141,9 @@ public class MES {
         Date date = new Date();
 
         Order order = new Order("Blomster", recipeArray.get(0), date, date, 30);
+         Order order2 = new Order("Roser", recipeArray.get(1), date, date, 10);
         orders.add(order);
+        orders.add(order2);
         try {
             registry = LocateRegistry.getRegistry(host, ISCADA.REGISTRY_PORT_SCADA);
             ISCADA scada = (ISCADA) registry.lookup(ISCADA.OBJECT_NAME);
