@@ -54,7 +54,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     }
 
-    public boolean SetTemperature(int kelvin) throws RemoteException {
+    public boolean SetTemperature(int kelvin){
 
         new Thread(() -> {
             Random generator = new Random();
@@ -364,7 +364,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public int getFanspeed() throws RemoteException {
+    public int getFanspeed()  {
         return fanSpeed;
     }
 

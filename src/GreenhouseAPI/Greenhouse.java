@@ -433,7 +433,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     }
 
     @Override
-    public int getFanspeed() throws RemoteException {
+    public int getFanspeed() {
         return fanSpeed;
     }
 }

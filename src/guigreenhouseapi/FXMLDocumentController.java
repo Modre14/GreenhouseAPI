@@ -343,24 +343,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
     
     private void updateValues() throws RemoteException {
         
-        try {
-            
-            try {
-                temp1 = gh.ReadTemp1();
-                temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
-                
-                tempInside.setText(String.valueOf(temp1));
-                thermometerIndicatorIn.setProgress(temp1 / 50.0);
-            } catch (RemoteException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            temp2 = gh.ReadTemp2() - 273;
-            tempOutside.setText(String.valueOf(temp2));
-            thermometerIndicatorOut.setProgress(temp2 / 50.0);
-        } catch (RemoteException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        temp1 = gh.ReadTemp1();
+        temp1 = (double) Math.round(temp1 * 100.0) / 100.0;
+        tempInside.setText(String.valueOf(temp1));
+        thermometerIndicatorIn.setProgress(temp1 / 50.0);
+        temp2 = gh.ReadTemp2() - 273;
+        tempOutside.setText(String.valueOf(temp2));
+        thermometerIndicatorOut.setProgress(temp2 / 50.0);
         levelOfMoistLabel.setText(String.valueOf(gh.ReadMoist()) + "%");
         
         waterLevelValue = gh.ReadWaterLevel() / 10;
