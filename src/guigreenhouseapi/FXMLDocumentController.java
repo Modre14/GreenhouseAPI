@@ -278,16 +278,17 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void stopProduction(ActionEvent event) throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-        gh.SetRedLight(0);
-        gh.SetBlueLight(0);
-        gh.SetFanSpeed(0);
-        gh.SetRedLight(0);
-        gh.SetMoisture(0);
+//        gh.SetRedLight(0);
+//        gh.SetBlueLight(0);
+//        gh.SetFanSpeed(0);
+//        gh.SetRedLight(0);
+//        gh.SetMoisture(0);
+        gh.getOrder().getRecipe().setDays(0);
 
         disableCheckAndButton();
-        lightSlider.setValue(0);
-        amountOfLghtSlider.setValue(0);
-        updateLight();
+//        lightSlider.setValue(0);
+//        amountOfLghtSlider.setValue(0);
+//        updateLight();
     }
 
     @FXML
