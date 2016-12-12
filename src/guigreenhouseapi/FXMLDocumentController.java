@@ -410,12 +410,23 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh.getOrder().getRecipe().setBlueLight(Integer.parseInt(BlueLight_TextField.getText()));
         gh.getOrder().getRecipe().setRedLight(Integer.parseInt(RedLight_TextField.getText()));
         lightSlider.setValue(Integer.parseInt(BlueLight_TextField.getText()));
-        gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
         gh.getOrder().getRecipe().setDays(Integer.parseInt(Days_TextField.getText()));
-        gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
         gh.getOrder().getRecipe().setWaterTime(Integer.parseInt(WaterTime_TextField.getText()));
         gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
-
+        if (HoursDay_TextField.getText().contains(",") || IrrDay_TextField.getText().contains(",")) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("Replace ',' with '.'.");
+            alert.showAndWait();
+        }
+        if(0>Double.parseDouble(HoursDay_TextField.getText()) || Double.parseDouble(HoursDay_TextField.getText())>24){
+             Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("Daylight hours must be 0-24");
+            alert.showAndWait();
+        }
+        gh.getOrder().getRecipe().setHoursDay(Double.parseDouble(HoursDay_TextField.getText()));
+        gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
         if (Integer.parseInt(Temp_TextField.getText()) <= Integer.parseInt(MinTemp_TextField.getText())) {
             gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
             gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(Temp_TextField.getText()) - 1);
@@ -423,7 +434,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Warning!");
-            alert.setHeaderText("The temperature must be higher than the minimum. New minimum has been automatically assigned: " + gh.getOrder().getRecipe().getMinTemp()+"\u00b0"+"C");
+            alert.setHeaderText("The temperature must be higher than the minimum. New minimum has been automatically assigned: " + gh.getOrder().getRecipe().getMinTemp() + "\u00b0" + "C");
             alert.showAndWait();
 
         } else {
@@ -434,9 +445,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
             gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(Temp_TextField.getText()) + 1);
             MaxTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMaxTemp()));
 
-             Alert alert = new Alert(AlertType.WARNING);
+            Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Warning!");
-            alert.setHeaderText("The temperature must be lower than the maximum. New maximum has been automatically assigned: " + gh.getOrder().getRecipe().getMaxTemp() + "\u00b0"+"C");
+            alert.setHeaderText("The temperature must be lower than the maximum. New maximum has been automatically assigned: " + gh.getOrder().getRecipe().getMaxTemp() + "\u00b0" + "C");
             alert.showAndWait();
         } else {
             gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
