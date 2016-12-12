@@ -415,28 +415,33 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh.getOrder().getRecipe().setIrrigationsPrDay(Double.parseDouble(IrrDay_TextField.getText()));
         gh.getOrder().getRecipe().setWaterTime(Integer.parseInt(WaterTime_TextField.getText()));
         gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
-        
-        
-        if(Integer.parseInt(Temp_TextField.getText())<=Integer.parseInt(MinTemp_TextField.getText())){
-            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
-            gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(Temp_TextField.getText())-1);
-            MinTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMinTemp()));
-            
-            
-        }else{
-            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
-        }
-         if(Integer.parseInt(Temp_TextField.getText())>=Integer.parseInt(MaxTemp_TextField.getText())){
-            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
-            gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(Temp_TextField.getText())+1);
-            MaxTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMaxTemp()));
-           
-            
-        }else{
-            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
-           
-        }
 
+        if (Integer.parseInt(Temp_TextField.getText()) <= Integer.parseInt(MinTemp_TextField.getText())) {
+            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
+            gh.getOrder().getRecipe().setMinTemp(Integer.parseInt(Temp_TextField.getText()) - 1);
+            MinTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMinTemp()));
+
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("The temperature must be higher than the minimum. New minimum has been automatically assigned: " + gh.getOrder().getRecipe().getMinTemp()+"\u00b0"+"C");
+            alert.showAndWait();
+
+        } else {
+            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
+        }
+        if (Integer.parseInt(Temp_TextField.getText()) >= Integer.parseInt(MaxTemp_TextField.getText())) {
+            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
+            gh.getOrder().getRecipe().setMaxTemp(Integer.parseInt(Temp_TextField.getText()) + 1);
+            MaxTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMaxTemp()));
+
+             Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("The temperature must be lower than the maximum. New maximum has been automatically assigned: " + gh.getOrder().getRecipe().getMaxTemp() + "\u00b0"+"C");
+            alert.showAndWait();
+        } else {
+            gh.getOrder().getRecipe().setTemp(Integer.parseInt(Temp_TextField.getText()));
+
+        }
 
     }
 
