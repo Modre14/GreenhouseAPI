@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
+<TabPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guigreenhouseapi.FXMLDocumentController">
    <tabs>
       <Tab closable="false" text="Greenhouse">
          <content>
@@ -73,7 +73,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="listOfGreenhouse" layoutX="60.0" layoutY="27.0" onAction="#getGreenhouseData" prefWidth="150.0" />
+                  <ComboBox fx:id="listOfGreenhouse" layoutX="28.0" layoutY="14.0" onAction="#getGreenhouseData" prefWidth="150.0" />
                   <Button fx:id="stopProductionButton" disable="true" layoutX="596.0" layoutY="401.0" mnemonicParsing="false" onAction="#stopProduction" text="Stop">
                      <font>
                         <Font size="20.0" />
@@ -93,9 +93,9 @@
                      </image>
                   </ImageView>
                   <Label fx:id="levelOfMoistLabel" layoutX="121.0" layoutY="423.0" />
-                  <Label layoutX="589.0" layoutY="7.0" text="Days left:">
+                  <Label layoutX="608.0" layoutY="8.0" text="Days left:">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
                   <TextField fx:id="daysLeftTextField" editable="false" layoutX="667.0" layoutY="5.0" prefHeight="30.0" prefWidth="118.0">
@@ -108,11 +108,17 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="589.0" layoutY="39.0" text="GreenhouseTime:">
+                  <Label layoutX="608.0" layoutY="40.0" text="GreenhouseTime:">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
+                  <Label layoutX="189.0" layoutY="18.0" text="In production:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="inProductionTextField" layoutX="281.0" layoutY="16.0" />
                 </children>
             </AnchorPane>
          </content>
@@ -121,13 +127,26 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ListView fx:id="listOfGreenhouses" focusTraversable="false" layoutX="14.0" layoutY="14.0" pickOnBounds="false" prefHeight="267.0" prefWidth="200.0" />
-                  <ListView fx:id="greenhouseStatus" focusTraversable="false" layoutX="214.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
-                  <ListView fx:id="greenhouseOrders" focusTraversable="false" layoutX="414.0" layoutY="14.0" prefHeight="267.0" prefWidth="200.0" />
-                  <ListView fx:id="listOfOrders" layoutX="14.0" layoutY="285.0" prefHeight="287.0" prefWidth="600.0" />
+                  <ListView fx:id="listOfGreenhouses" focusTraversable="false" layoutX="14.0" layoutY="33.0" pickOnBounds="false" prefHeight="255.0" prefWidth="200.0" />
+                  <ListView fx:id="greenhouseStatus" focusTraversable="false" layoutX="214.0" layoutY="33.0" prefHeight="255.0" prefWidth="200.0" />
+                  <ListView fx:id="greenhouseOrders" focusTraversable="false" layoutX="414.0" layoutY="33.0" prefHeight="255.0" prefWidth="200.0" />
+                  <ListView fx:id="listOfOrders" layoutX="14.0" layoutY="292.0" prefHeight="287.0" prefWidth="600.0" />
                   <ComboBox fx:id="listOfGreenhouse2" layoutX="636.0" layoutY="384.0" prefWidth="150.0" />
                   <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Get orders" />
                   <Button layoutX="636.0" layoutY="416.0" mnemonicParsing="false" onAction="#addOrderButton" text="Add order to greenhouse" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Greenhouses">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="414.0" layoutY="14.0" text="Orders">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="214.0" layoutY="14.0" text="Days left">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
         </content>
@@ -149,8 +168,8 @@
                   <Text layoutX="46.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Blue Light" />
                   <Text layoutX="46.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red Light" />
                   <TextField fx:id="MinTemp_TextField" layoutX="171.0" layoutY="274.0" />
-                  <TextField fx:id="BlueLight_TextField" layoutX="171.0" layoutY="313.0" onKeyReleased="#checkLightValue" />
-                  <TextField fx:id="RedLight_TextField" layoutX="171.0" layoutY="347.0" onKeyReleased="#checkLightValue" />
+                  <TextField fx:id="BlueLight_TextField" layoutX="171.0" layoutY="313.0" />
+                  <TextField fx:id="RedLight_TextField" layoutX="171.0" layoutY="347.0" />
                   <Text layoutX="46.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Irrigations/day" />
                   <Text layoutX="46.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watering Time" />
                   <Text layoutX="46.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daylight Hours" />
