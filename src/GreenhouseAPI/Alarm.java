@@ -11,7 +11,7 @@ package GreenhouseAPI;
  */
 public interface Alarm {
 
-    int ON = 0;
-    int OFF = 1;
-    int PAUSE = 2;
+    int OFF = 0;
+    int MINTEMP = 1;
+    int MAXTEMP = 2;
 }

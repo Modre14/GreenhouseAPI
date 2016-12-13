@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Serializable {
+public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADA instance = null;
@@ -54,7 +54,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -126,7 +126,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                             gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                         }
-
+                        gh.getAlarm();
                         gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
                         gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
 
@@ -146,10 +146,17 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             System.out.println("lastIrrigation  = " + lastIrrigation);
 
                         }
-                        errorCheck(gh);
+                        if (gh.getAlarm() > 0) {
+                            if (gh.getAlarm() == 1) {
+                                greenhouseError = greenhouseError + "\n" + "Temprature is under minimum on greenhouse: " + ghl.getKey();
+                            } else if (gh.getAlarm() == 2) {
+                                greenhouseError = greenhouseError + "\n" + "Temprature is over maximum on greenhouse: " + ghl.getKey();
+                            }
+                        }
+
 
                         try {
-                            TimeUnit.SECONDS.sleep(5);
+                            TimeUnit.SECONDS.sleep(2);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -162,19 +169,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                 start();
     }
 
-    private void errorCheck(IGreenhouse gh) {
-        if (gh.getOrder().getRecipe().getMaxTemp() < gh.ReadTemp1()) {
-            greenhouseError =  greenhouseError  + "\n" + "Temp error on " ;
-        }
-    }
-
     public String getGreenhouseError() {
         return greenhouseError;
     }
 
-    public void setGreenhouseError() {
-        this.greenhouseError = "";
+    public void setGreenhouseError(String s) {
+        this.greenhouseError = s;
     }
-    
 
 }

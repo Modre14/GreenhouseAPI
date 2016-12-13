@@ -35,14 +35,13 @@ public interface ISCADA extends Remote {
 
     public String getGreenhouseError() throws RemoteException;
 
-    public void setGreenhouseError()throws RemoteException;
+    public void setGreenhouseError(String s) throws RemoteException;
 
     /**
      * Sends info to the MES system The return value //
      */
     //    String sendInfoToMES() throws RemoteException;
     //
-
     ArrayList getOrders() throws RemoteException;
 
     /**

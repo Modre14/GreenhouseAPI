@@ -54,7 +54,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     }
 
-    public boolean SetTemperature(int kelvin){
+    public boolean SetTemperature(int kelvin) {
 
         new Thread(() -> {
             Random generator = new Random();
@@ -65,7 +65,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 int neg = generator.nextInt(2);
 
-                
                 if (temp > (kelvin + 4)) {
 
                     fanSpeed = 2;
@@ -77,7 +76,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 switch (neg) {
                     case 0:
-                        valD = r / 5.0;
+                        valD = r / 2.0;
                         break;
                     case 1:
                         valD = ((r / (10.0)) * (1 + fanSpeed)) * (-1);
@@ -91,7 +90,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 } catch (InterruptedException ex) {
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
 //                System.out.print("temp: " + temp + "");
 //                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
             }
@@ -148,7 +147,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            
+
         }
         return false;
     }
@@ -364,8 +363,23 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public int getFanspeed()  {
+    public int getFanspeed() {
         return fanSpeed;
+    }
+
+    @Override
+
+    public int getAlarm() {
+        System.out.println(ReadTemp1());
+        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
+            System.out.println("                                                                AlarmMAX");
+            return Alarm.MAXTEMP;
+        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
+            System.out.println("                                                                AlarmMIN");
+            return Alarm.MINTEMP;
+        }
+        System.out.println("                                                                    NONE");
+        return Alarm.OFF;
     }
 
 }

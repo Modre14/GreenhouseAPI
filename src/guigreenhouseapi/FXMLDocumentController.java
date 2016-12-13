@@ -9,7 +9,6 @@ import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
 import Protocol.Order;
 import SCADA.ISCADA;
-import SCADA.ISCADAHMI;
 import SCADA.SCADA;
 import java.io.File;
 
@@ -258,6 +257,29 @@ public class FXMLDocumentController extends Thread implements Initializable {
             }
         }, 200, 200);
 
+        Timer alarms = new java.util.Timer();
+
+        alarms.schedule(new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+//                      
+                        try {
+                            if (scada.getGreenhouseError() != "") {
+                                Alert alert = new Alert(AlertType.WARNING);
+                                alert.setTitle("Error!");
+                                alert.setHeaderText(scada.getGreenhouseError());
+                                alert.showAndWait();    
+                               scada.setGreenhouseError("");
+                            }
+
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        }, 8000, 8000);
+
     }
 
     @FXML
@@ -338,15 +360,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     private void updateValues() throws RemoteException {
-
-        if (scada.getGreenhouseError() != "") {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Error!");
-            alert.setHeaderText(scada.getGreenhouseError());
-            alert.showAndWait();
-            scada.setGreenhouseError();
-
-        }
 
         inProductionTextField.setText(gh.getOrder().getName());
         temp1 = gh.ReadTemp1();

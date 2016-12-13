@@ -27,6 +27,8 @@ public interface IGreenhouse {
     final byte LOW = 1;
     final byte HIGH = 2;
 
+    public int getAlarm();
+
     public int getFanspeed();
 
     public void setLightIntensity(double level);

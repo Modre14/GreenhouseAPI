@@ -29,7 +29,21 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private double lightIntensity;
     private int days;
     private Alarm alarm;
-    
+
+    public int getAlarm() {
+        System.out.println(ReadTemp1() );
+        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
+            System.out.println("                                                                AlarmMAX");
+            return Alarm.MAXTEMP;
+        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
+            System.out.println("                                                                AlarmMIN");
+            return Alarm.MINTEMP;
+        }
+        System.out.println("                                                                    NONE");
+        return Alarm.OFF;
+    }
+
+
 
     private Order order;
     int fanSpeed = 0;
