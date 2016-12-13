@@ -36,6 +36,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
     private static ISCADA instance = null;
     private IGreenhouse greenhouse;
     private ArrayList<Order> orderList = new ArrayList<>();
+    private String greenhouseError = "";
 
     public SCADA() throws RemoteException {
 
@@ -53,7 +54,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -112,8 +113,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                     IGreenhouse gh = ghl.getValue();
                     if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
-                        setAlarms(gh);
-                        
+
                         Date d = new Date();
 
                         //set the light
@@ -140,15 +140,16 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
                             System.out.println("lastIrrigation start= " + lastIrrigation);
                         } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+//                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
                             lastIrrigation = gh.getOrder().getSecondsElapsed();
                             System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
                             System.out.println("lastIrrigation  = " + lastIrrigation);
 
                         }
+                        errorCheck(gh);
 
                         try {
-                            TimeUnit.SECONDS.sleep(1);
+                            TimeUnit.SECONDS.sleep(5);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -161,10 +162,19 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                 start();
     }
 
-    public void setAlarms(IGreenhouse gh) {
-        if (gh.ReadTemp1() > gh.getOrder().getRecipe().getMaxTemp()) {
-            
+    private void errorCheck(IGreenhouse gh) {
+        if (gh.getOrder().getRecipe().getMaxTemp() < gh.ReadTemp1()) {
+            greenhouseError =  greenhouseError  + "\n" + "Temp error on " ;
         }
     }
+
+    public String getGreenhouseError() {
+        return greenhouseError;
+    }
+
+    public void setGreenhouseError() {
+        this.greenhouseError = "";
+    }
+    
 
 }

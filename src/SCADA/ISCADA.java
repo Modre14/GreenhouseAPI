@@ -31,13 +31,18 @@ public interface ISCADA extends Remote {
 
     public void automate() throws RemoteException;
 
-    public void removeOrder(Order order)throws RemoteException;
+    public void removeOrder(Order order) throws RemoteException;
+
+    public String getGreenhouseError() throws RemoteException;
+
+    public void setGreenhouseError()throws RemoteException;
 
     /**
      * Sends info to the MES system The return value //
      */
     //    String sendInfoToMES() throws RemoteException;
     //
+
     ArrayList getOrders() throws RemoteException;
 
     /**

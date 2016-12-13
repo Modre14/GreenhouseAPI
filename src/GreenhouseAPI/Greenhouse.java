@@ -28,6 +28,8 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int blueLight;
     private double lightIntensity;
     private int days;
+    private Alarm alarm;
+    
 
     private Order order;
     int fanSpeed = 0;
@@ -205,7 +207,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
             }
         }
         System.out.println("Temperature is: " + temp + "celcius");
-        return temp ;
+        return temp;
     }
 
     /**
@@ -311,8 +313,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         conn.addMessage(mess);
         if (conn.send()) {
             alarms = fillBitSet(mess.getResultData());
+            System.out.println(alarms.toString());
         }
-        System.out.println("Alarm state is: " + alarms);
+
+        System.out.println("Alarm state is:                            " + alarms);
         return alarms;
     }
 

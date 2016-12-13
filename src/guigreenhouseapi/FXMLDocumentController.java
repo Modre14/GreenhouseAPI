@@ -154,12 +154,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
         List l3 = FXCollections.observableArrayList();
         List l4 = FXCollections.observableArrayList();
         List l5 = FXCollections.observableArrayList();
+        List l6 = FXCollections.observableArrayList();
         for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
             l1.add(gh.getKey());
 
             if (scada.getGreenhouse(gh.getKey()).getOrder() != null) {
                 Date d = new Date();
-
+                l6.add(gh.getKey());
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
                 if (gh.getValue().getOrder().getRecipe().getDays() == 0) {
                     l2.add("Stopped");
@@ -185,7 +186,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         greenhouseStatus.setItems((ObservableList< String>) l2);
         greenhouseOrders.setItems((ObservableList<String>) l3);
         listOfGreenhouse2.setItems((ObservableList<String>) l5);
-
+        listOfGreenhouse3.setItems((ObservableList<String>) l6);
         for (Order order : orders) {
             l4.add(order.toString());
         }
@@ -210,7 +211,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             listOfGreenhouse.setItems((ObservableList<String>) l);
             listOfGreenhouse2.setItems((ObservableList) l);
-            listOfGreenhouse3.setItems((ObservableList<String>) l);
 
             updateOverview();
 
@@ -222,9 +222,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Timer timer = new java.util.Timer();
+        Timer hmiUpdater = new java.util.Timer();
 
-        timer.schedule(new TimerTask() {
+        hmiUpdater.schedule(new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
@@ -265,10 +265,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
 
-//        Alert alert = new Alert(AlertType.WARNING);
-//        alert.setTitle("Alarm!");
-//        alert.setHeaderText("There is an alarm on greenhouse ");
-//        alert.showAndWait();
     }
 
     @FXML
@@ -342,6 +338,15 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     private void updateValues() throws RemoteException {
+
+        if (scada.getGreenhouseError() != "") {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText(scada.getGreenhouseError());
+            alert.showAndWait();
+            scada.setGreenhouseError();
+
+        }
 
         inProductionTextField.setText(gh.getOrder().getName());
         temp1 = gh.ReadTemp1();
