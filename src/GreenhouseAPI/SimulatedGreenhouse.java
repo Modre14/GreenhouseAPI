@@ -88,7 +88,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SimulatedGreenhouse.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
 //                System.out.print("temp: " + temp + "");
