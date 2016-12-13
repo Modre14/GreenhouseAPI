@@ -284,6 +284,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 //        gh.SetRedLight(0);
 //        gh.SetMoisture(0);
         gh.getOrder().getRecipe().setDays(0);
+        
 
         disableCheckAndButton();
 //        lightSlider.setValue(0);
@@ -416,13 +417,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
         gh.getOrder().setQuantity(Integer.parseInt(Quantity_TextField.getText()));
         if (HoursDay_TextField.getText().contains(",") || IrrDay_TextField.getText().contains(",")) {
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning!");
+            alert.setTitle("Error!");
             alert.setHeaderText("Replace ',' with '.'.");
             alert.showAndWait();
         }
         if(0>Double.parseDouble(HoursDay_TextField.getText()) || Double.parseDouble(HoursDay_TextField.getText())>24){
              Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning!");
+            alert.setTitle("Error!");
             alert.setHeaderText("Daylight hours must be 0-24");
             alert.showAndWait();
         }
@@ -434,7 +435,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             MinTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMinTemp()));
 
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning!");
+            alert.setTitle("Information!");
             alert.setHeaderText("The temperature must be higher than the minimum. New minimum has been automatically assigned: " + gh.getOrder().getRecipe().getMinTemp() + "\u00b0" + "C");
             alert.showAndWait();
 
@@ -447,7 +448,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             MaxTemp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getMaxTemp()));
 
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Warning!");
+            alert.setTitle("Information!");
             alert.setHeaderText("The temperature must be lower than the maximum. New maximum has been automatically assigned: " + gh.getOrder().getRecipe().getMaxTemp() + "\u00b0" + "C");
             alert.showAndWait();
         } else {
