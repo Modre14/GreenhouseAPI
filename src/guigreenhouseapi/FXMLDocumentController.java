@@ -17,6 +17,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -323,6 +324,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         listOfGreenhouse.setValue(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
+        //o.setBatch();
+
         lightSlider.setValue(o.getRecipe().getBlueLight());
 //        amountOfLghtSlider.setValue(o.getRecipe().getLightIntensity());
         gh.SetTemperature(o.getRecipe().getTemp());

@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -28,6 +29,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int blueLight;
     private double lightIntensity;
     private int days;
+    private String IP;
 
     private Order order;
     int fanSpeed = 0;
@@ -36,17 +38,33 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return order;
     }
 
-    public void setOrder(Order o) {
-        order = o;
+    public void setOrder(Order order) {
+        this.order = order;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Connecting to database...");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            Statement stmt = conn.createStatement();
+
+            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+            rs.next();
+            this.order.setBatch(rs.getInt(1));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     /**
      * Create greenhouse API
      *
-     * @param c connection
+     // @param c connection
      */
     public Greenhouse(String IP) throws RemoteException {
+        this.IP = IP;
         this.conn = new UDPConnection(5000, IP);
 
     }
@@ -61,7 +79,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         mess = new Message(TEMP_SETPOINT);
         if (kelvin > 273 && kelvin < 303) // 0 - 30 grader celcius
         {
-            System.out.println("Set temperature setpoint to " + kelvin);
+            System.out.println("Set temperatur setpoint to " + kelvin);
             mess.setData(kelvin - 273);
             conn.addMessage(mess);
             if (conn.send()) {
@@ -190,7 +208,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp1() {
-        System.out.println("Read greenhouse temperature ");
+        System.out.println("Read greenhouse temperatur ");
         mess = new Message(READ_GREENHOUSE_TEMP);
         double temp = 0.0;
         mess.setData(); //None data
@@ -214,7 +232,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Temperature in kelvin
      */
     public double ReadTemp2() {
-        System.out.println("Read outdoor temperature ");
+        System.out.println("Read outdoor temperatur ");
         mess = new Message(READ_OUTDOOR_TEMP);
         double temp2 = 0.0;
         mess.setData(); //None data
@@ -237,7 +255,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
      * @return Moisture in %
      */
     public double ReadMoist() {
-        System.out.println("Read outdoor temperature ");
+        System.out.println("Read outdoor temperatur ");
         mess = new Message(READ_MOISTURE);
         double moist = 0.0;
         mess.setData(); //None data
@@ -433,7 +451,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     }
 
     @Override
-    public int getFanspeed() {
+    public int getFanspeed() throws RemoteException {
         return fanSpeed;
     }
 }

@@ -6,6 +6,7 @@
 package Protocol;
 
 import java.io.Serializable;
+import java.sql.*;
 import java.util.Date;
 
 /**
@@ -19,16 +20,8 @@ public class Order implements Serializable {
     private Date startDate;
     private Date endDate;
     private int quantity;
-    private int daysCompleted;
+    private int batch;
 
-   /**
-    * 
-    * @param name
-    * @param recipe
-    * @param startDate
-    * @param endDate
-    * @param quantity 
-    */
     public Order(String name, Recipe recipe, Date startDate, Date endDate, int quantity) {
 
         this.name = name;
@@ -36,12 +29,11 @@ public class Order implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.quantity = quantity;
-        this.daysCompleted = 0;
     }
 
     @Override
     public String toString() {
-        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantity: " + quantity;
+        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
     }
 
     public String getName() {
@@ -73,8 +65,13 @@ public class Order implements Serializable {
         this.startDate = startDate;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setBatch(int batch){
+        this.batch = batch;
+
+    }
+
+    public int getBatch(){
+        return this.batch;
     }
 
 }

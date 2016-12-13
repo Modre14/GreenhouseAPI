@@ -13,6 +13,7 @@ import Protocol.Order;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -39,6 +40,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int daysCompleted;
     private Order order;
     private int moist;
+    String IP;
 
     double temp = 15.0;
     double temp2 = 15.0;
@@ -51,10 +53,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public SimulatedGreenhouse(String IP) throws RemoteException {
         this.conn = IP;
+        this.IP = IP;
 
     }
 
-    public boolean SetTemperature(int kelvin){
+    public boolean SetTemperature(int kelvin) throws RemoteException {
 
         new Thread(() -> {
             Random generator = new Random();
@@ -65,11 +68,14 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 int neg = generator.nextInt(2);
 
+                System.out.println("kelvin + 4 " + (kelvin + 4));
                 
                 if (temp > (kelvin + 4)) {
+                    System.out.println("temp>  " + temp);
 
                     fanSpeed = 2;
                 } else if (temp > kelvin) {
+                    System.out.println("temp > +4");
                     fanSpeed = 1;
                 } else {
                     fanSpeed = 0;
@@ -91,7 +97,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 } catch (InterruptedException ex) {
                     Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
 //                System.out.print("temp: " + temp + "");
 //                System.out.println("|   |" + neg + "    Fan speed: " + fanSpeed);
             }
@@ -148,7 +154,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            
+            moist = moist + sec;
         }
         return false;
     }
@@ -353,8 +359,21 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public void setOrder(Order o) {
-        order = o;
+    public void setOrder(Order order) {
+        this.order = order;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Connecting to database...");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            Statement stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("INSERT INTO batchlog (Product, Greenhouse) Values(DEFAULT, '"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            System.out.println(rs.next());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -364,7 +383,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public int getFanspeed()  {
+    public int getFanspeed() throws RemoteException {
         return fanSpeed;
     }
 
