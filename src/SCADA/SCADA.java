@@ -140,7 +140,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                             lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
                             System.out.println("lastIrrigation start= " + lastIrrigation);
                         } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-//                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
                             lastIrrigation = gh.getOrder().getSecondsElapsed();
                             System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
                             System.out.println("lastIrrigation  = " + lastIrrigation);
