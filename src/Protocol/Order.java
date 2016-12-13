@@ -22,6 +22,14 @@ public class Order implements Serializable {
     private int quantity;
     private int batch;
 
+   /**
+    *
+    * @param name
+    * @param recipe
+    * @param startDate
+    * @param endDate
+    * @param quantity
+    */
     public Order(String name, Recipe recipe, Date startDate, Date endDate, int quantity) {
 
         this.name = name;
@@ -33,7 +41,7 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantyty: " + quantity;
+        return name + "\t - " + recipe + " Start date: " + startDate + " EndDate: " + endDate + " quantity: " + quantity;
     }
 
     public String getName() {
@@ -72,6 +80,10 @@ public class Order implements Serializable {
 
     public int getBatch(){
         return this.batch;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 }

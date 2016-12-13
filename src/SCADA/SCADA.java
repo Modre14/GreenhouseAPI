@@ -47,6 +47,10 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     }
 
+    public void removeOrder(Order order) {
+        orderList.remove(order);
+    }
+
     public static ISCADA getInstance() throws RemoteException {
 
         if (instance == null) {
@@ -138,48 +142,60 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
 
                             }
+                    IGreenhouse gh = ghl.getValue();
+                    if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
+                        setAlarms(gh);
 
-                            double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
+                        Date d = new Date();
 
-                            double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+                        //set the light
+                        double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
+                        double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+                        if (time < maxLight) {
 
-                            if (time < maxLight) {
-                                System.out.println(" timm > maxLight");
+                            gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+                        } else {
 
-                                gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
-                            } else {
-                                System.out.println("else");
-                                gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
-                            }
+                            gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+                        }
 
-                            gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
-                            gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
+                        gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
+                        gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
 
-                            System.out.println(gh.getOrder().getSecondsElapsed() / 3600);
-                            System.out.println((time / maxLight) * 100);
-                            System.out.println(d);
-                            if (gh.ReadMoist() < gh.getOrder().getRecipe().getWaterTime()) {
-                                gh.AddWater(5);
-                            }
+                        System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
 
-                            System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
-                            try {
-                                TimeUnit.SECONDS.sleep(3);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                        //add water;
+                        double irrigation = 24.0 / gh.getOrder().getRecipe().getIrrigationsPrDay();
+
+                        if (lastIrrigation == 0) {
+
+                            lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
+                            System.out.println("lastIrrigation start= " + lastIrrigation);
+                        } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
+                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+                            lastIrrigation = gh.getOrder().getSecondsElapsed();
+                            System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
+                            System.out.println("lastIrrigation  = " + lastIrrigation);
 
                         }
 
-                        //Change light acording to hours
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                     }
                 }
 
             }
-        }).
-                start();
+        }).start();
+    }
+
+    public void setAlarms(IGreenhouse gh) {
+        if (gh.ReadTemp1() > gh.getOrder().getRecipe().getMaxTemp()) {
+
+        }
     }
 
 }

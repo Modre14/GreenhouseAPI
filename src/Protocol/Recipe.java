@@ -129,5 +129,33 @@ public class Recipe implements Serializable {
     public void setDays(int days) {
         this.days = days;
     }
+
+    public double getIrrigationsPrDay() {
+        return irrigationsPrDay;
+    }
+
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
+
+    public void setWaterTime(int waterTime) {
+        this.waterTime = waterTime;
+    }
+
+    public void setIrrigationsPrDay(double irrigationsPrDay) {
+        this.irrigationsPrDay = irrigationsPrDay;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
     
 }
