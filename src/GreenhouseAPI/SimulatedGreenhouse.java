@@ -76,7 +76,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 switch (neg) {
                     case 0:
-                        valD = r / 2.0;
+                        valD = r / 5.0;
                         break;
                     case 1:
                         valD = ((r / (10.0)) * (1 + fanSpeed)) * (-1);

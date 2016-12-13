@@ -147,13 +147,15 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
                         }
                         if (gh.getAlarm() > 0) {
+                            String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
                             if (gh.getAlarm() == 1) {
-                                greenhouseError = greenhouseError + "\n" + "Temprature is under minimum on greenhouse: " + ghl.getKey();
+
+                                greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
+
                             } else if (gh.getAlarm() == 2) {
-                                greenhouseError = greenhouseError + "\n" + "Temprature is over maximum on greenhouse: " + ghl.getKey();
+                                greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
                             }
                         }
-
 
                         try {
                             TimeUnit.SECONDS.sleep(2);
