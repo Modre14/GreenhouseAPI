@@ -269,8 +269,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
                                 Alert alert = new Alert(AlertType.WARNING);
                                 alert.setTitle("Error!");
                                 alert.setHeaderText(scada.getGreenhouseError());
-                                alert.showAndWait();    
-                               scada.setGreenhouseError("");
+                                scada.setGreenhouseError("");
+                                alert.showAndWait();
+                                
+
                             }
 
                         } catch (Exception e) {
