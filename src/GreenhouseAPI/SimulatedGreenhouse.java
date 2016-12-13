@@ -57,7 +57,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     }
 
-    public boolean SetTemperature(int kelvin){
+    public boolean SetTemperature(int kelvin) {
 
         new Thread(() -> {
             Random generator = new Random();
@@ -68,7 +68,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
                 int neg = generator.nextInt(2);
 
-                
                 if (temp > (kelvin + 4)) {
 
                     fanSpeed = 2;
@@ -92,7 +91,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DataSimulator.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SimulatedGreenhouse.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
 //                System.out.print("temp: " + temp + "");
@@ -380,8 +379,23 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     @Override
-    public int getFanspeed() throws RemoteException {
+    public int getFanspeed() {
         return fanSpeed;
+    }
+
+    @Override
+
+    public int getAlarm() {
+        System.out.println(ReadTemp1());
+        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
+            System.out.println("                                                                AlarmMAX");
+            return Alarm.MAXTEMP;
+        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
+            System.out.println("                                                                AlarmMIN");
+            return Alarm.MINTEMP;
+        }
+        System.out.println("                                                                    NONE");
+        return Alarm.OFF;
     }
 
 }

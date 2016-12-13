@@ -34,12 +34,13 @@ import java.util.logging.Logger;
  *
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Serializable {
+public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADA instance = null;
     private IGreenhouse greenhouse;
     private ArrayList<Order> orderList = new ArrayList<>();
+    private String greenhouseError = "";
 
     public SCADA() throws RemoteException {
 
@@ -107,6 +108,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
     public void automate() throws RemoteException {
         new Thread(() -> {
+            int lastIrrigation = 0;
 
             //simulate 24 hours
             while (true) {
@@ -144,7 +146,6 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             }
                     IGreenhouse gh = ghl.getValue();
                     if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
-                        setAlarms(gh);
 
                         Date d = new Date();
 
@@ -158,7 +159,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
 
                             gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                         }
-
+                        gh.getAlarm();
                         gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
                         gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
 
@@ -172,15 +173,25 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
                             lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
                             System.out.println("lastIrrigation start= " + lastIrrigation);
                         } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+//                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
                             lastIrrigation = gh.getOrder().getSecondsElapsed();
                             System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
                             System.out.println("lastIrrigation  = " + lastIrrigation);
 
                         }
+                        if (gh.getAlarm() > 0) {
+                            String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
+                            if (gh.getAlarm() == 1) {
+
+                                greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
+
+                            } else if (gh.getAlarm() == 2) {
+                                greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
+                            }
+                        }
 
                         try {
-                            TimeUnit.SECONDS.sleep(1);
+                            TimeUnit.SECONDS.sleep(2);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -192,10 +203,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, ISCADAHMI, Ser
         }).start();
     }
 
-    public void setAlarms(IGreenhouse gh) {
-        if (gh.ReadTemp1() > gh.getOrder().getRecipe().getMaxTemp()) {
+    public String getGreenhouseError() {
+        return greenhouseError;
+    }
 
-        }
+    public void setGreenhouseError(String s) {
+        this.greenhouseError = s;
     }
 
 }

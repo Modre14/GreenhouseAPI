@@ -30,6 +30,22 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private double lightIntensity;
     private int days;
     private String IP;
+    private Alarm alarm;
+
+    public int getAlarm() {
+        System.out.println(ReadTemp1() );
+        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
+            System.out.println("                                                                AlarmMAX");
+            return Alarm.MAXTEMP;
+        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
+            System.out.println("                                                                AlarmMIN");
+            return Alarm.MINTEMP;
+        }
+        System.out.println("                                                                    NONE");
+        return Alarm.OFF;
+    }
+
+
 
     private Order order;
     int fanSpeed = 0;
@@ -61,7 +77,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     /**
      * Create greenhouse API
      *
-     // @param c connection
+     * @param c connection
      */
     public Greenhouse(String IP) throws RemoteException {
         this.IP = IP;
@@ -223,7 +239,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
             }
         }
         System.out.println("Temperature is: " + temp + "celcius");
-        return temp ;
+        return temp;
     }
 
     /**
@@ -329,8 +345,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         conn.addMessage(mess);
         if (conn.send()) {
             alarms = fillBitSet(mess.getResultData());
+            System.out.println(alarms.toString());
         }
-        System.out.println("Alarm state is: " + alarms);
+
+        System.out.println("Alarm state is:                            " + alarms);
         return alarms;
     }
 

@@ -31,7 +31,11 @@ public interface ISCADA extends Remote {
 
     public void automate() throws RemoteException;
 
-    public void removeOrder(Order order)throws RemoteException;
+    public void removeOrder(Order order) throws RemoteException;
+
+    public String getGreenhouseError() throws RemoteException;
+
+    public void setGreenhouseError(String s) throws RemoteException;
 
     /**
      * Sends info to the MES system The return value //

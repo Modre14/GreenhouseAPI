@@ -33,7 +33,6 @@ public class MES {
 
     private ArrayList<Recipe> recipeArray = new ArrayList<Recipe>();
     ERP_Connect obj2;
-    RMI_Client c;
     private ISCADA scada;
     private ArrayList orderList = new ArrayList();
     private ArrayList<Order> orders = new ArrayList<Order>();
@@ -141,7 +140,7 @@ public class MES {
         Date date = new Date();
 
         Order order = new Order("Blomster", recipeArray.get(0), date, date, 30);
-         Order order2 = new Order("Roser", recipeArray.get(1), date, date, 10);
+        Order order2 = new Order("Roser", recipeArray.get(1), date, date, 10);
         orders.add(order);
         orders.add(order2);
         try {
