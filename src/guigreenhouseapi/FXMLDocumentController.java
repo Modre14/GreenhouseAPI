@@ -161,8 +161,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
                 Date d = new Date();
 
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
-
-                if (gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
+                if (gh.getValue().getOrder().getRecipe().getDays() == 0) {
+                    l2.add("Stopped");
+                } else if (gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
                     l2.add("Complete");
                 } else {
                     l2.add(gh.getValue().getOrder().getRecipe().getDays() - gh.getValue().getOrder().getSecondsElapsed() / 3600 / 24 + " Days");
@@ -263,32 +264,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-        lightSlider.setValue(gh.getOrder().getRecipe().getBlueLight());
 
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Alarm!");
-        alert.setHeaderText("There is an alarm on greenhouse ");
-        alert.showAndWait();
-
-        updateOverview();
-        updateLight();
-
+//        Alert alert = new Alert(AlertType.WARNING);
+//        alert.setTitle("Alarm!");
+//        alert.setHeaderText("There is an alarm on greenhouse ");
+//        alert.showAndWait();
     }
 
     @FXML
     private void stopProduction(ActionEvent event) throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-//        gh.SetRedLight(0);
-//        gh.SetBlueLight(0);
-//        gh.SetFanSpeed(0);
-//        gh.SetRedLight(0);
-//        gh.SetMoisture(0);
         gh.getOrder().getRecipe().setDays(0);
 
         disableCheckAndButton();
-//        lightSlider.setValue(0);
-//        amountOfLghtSlider.setValue(0);
-//        updateLight();
     }
 
     @FXML
@@ -375,11 +363,14 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Image im = new Image("moon.png");
             lightBulb.setImage(im);
         }
-        if (gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
+        if (gh.getOrder().getRecipe().getDays() == 0) {
+            daysLeftTextField.setText("Stopped");
+            timerTextField.setText("00:00");
+            updateOverview();
+        } else if (gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
             daysLeftTextField.setText("Complete");
             timerTextField.setText("00:00");
             updateOverview();
-
         } else {
             daysLeftTextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24));
             timerTextField.setText(String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60)));
@@ -420,8 +411,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
             alert.setHeaderText("Replace ',' with '.'.");
             alert.showAndWait();
         }
-        if(0>Double.parseDouble(HoursDay_TextField.getText()) || Double.parseDouble(HoursDay_TextField.getText())>24){
-             Alert alert = new Alert(AlertType.WARNING);
+        if (0 > Double.parseDouble(HoursDay_TextField.getText()) || Double.parseDouble(HoursDay_TextField.getText()) > 24) {
+            Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Warning!");
             alert.setHeaderText("Daylight hours must be 0-24");
             alert.showAndWait();
