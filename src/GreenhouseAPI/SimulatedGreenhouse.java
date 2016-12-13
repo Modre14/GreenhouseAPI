@@ -39,6 +39,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private int days;
     private int daysCompleted;
     private Order order;
+    private double water;
     private int moist;
     String IP;
 
@@ -80,6 +81,13 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                 switch (neg) {
                     case 0:
                         valD = r / 5.0;
+                        if (water > 0) {
+                            water = water - 0.2;
+                            System.out.println("WATER------------------------------------");
+                        }else{
+                            water =0;
+                        }
+
                         break;
                     case 1:
                         valD = ((r / (10.0)) * (1 + fanSpeed)) * (-1);
@@ -150,7 +158,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-
+            water = sec;
+            System.out.println(water + " THIS IS WATER");
         }
         return false;
     }
@@ -209,7 +218,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return Moisture in %
      */
     public double ReadMoist() {
-
+        double moist = 40.0;
 //        System.out.println("Moisture is: " + moist + " %");
         return moist;
     }
@@ -222,10 +231,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     public double ReadWaterLevel() {
 //        System.out.println("Read water level ");
 
-        double level = 0.0; // level
+//        double level = water; // level
 
 //        System.out.println("Water level is: " + level);
-        return level;
+        return water;
     }
 
     /**
