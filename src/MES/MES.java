@@ -40,8 +40,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeRecipes();
-        m.ERPConnect();
-        m.generateOrders();
+//        m.ERPConnect();
+//        m.generateOrders();
 
         m.sendOrdersToScada();
 
