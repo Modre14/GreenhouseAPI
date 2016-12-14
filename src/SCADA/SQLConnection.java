@@ -19,8 +19,9 @@ public class SQLConnection {
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                System.out.println("Connecting to database...");
+                System.out.println("Making new Connection");
                 conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+
                 stmt = conn.createStatement();
             } catch (SQLException e) {
                 e.printStackTrace();

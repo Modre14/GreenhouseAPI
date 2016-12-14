@@ -372,10 +372,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         this.lastLog = 0;
         try {
             SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
-            ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID");
-            SQLConnection.close();
+            ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID()");
             rs.next();
             this.order.setBatch(rs.getInt(1));
+            SQLConnection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
