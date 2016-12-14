@@ -174,4 +174,7 @@ public interface IGreenhouse {
      */
     boolean SetFanSpeed(int speed);
 
+    int getLastWatering();
+
+    void waterGreenhouse();
 }

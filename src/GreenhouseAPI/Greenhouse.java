@@ -497,4 +497,14 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int getLastWatering() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void waterGreenhouse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

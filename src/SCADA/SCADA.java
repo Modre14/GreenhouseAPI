@@ -5,6 +5,7 @@
  */
 package SCADA;
 
+import GreenhouseAPI.Alarm;
 import GreenhouseAPI.Greenhouse;
 
 import java.rmi.RemoteException;
@@ -109,7 +110,6 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
     public void automate() throws RemoteException {
         new Thread(() -> {
-            int lastIrrigation = 0;
 
             //simulate 24 hours
             while (true) {
@@ -145,34 +145,24 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
                                     gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
                                 }
+                                
                                 gh.getAlarm();
                                 gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
-                                
+
                                 gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
-                                System.out.println(" THIS IS THE NEW RED LIGHT "+ (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity()));
+                                System.out.println(" THIS IS THE NEW RED LIGHT " + (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity()));
                                 System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
 
                                 //add water;
-                                double irrigation = 24.0 / gh.getOrder().getRecipe().getIrrigationsPrDay();
-
-                                if (lastIrrigation == 0) {
-
-                                    lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
-                                    System.out.println("lastIrrigation start= " + lastIrrigation);
-                                } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-                                    gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
-                                    lastIrrigation = gh.getOrder().getSecondsElapsed();
-                                    System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
-                                    System.out.println("lastIrrigation  = " + lastIrrigation);
-
-                                }
-                                if (gh.getAlarm() > 0) {
+                                gh.waterGreenhouse();
+                                
+                                if (gh.getAlarm() > Alarm.OFF) {
                                     String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
-                                    if (gh.getAlarm() == 1) {
+                                    if (gh.getAlarm() == Alarm.MINTEMP) {
 
                                         greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
 
-                                    } else if (gh.getAlarm() == 2) {
+                                    } else if (gh.getAlarm() == Alarm.MAXTEMP) {
                                         greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
                                     }
                                 }

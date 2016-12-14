@@ -67,7 +67,7 @@ public class Order implements Serializable {
 
     public int getSecondsElapsed() {
         Date d = new Date();
-        return (int) (((d.getTime() - orderStarted.getTime()) / 1000*4));
+        return (int) (((d.getTime() - orderStarted.getTime()) / 1000*10));
     }
 
     public void setStartDate(Date startDate) {
