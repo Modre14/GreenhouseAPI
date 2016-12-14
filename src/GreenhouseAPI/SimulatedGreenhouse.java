@@ -41,6 +41,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private Order order;
     private double water;
     private int moist;
+    private int lastLog = 0;
     String IP;
 
     double temp = 15.0;
@@ -50,7 +51,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     /**
      * Create greenhouse API
      *
-     * @param c connection
+     * @param IP IP
      */
     public SimulatedGreenhouse(String IP) throws RemoteException {
         this.conn = IP;
@@ -366,14 +367,18 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
     public void setOrder(Order order) {
         this.order = order;
+        this.lastLog = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Connecting to database...");
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
             Statement stmt = conn.createStatement();
 
-            ResultSet rs = stmt.executeQuery("INSERT INTO batchlog (Product, Greenhouse) Values(DEFAULT, '"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
-            System.out.println(rs.next());
+            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+            rs.next();
+            this.order.setBatch(rs.getInt(1));
+            stmt.closeOnCompletion();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -405,6 +410,31 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         }
         System.out.println("                                                                    NONE");
         return Alarm.OFF;
+    }
+
+    public int getLastLog(){
+        return lastLog;
+    }
+
+    public void log(){
+        lastLog++;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            System.out.println("Connection established!");
+            Statement stmt = conn.createStatement();
+            System.out.println("Statement Created!");
+            String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+            System.out.println("Information gathered!");
+            System.out.println("INSERT INTO " + IP + " (Batch, RedLight, BlueLight, LightIntensity, InsideTemp, OutsideTemp, WaterLevel, FanRunning) Values(" + values + ")");
+            System.out.println("Logging sucessful!");
+            stmt.closeOnCompletion();
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

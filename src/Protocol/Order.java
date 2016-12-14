@@ -19,6 +19,7 @@ public class Order implements Serializable {
     private String name;
     private Date startDate;
     private Date endDate;
+    private Date orderStarted;
     private int quantity;
     private int batch;
 
@@ -66,7 +67,7 @@ public class Order implements Serializable {
 
     public int getSecondsElapsed() {
         Date d = new Date();
-        return (int) ((d.getTime() - getStartDate().getTime()) / 5);
+        return (int) (((d.getTime() - orderStarted.getTime()) / 1000));
     }
 
     public void setStartDate(Date startDate) {
@@ -84,6 +85,10 @@ public class Order implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setOrderStarted (Date d){
+        this.orderStarted = d;
     }
 
 }

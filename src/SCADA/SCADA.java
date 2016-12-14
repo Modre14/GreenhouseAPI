@@ -123,27 +123,10 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                         //add water
                         if (gh.getOrder() != null) {
                             Date d = new Date();
-                            int lastLog = 0;
 
-//                            if (gh.getOrder().getSecondsElapsed() >= 900 * (lastLog + 1)) {
-//                                lastLog++;
-//                                String url = "jdbc:mysql://127.0.0.1:3306/greenhouselog";
-//                                String username = "root";
-//                                String password = "";
-//
-//                                System.out.println("Connecting database...");
-//
-//                                try (Connection connection = DriverManager.getConnection(url, username, password)) {
-//                                    System.out.println("Database connected!");
-//                                    Statement stmt = connection.createStatement();
-//                                    String values = "'" + gh.getOrder().getBatch() + "', '" + (100 - gh.getBlueLight()) + "', '" + gh.getBlueLight() + "', '" + gh.getLightIntensity() + "', '" + gh.ReadTemp1() + "', '" + gh.ReadTemp2() + "', '" + gh.ReadWaterLevel() + "', '" + gh.getFanspeed() + "'";
-//                                    stmt.execute("INSERT INTO " + ghl.getKey() + " (Batch, RedLight, BlueLight, LightIntensity, InsideTemp, OutsideTemp, WaterLevel, FanRunning) Values(" + values + ")");
-//                                } catch (SQLException e) {
-//                                    throw new IllegalStateException("Cannot connect the database!", e);
-//                                }
-//
-//
-//                            }
+                            if (gh.getOrder().getSecondsElapsed() >= (60 * (gh.getLastLog() + 1))) {
+                                gh.log();
+                            }
                             if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
 
                                 //set the light
@@ -199,7 +182,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                     } catch(Exception e) {}
                 }
                 }}).start();
-            };
+            }
 
         public String getGreenhouseError () {
             return greenhouseError;

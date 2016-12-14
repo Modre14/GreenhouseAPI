@@ -41,6 +41,10 @@ public interface IGreenhouse {
 
     public Order getOrder();
 
+    public int getLastLog();
+
+    public void log();
+
     /**
      * Setpoint for temperature inside Greenhouse CMD: 1
      *

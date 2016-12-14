@@ -344,7 +344,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         listOfGreenhouse.setValue(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
-        //o.setBatch();
+        o.setOrderStarted(new Date());
 
         lightSlider.setValue(o.getRecipe().getBlueLight());
 //        amountOfLghtSlider.setValue(o.getRecipe().getLightIntensity());

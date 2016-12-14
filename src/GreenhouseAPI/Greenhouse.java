@@ -30,6 +30,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private double lightIntensity;
     private int days;
     private String IP;
+    private int lastLog = 0;
     private Alarm alarm;
 
     public int getAlarm() {
@@ -55,6 +56,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     }
 
     public void setOrder(Order order) {
+        this.lastLog = 0;
         this.order = order;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -77,7 +79,7 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     /**
      * Create greenhouse API
      *
-     * @param c connection
+     * @param IP IP connection
      */
     public Greenhouse(String IP) throws RemoteException {
         this.IP = IP;
@@ -471,5 +473,28 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     @Override
     public int getFanspeed() {
         return fanSpeed;
+    }
+
+    public int getLastLog(){
+        return lastLog;
+    }
+
+    public void log(){
+        lastLog++;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            System.out.println("Connection established!");
+            Statement stmt = conn.createStatement();
+            System.out.println("Statement Created!");
+            String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+            stmt.execute("INSERT INTO " + IP + " (Batch, RedLight, BlueLight, LightIntensity, InsideTemp, OutsideTemp, WaterLevel, FanRunning) Values(" + values + ")");
+            System.out.println("Logging sucessful!");
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
