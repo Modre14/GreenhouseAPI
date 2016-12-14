@@ -113,6 +113,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
             //simulate 24 hours
             while (true) {
+
+                try {
+                    TimeUnit.SECONDS.sleep(55);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //timeStamp
                 double hours = 0;
                 for (Map.Entry<String, IGreenhouse> ghl : ghlist.entrySet()) {
@@ -153,7 +159,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                                     lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
                                     System.out.println("lastIrrigation start= " + lastIrrigation);
                                 } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-                            gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
+                                    gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
                                     lastIrrigation = gh.getOrder().getSecondsElapsed();
                                     System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
                                     System.out.println("lastIrrigation  = " + lastIrrigation);
@@ -170,26 +176,22 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                                     }
                                 }
 
-                                try {
-                                    TimeUnit.SECONDS.sleep(2);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
                             }
                         }
 
-                    } catch(Exception e) {}
+                    } catch (Exception e) {
+                    }
                 }
-                }}).start();
             }
-
-        public String getGreenhouseError () {
-            return greenhouseError;
-        }
-
-        public void setGreenhouseError (String s){
-            this.greenhouseError = s;
-        }
-
+        }).start();
     }
+
+    public String getGreenhouseError() {
+        return greenhouseError;
+    }
+
+    public void setGreenhouseError(String s) {
+        this.greenhouseError = s;
+    }
+
+}
