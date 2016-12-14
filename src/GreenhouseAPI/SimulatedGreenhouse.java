@@ -122,7 +122,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return true if processed
      */
     public boolean SetMoisture(int moist) {
-        System.out.println("Set moisture level to " + moist);
 
         return false;
     }
@@ -138,10 +137,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public boolean SetRedLight(int level) {
 //        System.out.println("Set red light to " + level);
-        System.out.println("THE RED LIGHT IS " + level);
 
         redLight = level;
-        System.out.println("THE blue LIGHT IS " + blueLight);
         return false;
     }
 
@@ -166,8 +163,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            water = sec*3;
-            System.out.println(water + " THIS IS WATER");
+            water = sec * 3;
         }
         return false;
     }
@@ -240,7 +236,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 //        System.out.println("Read water level ");
 
 //        double level = water; // level
-//        System.out.println("Water level is: " + level);
+        System.out.println("Water level is:    " + water);
         return water;
     }
 
@@ -427,6 +423,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     }
 
     public void waterGreenhouse() {
+
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
         if (getLastWatering() == 0) {
@@ -445,6 +442,26 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
     public int getLastWatering() {
         return lastIrrigation;
+    }
+
+    @Override
+    public void changeLightInGreenhouse() {
+        //set the light
+        double maxLight = getOrder().getRecipe().getHoursDay() / 2.0;
+        double time = (getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+        if (time < maxLight) {
+
+            setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+        } else {
+
+            setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+        }
+
+        getAlarm();
+        SetBlueLight((int) (getOrder().getRecipe().getBlueLight() * getLightIntensity() / 100));
+
+        SetRedLight((int) (getOrder().getRecipe().getRedLight() * getLightIntensity() / 100));
+        
     }
 
 }

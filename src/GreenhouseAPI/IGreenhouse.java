@@ -177,4 +177,6 @@ public interface IGreenhouse {
     int getLastWatering();
 
     void waterGreenhouse();
+    
+    void changeLightInGreenhouse();
 }

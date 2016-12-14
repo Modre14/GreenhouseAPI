@@ -32,9 +32,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private String IP;
     private int lastLog = 0;
     private Alarm alarm;
+    private int lastIrrigation;
 
     public int getAlarm() {
-        System.out.println(ReadTemp1() );
+        System.out.println(ReadTemp1());
         if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
             System.out.println("                                                                AlarmMAX");
             return Alarm.MAXTEMP;
@@ -46,8 +47,6 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return Alarm.OFF;
     }
 
-
-
     private Order order;
     int fanSpeed = 0;
 
@@ -58,13 +57,14 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public void setOrder(Order order) {
         this.lastLog = 0;
         this.order = order;
+        this.lastIrrigation = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Connecting to database...");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog", "root", "");
             Statement stmt = conn.createStatement();
 
-            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() + "', '" + this.IP + "')");
             ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
             rs.next();
             this.order.setBatch(rs.getInt(1));
@@ -475,15 +475,15 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         return fanSpeed;
     }
 
-    public int getLastLog(){
+    public int getLastLog() {
         return lastLog;
     }
 
-    public void log(){
+    public void log() {
         lastLog++;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog", "root", "");
             System.out.println("Connection established!");
             Statement stmt = conn.createStatement();
             System.out.println("Statement Created!");
@@ -500,11 +500,45 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     @Override
     public int getLastWatering() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return lastIrrigation;
     }
 
     @Override
     public void waterGreenhouse() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
+
+        if (getLastWatering() == 0) {
+
+            lastIrrigation = (int) getOrder().getStartDate().getTime();
+            System.out.println("lastIrrigation start= " + lastIrrigation);
+        } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
+            AddWater(getOrder().getRecipe().getWaterTime());
+            lastIrrigation = getOrder().getSecondsElapsed();
+            System.out.println("addWater = " + getOrder().getRecipe().getWaterTime());
+            System.out.println("lastIrrigation  = " + lastIrrigation);
+
+        }
     }
+
+    @Override
+    public void changeLightInGreenhouse() {
+        //set the light
+        double maxLight = getOrder().getRecipe().getHoursDay() / 2.0;
+        double time = (getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+        if (time < maxLight) {
+
+            setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+        } else {
+
+            setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+        }
+
+        getAlarm();
+        SetBlueLight((int) (getOrder().getRecipe().getBlueLight() * getLightIntensity() / 100));
+
+        SetRedLight((int) (getOrder().getRecipe().getRedLight() * getLightIntensity() / 100));
+        System.out.println(" THIS IS THE NEW RED LIGHT " + (getOrder().getRecipe().getRedLight() * getLightIntensity()));
+        System.out.println("\t" + "lightintensity:   " + getLightIntensity());
+    }
+
 }

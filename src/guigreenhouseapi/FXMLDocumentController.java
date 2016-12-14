@@ -187,6 +187,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         greenhouseOrders.setItems((ObservableList<String>) l3);
         listOfGreenhouse2.setItems((ObservableList<String>) l5);
         listOfGreenhouse3.setItems((ObservableList<String>) l6);
+        listOfGreenhouse.setItems((ObservableList<String>) l6);
+        
         for (Order order : orders) {
             l4.add(order.toString());
         }
@@ -209,7 +211,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             }
 
-            listOfGreenhouse.setItems((ObservableList<String>) l);
             listOfGreenhouse2.setItems((ObservableList) l);
 
             updateOverview();
@@ -272,7 +273,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
                                 alert.setHeaderText(scada.getGreenhouseError());
                                 scada.setGreenhouseError("");
                                 alert.showAndWait();
-                                
 
                             }
 

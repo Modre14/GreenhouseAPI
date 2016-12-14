@@ -134,28 +134,11 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                                 gh.log();
                             }
                             if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
-
-                                //set the light
-                                double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
-                                double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
-                                if (time < maxLight) {
-
-                                    gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
-                                } else {
-
-                                    gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
-                                }
                                 
-                                gh.getAlarm();
-                                gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
-
-                                gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
-                                System.out.println(" THIS IS THE NEW RED LIGHT " + (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity()));
-                                System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
-
+                                gh.changeLightInGreenhouse();
                                 //add water;
                                 gh.waterGreenhouse();
-                                
+
                                 if (gh.getAlarm() > Alarm.OFF) {
                                     String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
                                     if (gh.getAlarm() == Alarm.MINTEMP) {
