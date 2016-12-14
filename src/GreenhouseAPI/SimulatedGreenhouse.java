@@ -10,7 +10,9 @@ import PLCCommunication.Message;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
 import Protocol.Order;
+import SCADA.SQLConnection;
 
+import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.*;
@@ -369,18 +371,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         this.order = order;
         this.lastLog = 0;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Connecting to database...");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
-            Statement stmt = conn.createStatement();
-
-            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
-            ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID");
+            SQLConnection.close();
             rs.next();
             this.order.setBatch(rs.getInt(1));
-            stmt.closeOnCompletion();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -418,23 +413,12 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public void log(){
         lastLog++;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog","root","");
-            System.out.println("Connection established!");
-            Statement stmt = conn.createStatement();
-            System.out.println("Statement Created!");
-            String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
-            System.out.println("Information gathered!");
-            System.out.println("INSERT INTO " + IP + " (Batch, RedLight, BlueLight, LightIntensity, InsideTemp, OutsideTemp, WaterLevel, FanRunning) Values(" + values + ")");
-            System.out.println("Logging sucessful!");
-            stmt.closeOnCompletion();
+        String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+        System.out.println("Information gathered!");
+        SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
+        SQLConnection.close();
+        System.out.println("Logging sucessful!");
 
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
 }
