@@ -136,7 +136,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public boolean SetRedLight(int level) {
 //        System.out.println("Set red light to " + level);
+System.out.println("THE RED LIGHT IS " + level);
+
         blueLight = 100 - level;
+        System.out.println("THE blue LIGHT IS " + blueLight);
         return false;
     }
 
