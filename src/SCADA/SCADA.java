@@ -115,7 +115,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
             while (true) {
 
                 try {
-                    TimeUnit.SECONDS.sleep(55);
+                    TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -147,8 +147,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                                 }
                                 gh.getAlarm();
                                 gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
+                                
                                 gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
-
+                                System.out.println(" THIS IS THE NEW RED LIGHT "+ (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity()));
                                 System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
 
                                 //add water;

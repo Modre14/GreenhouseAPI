@@ -36,7 +36,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private double currentValue;
     private String conn;
     private Message mess;
-    private int blueLight;
+    private double blueLight;
+    private double redLight;
     private double lightIntensity;
     private int days;
     private int daysCompleted;
@@ -136,9 +137,9 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public boolean SetRedLight(int level) {
 //        System.out.println("Set red light to " + level);
-System.out.println("THE RED LIGHT IS " + level);
+        System.out.println("THE RED LIGHT IS " + level);
 
-        blueLight = 100 - level;
+        redLight = level;
         System.out.println("THE blue LIGHT IS " + blueLight);
         return false;
     }
@@ -365,7 +366,7 @@ System.out.println("THE RED LIGHT IS " + level);
 
     @Override
     public int getBlueLight() {
-        return blueLight;
+        return (int) (blueLight);
     }
 
     @Override
@@ -373,7 +374,7 @@ System.out.println("THE RED LIGHT IS " + level);
         this.order = order;
         this.lastLog = 0;
         try {
-            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() + "', '" + this.IP + "')");
             ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID()");
             rs.next();
             this.order.setBatch(rs.getInt(1));
@@ -415,7 +416,7 @@ System.out.println("THE RED LIGHT IS " + level);
 
     public void log() {
         lastLog++;
-        String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+        String values = "'" + getOrder().getBatch() + "', '" + getOrder().getRecipe().getRedLight() + "', '" + getOrder().getRecipe().getBlueLight()+ "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + (ReadTemp2()-273) + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
         System.out.println("Information gathered!");
         SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
         SQLConnection.close();
