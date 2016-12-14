@@ -87,8 +87,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                         if (water > 0) {
                             water = water - 0.2;
                             System.out.println("WATER------------------------------------");
-                        }else{
-                            water =0;
+                        } else {
+                            water = 0;
                         }
 
                         break;
@@ -136,7 +136,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public boolean SetRedLight(int level) {
 //        System.out.println("Set red light to " + level);
-
+        blueLight = 100 - level;
         return false;
     }
 
@@ -148,7 +148,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean SetBlueLight(int level) {
 //        System.out.println("Set blue light to " + level);
-
+        blueLight = level;
         return false;
     }
 
@@ -235,7 +235,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 //        System.out.println("Read water level ");
 
 //        double level = water; // level
-
 //        System.out.println("Water level is: " + level);
         return water;
     }
@@ -407,11 +406,11 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         return Alarm.OFF;
     }
 
-    public int getLastLog(){
+    public int getLastLog() {
         return lastLog;
     }
 
-    public void log(){
+    public void log() {
         lastLog++;
         String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
         System.out.println("Information gathered!");

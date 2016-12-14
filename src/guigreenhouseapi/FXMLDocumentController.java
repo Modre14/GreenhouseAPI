@@ -281,7 +281,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 8000, 8000);
+        }, 60000, 60000);
 
     }
 
