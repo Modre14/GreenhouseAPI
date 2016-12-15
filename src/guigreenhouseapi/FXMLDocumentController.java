@@ -8,7 +8,7 @@ package guigreenhouseapi;
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
 import Protocol.Order;
-import SCADA.ISCADA;
+import SCADA.ISCADAFXML;
 import SCADA.SCADA;
 import java.io.File;
 
@@ -144,7 +144,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private PLCConnection con;
 
     private IGreenhouse gh;
-    private ISCADA scada;
+    private ISCADAFXML scada;
 
     private ArrayList<IGreenhouse> greenhouseArray;
 

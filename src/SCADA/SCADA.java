@@ -22,6 +22,7 @@ import Protocol.Order;
 
 import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
+import java.rmi.AccessException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -36,10 +37,10 @@ import java.util.logging.Logger;
 /**
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
+public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable,ISCADA {
 
     private static Map<String, IGreenhouse> ghlist;
-    private static ISCADA instance = null;
+    private static ISCADAFXML instance = null;
     private IGreenhouse greenhouse;
     private ArrayList<Order> orderList = new ArrayList<>();
     private String greenhouseError = "";
@@ -54,13 +55,13 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
         orderList.remove(order);
     }
 
-    public static ISCADA getInstance() throws RemoteException {
+    public static ISCADAFXML getInstance() throws RemoteException {
 
         if (instance == null) {
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 System.out.println(ghlist);
             }
             instance.automate();
@@ -70,13 +71,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
         return instance;
     }
 
-    @Override
     public Map<String, IGreenhouse> getGreenhouseList() throws RemoteException {
         System.out.println("Given list");
         return ghlist;
     }
 
-    @Override
+
     public IGreenhouse getGreenhouse(String IP) throws RemoteException {
 
         return ghlist.get(IP);
@@ -87,8 +87,10 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
             Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_SCADA);
             registry.bind(ISCADA.OBJECT_NAME, instance);
 
-        } catch (AlreadyBoundException | RemoteException e) {
+        } catch (AlreadyBoundException e) {
             throw new Error("Error when creating server: " + e);
+        } catch (RemoteException ex) {
+            Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
         } catch (java.rmi.AlreadyBoundException ex) {
             Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
         }
