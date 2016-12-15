@@ -164,6 +164,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
             water = sec * 3;
+
+            System.out.println("hello " + water);
         }
         return false;
     }
@@ -236,7 +238,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 //        System.out.println("Read water level ");
 
 //        double level = water; // level
-        System.out.println("Water level is:    " + water);
         return water;
     }
 
@@ -426,16 +427,13 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
-        if (getLastWatering() == 0) {
+        if (lastIrrigation == 0) {
+            AddWater(getOrder().getRecipe().getWaterTime());
+            lastIrrigation = getOrder().getSecondsElapsed();
 
-            lastIrrigation = (int) getOrder().getStartDate().getTime();
-            System.out.println("lastIrrigation start= " + lastIrrigation);
         } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
             AddWater(getOrder().getRecipe().getWaterTime());
             lastIrrigation = getOrder().getSecondsElapsed();
-            System.out.println("addWater = " + getOrder().getRecipe().getWaterTime());
-            System.out.println("lastIrrigation  = " + lastIrrigation);
-
         }
     }
 
@@ -461,7 +459,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         SetBlueLight((int) (getOrder().getRecipe().getBlueLight() * getLightIntensity() / 100));
 
         SetRedLight((int) (getOrder().getRecipe().getRedLight() * getLightIntensity() / 100));
-        
+
     }
 
 }
