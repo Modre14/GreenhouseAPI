@@ -7,6 +7,7 @@ package GreenhouseAPI;
 
 import PLCCommunication.*;
 import Protocol.Order;
+import SCADA.SQLConnection;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -55,21 +56,15 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     }
 
     public void setOrder(Order order) {
-        this.lastLog = 0;
         this.order = order;
+        this.lastLog = 0;
         this.lastIrrigation = 0;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("Connecting to database...");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog", "root", "");
-            Statement stmt = conn.createStatement();
-
-            stmt.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() + "', '" + this.IP + "')");
-            ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() + "', '" + this.IP + "')");
+            ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID()");
             rs.next();
             this.order.setBatch(rs.getInt(1));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            SQLConnection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -481,21 +476,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public void log() {
         lastLog++;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/greenhouselog", "root", "");
-            System.out.println("Connection established!");
-            Statement stmt = conn.createStatement();
-            System.out.println("Statement Created!");
-            String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
-            stmt.execute("INSERT INTO " + IP + " (Batch, RedLight, BlueLight, LightIntensity, InsideTemp, OutsideTemp, WaterLevel, FanRunning) Values(" + values + ")");
-            System.out.println("Logging sucessful!");
+        String values = "'" + getOrder().getBatch() + "', '" + getOrder().getRecipe().getRedLight() + "', '" + getOrder().getRecipe().getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + (ReadTemp2() - 273) + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+        System.out.println("Information gathered!");
+        SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
+        SQLConnection.close();
+        System.out.println("Logging sucessful!");
 
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -505,18 +491,17 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     @Override
     public void waterGreenhouse() {
+        System.out.println("                                                                                    THIS IS WATER");
+
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
-        if (getLastWatering() == 0) {
+        if (lastIrrigation == 0) {
+            AddWater(getOrder().getRecipe().getWaterTime());
+            lastIrrigation = getOrder().getSecondsElapsed();
 
-            lastIrrigation = (int) getOrder().getStartDate().getTime();
-            System.out.println("lastIrrigation start= " + lastIrrigation);
         } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
             AddWater(getOrder().getRecipe().getWaterTime());
             lastIrrigation = getOrder().getSecondsElapsed();
-            System.out.println("addWater = " + getOrder().getRecipe().getWaterTime());
-            System.out.println("lastIrrigation  = " + lastIrrigation);
-
         }
     }
 
@@ -525,20 +510,22 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         //set the light
         double maxLight = getOrder().getRecipe().getHoursDay() / 2.0;
         double time = (getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+        System.out.println("                                                    LIGHT");
         if (time < maxLight) {
-
             setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+            System.out.println("                                                    LIGHTINTENSITY:      " + lightIntensity);
         } else {
 
             setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+
+            System.out.println("                                                    LIGHTINTENSITY2:      " + lightIntensity);
         }
 
         getAlarm();
         SetBlueLight((int) (getOrder().getRecipe().getBlueLight() * getLightIntensity() / 100));
 
         SetRedLight((int) (getOrder().getRecipe().getRedLight() * getLightIntensity() / 100));
-        System.out.println(" THIS IS THE NEW RED LIGHT " + (getOrder().getRecipe().getRedLight() * getLightIntensity()));
-        System.out.println("\t" + "lightintensity:   " + getLightIntensity());
+
     }
 
 }

@@ -238,7 +238,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 1000, 1000);
+        }, 2000, 2000);
 
         Timer fan = new java.util.Timer();
 
