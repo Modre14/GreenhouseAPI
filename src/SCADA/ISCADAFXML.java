@@ -6,7 +6,7 @@
 package SCADA;
 
 import GreenhouseAPI.IGreenhouse;
-import Protocol.Order;
+import Recipe.Order;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

@@ -7,7 +7,7 @@ package guigreenhouseapi;
 
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
-import Protocol.Order;
+import Recipe.Order;
 import SCADA.ISCADAFXML;
 import SCADA.SCADA;
 import java.io.File;

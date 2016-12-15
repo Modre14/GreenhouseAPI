@@ -9,7 +9,7 @@ import PLCCommunication.ICommands;
 import PLCCommunication.Message;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
-import Protocol.Order;
+import Recipe.Order;
 import SCADA.SQLConnection;
 
 import javax.xml.transform.Result;

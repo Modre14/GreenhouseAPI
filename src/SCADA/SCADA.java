@@ -18,7 +18,7 @@ import java.util.Map;
 
 import GreenhouseAPI.IGreenhouse;
 import GreenhouseAPI.SimulatedGreenhouse;
-import Protocol.Order;
+import Recipe.Order;
 
 import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;

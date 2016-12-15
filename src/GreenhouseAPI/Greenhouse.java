@@ -6,7 +6,7 @@
 package GreenhouseAPI;
 
 import PLCCommunication.*;
-import Protocol.Order;
+import Recipe.Order;
 import SCADA.SQLConnection;
 
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package GreenhouseAPI;
 
-import Protocol.Order;
+import Recipe.Order;
 
 import java.lang.reflect.Array;
 import java.rmi.Remote;

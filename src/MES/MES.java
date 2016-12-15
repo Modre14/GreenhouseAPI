@@ -6,8 +6,8 @@
 package MES;
 
 import GreenhouseAPI.Greenhouse;
-import Protocol.Order;
-import Protocol.Recipe;
+import Recipe.Order;
+import Recipe.Recipe;
 import SCADA.ISCADA;
 import SCADA.SCADA;
 import java.io.Serializable;
