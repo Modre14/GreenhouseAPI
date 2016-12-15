@@ -5,6 +5,7 @@
  */
 package SCADA;
 
+import GreenhouseAPI.Alarm;
 import GreenhouseAPI.Greenhouse;
 
 import java.rmi.RemoteException;
@@ -17,10 +18,11 @@ import java.util.Map;
 
 import GreenhouseAPI.IGreenhouse;
 import GreenhouseAPI.SimulatedGreenhouse;
-import Protocol.Order;
+import Recipe.Order;
 
 import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
+import java.rmi.AccessException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,10 +37,10 @@ import java.util.logging.Logger;
 /**
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
+public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable,ISCADA {
 
     private static Map<String, IGreenhouse> ghlist;
-    private static ISCADA instance = null;
+    private static ISCADAFXML instance = null;
     private IGreenhouse greenhouse;
     private ArrayList<Order> orderList = new ArrayList<>();
     private String greenhouseError = "";
@@ -53,7 +55,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
         orderList.remove(order);
     }
 
-    public static ISCADA getInstance() throws RemoteException {
+    public static ISCADAFXML getInstance() throws RemoteException {
 
         if (instance == null) {
             instance = new SCADA();
@@ -69,13 +71,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
         return instance;
     }
 
-    @Override
     public Map<String, IGreenhouse> getGreenhouseList() throws RemoteException {
         System.out.println("Given list");
         return ghlist;
     }
 
-    @Override
+
     public IGreenhouse getGreenhouse(String IP) throws RemoteException {
 
         return ghlist.get(IP);
@@ -86,8 +87,10 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
             Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_SCADA);
             registry.bind(ISCADA.OBJECT_NAME, instance);
 
-        } catch (AlreadyBoundException | RemoteException e) {
+        } catch (AlreadyBoundException e) {
             throw new Error("Error when creating server: " + e);
+        } catch (RemoteException ex) {
+            Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
         } catch (java.rmi.AlreadyBoundException ex) {
             Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,13 +112,12 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
 
     public void automate() throws RemoteException {
         new Thread(() -> {
-            int lastIrrigation = 0;
 
             //simulate 24 hours
             while (true) {
 
                 try {
-                    TimeUnit.SECONDS.sleep(55);
+                    TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SCADA.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -127,56 +129,28 @@ public class SCADA extends UnicastRemoteObject implements ISCADA, Serializable {
                         IGreenhouse gh = ghl.getValue();
 
                         //add water
-                        if (gh.getOrder() != null) {
+                        if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
                             Date d = new Date();
+
+                            gh.changeLightInGreenhouse();
+                            gh.waterGreenhouse();
 
                             if (gh.getOrder().getSecondsElapsed() >= (60 * (gh.getLastLog() + 1))) {
                                 gh.log();
                             }
-                            if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
 
-                                //set the light
-                                double maxLight = gh.getOrder().getRecipe().getHoursDay() / 2.0;
-                                double time = (gh.getOrder().getSecondsElapsed() / 3600.0) % 24.0;
-                                if (time < maxLight) {
+                            //add water;
+                            if (gh.getAlarm() > Alarm.OFF) {
+                                String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
+                                if (gh.getAlarm() == Alarm.MINTEMP) {
 
-                                    gh.setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
-                                } else {
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
 
-                                    gh.setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+                                } else if (gh.getAlarm() == Alarm.MAXTEMP) {
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
                                 }
-                                gh.getAlarm();
-                                gh.SetBlueLight((int) (gh.getOrder().getRecipe().getBlueLight() * gh.getLightIntensity() / 100));
-                                gh.SetRedLight((int) (gh.getOrder().getRecipe().getRedLight() * gh.getLightIntensity() / 100));
-
-                                System.out.println("\t" + "lightintensity:   " + gh.getLightIntensity());
-
-                                //add water;
-                                double irrigation = 24.0 / gh.getOrder().getRecipe().getIrrigationsPrDay();
-
-                                if (lastIrrigation == 0) {
-
-                                    lastIrrigation = (int) gh.getOrder().getStartDate().getTime();
-                                    System.out.println("lastIrrigation start= " + lastIrrigation);
-                                } else if (lastIrrigation + (irrigation * 3600) < gh.getOrder().getSecondsElapsed()) {
-                                    gh.AddWater(gh.getOrder().getRecipe().getWaterTime());
-                                    lastIrrigation = gh.getOrder().getSecondsElapsed();
-                                    System.out.println("addWater = " + gh.getOrder().getRecipe().getWaterTime());
-                                    System.out.println("lastIrrigation  = " + lastIrrigation);
-
-                                }
-                                if (gh.getAlarm() > 0) {
-                                    String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
-                                    if (gh.getAlarm() == 1) {
-
-                                        greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
-
-                                    } else if (gh.getAlarm() == 2) {
-                                        greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
-                                    }
-                                }
-
                             }
+
                         }
 
                     } catch (Exception e) {

@@ -7,8 +7,8 @@ package guigreenhouseapi;
 
 import GreenhouseAPI.IGreenhouse;
 import PLCCommunication.PLCConnection;
-import Protocol.Order;
-import SCADA.ISCADA;
+import Recipe.Order;
+import SCADA.ISCADAFXML;
 import SCADA.SCADA;
 import java.io.File;
 
@@ -144,7 +144,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private PLCConnection con;
 
     private IGreenhouse gh;
-    private ISCADA scada;
+    private ISCADAFXML scada;
 
     private ArrayList<IGreenhouse> greenhouseArray;
 
@@ -187,6 +187,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
         greenhouseOrders.setItems((ObservableList<String>) l3);
         listOfGreenhouse2.setItems((ObservableList<String>) l5);
         listOfGreenhouse3.setItems((ObservableList<String>) l6);
+        listOfGreenhouse.setItems((ObservableList<String>) l6);
+        
         for (Order order : orders) {
             l4.add(order.toString());
         }
@@ -209,7 +211,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             }
 
-            listOfGreenhouse.setItems((ObservableList<String>) l);
             listOfGreenhouse2.setItems((ObservableList) l);
 
             updateOverview();
@@ -237,7 +238,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 1000, 1000);
+        }, 2000, 2000);
 
         Timer fan = new java.util.Timer();
 
@@ -272,7 +273,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
                                 alert.setHeaderText(scada.getGreenhouseError());
                                 scada.setGreenhouseError("");
                                 alert.showAndWait();
-                                
 
                             }
 

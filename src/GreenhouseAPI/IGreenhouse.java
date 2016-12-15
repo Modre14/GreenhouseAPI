@@ -1,6 +1,6 @@
 package GreenhouseAPI;
 
-import Protocol.Order;
+import Recipe.Order;
 
 import java.lang.reflect.Array;
 import java.rmi.Remote;
@@ -174,4 +174,9 @@ public interface IGreenhouse {
      */
     boolean SetFanSpeed(int speed);
 
+    int getLastWatering();
+
+    void waterGreenhouse();
+    
+    void changeLightInGreenhouse();
 }

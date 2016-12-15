@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Protocol;
+package Recipe;
 
 import java.io.Serializable;
 
@@ -55,7 +55,7 @@ public class Recipe implements Serializable {
 
     @Override
     public String toString() {
-        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterTime=" + waterTime + ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
+        return "Protocol{" + "id=" + id + ", Temp=" + temp + ", minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", waterTime=" + waterTime + ", irrigationPrDay="+ irrigationsPrDay+ ", redLight=" + redLight + ", blueLight=" + blueLight + ", days=" + days + '}';
     }
 
     public int getTemp() {

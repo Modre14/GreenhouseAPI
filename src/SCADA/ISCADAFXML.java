@@ -16,19 +16,28 @@ import java.util.Map;
  *
  * @author Morten
  */
-public interface ISCADA extends Remote {
+public interface ISCADAFXML extends Remote {
 
-    public static int REGISTRY_PORT_SCADA = 54323;
-    public static int REGISTRY_PORT_MES = 54322;
-    public static String OBJECT_NAME = "server";
-//
+    IGreenhouse getGreenhouse(String IP) throws RemoteException;
 
+    Map<String, IGreenhouse> getGreenhouseList() throws RemoteException;
+
+    public boolean startServer() throws RemoteException;
+
+    public void automate() throws RemoteException;
+
+    public void removeOrder(Order order) throws RemoteException;
+
+    public String getGreenhouseError() throws RemoteException;
+
+    public void setGreenhouseError(String s) throws RemoteException;
 
     /**
      * Sends info to the MES system The return value //
      */
     //    String sendInfoToMES() throws RemoteException;
     //
+    ArrayList getOrders() throws RemoteException;
 
     /**
      * Gets order information from MES
@@ -39,5 +48,4 @@ public interface ISCADA extends Remote {
 //    ArrayList receiveInfo(ArrayList info) throws RemoteException;
 //
 //    ArrayList receiveOrder(ArrayList order) throws RemoteException;
-    void receiveInfo(ArrayList info) throws RemoteException;
 }

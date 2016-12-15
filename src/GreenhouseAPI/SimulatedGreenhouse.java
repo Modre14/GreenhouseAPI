@@ -9,7 +9,7 @@ import PLCCommunication.ICommands;
 import PLCCommunication.Message;
 import PLCCommunication.PLCConnection;
 import PLCCommunication.UDPConnection;
-import Protocol.Order;
+import Recipe.Order;
 import SCADA.SQLConnection;
 
 import javax.xml.transform.Result;
@@ -36,7 +36,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private double currentValue;
     private String conn;
     private Message mess;
-    private int blueLight;
+    private double blueLight;
+    private double redLight;
     private double lightIntensity;
     private int days;
     private int daysCompleted;
@@ -44,6 +45,7 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     private double water;
     private int moist;
     private int lastLog = 0;
+    int lastIrrigation;
     String IP;
 
     double temp = 15.0;
@@ -86,8 +88,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
                         valD = r / 5.0;
                         if (water > 0) {
                             water = water - 0.2;
-                            System.out.println("WATER------------------------------------");
-                        } else {
+                        }
+                        if (water < 0) {
                             water = 0;
                         }
 
@@ -120,7 +122,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      * @return true if processed
      */
     public boolean SetMoisture(int moist) {
-        System.out.println("Set moisture level to " + moist);
 
         return false;
     }
@@ -136,7 +137,8 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public boolean SetRedLight(int level) {
 //        System.out.println("Set red light to " + level);
-        blueLight = 100 - level;
+
+        redLight = level;
         return false;
     }
 
@@ -161,8 +163,9 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
      */
     public boolean AddWater(int sec) {
         if (sec >= 0 && sec < 120) {
-            water = sec;
-            System.out.println(water + " THIS IS WATER");
+            water = sec * 3;
+
+            System.out.println("hello " + water);
         }
         return false;
     }
@@ -235,7 +238,6 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 //        System.out.println("Read water level ");
 
 //        double level = water; // level
-//        System.out.println("Water level is: " + level);
         return water;
     }
 
@@ -362,15 +364,16 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     @Override
     public int getBlueLight() {
-        return blueLight;
+        return (int) (blueLight);
     }
 
     @Override
     public void setOrder(Order order) {
         this.order = order;
         this.lastLog = 0;
+        this.lastIrrigation = 0;
         try {
-            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('"+ getOrder().getRecipe().getId() +"', '" + this.IP + "')");
+            SQLConnection.execute("INSERT INTO batchlog (Product, Greenhouse) Values('" + getOrder().getRecipe().getId() + "', '" + this.IP + "')");
             ResultSet rs = SQLConnection.execute("SELECT LAST_INSERT_ID()");
             rs.next();
             this.order.setBatch(rs.getInt(1));
@@ -412,11 +415,50 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
 
     public void log() {
         lastLog++;
-        String values = "'" + getOrder().getBatch() + "', '" + (100 - getBlueLight()) + "', '" + getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + ReadTemp2() + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+        String values = "'" + getOrder().getBatch() + "', '" + getOrder().getRecipe().getRedLight() + "', '" + getOrder().getRecipe().getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + (ReadTemp2() - 273) + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
         System.out.println("Information gathered!");
         SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
         SQLConnection.close();
         System.out.println("Logging sucessful!");
+
+    }
+
+    public void waterGreenhouse() {
+
+        double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
+
+        if (lastIrrigation == 0) {
+            AddWater(getOrder().getRecipe().getWaterTime());
+            lastIrrigation = getOrder().getSecondsElapsed();
+
+        } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
+            AddWater(getOrder().getRecipe().getWaterTime());
+            lastIrrigation = getOrder().getSecondsElapsed();
+        }
+    }
+
+    @Override
+    public int getLastWatering() {
+        return lastIrrigation;
+    }
+
+    @Override
+    public void changeLightInGreenhouse() {
+        //set the light
+        double maxLight = getOrder().getRecipe().getHoursDay() / 2.0;
+        double time = (getOrder().getSecondsElapsed() / 3600.0) % 24.0;
+        if (time < maxLight) {
+
+            setLightIntensity((maxLight + (time - maxLight)) / maxLight * 100);
+        } else {
+
+            setLightIntensity((maxLight - (time - maxLight)) / maxLight * 100);
+        }
+
+        getAlarm();
+        SetBlueLight((int) (getOrder().getRecipe().getBlueLight() * getLightIntensity() / 100));
+
+        SetRedLight((int) (getOrder().getRecipe().getRedLight() * getLightIntensity() / 100));
 
     }
 

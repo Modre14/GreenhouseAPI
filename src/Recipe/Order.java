@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Protocol;
+package Recipe;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -67,7 +67,7 @@ public class Order implements Serializable {
 
     public int getSecondsElapsed() {
         Date d = new Date();
-        return (int) (((d.getTime() - orderStarted.getTime()) / 1000));
+        return (int) (((d.getTime() - orderStarted.getTime()) / 1000*100));
     }
 
     public void setStartDate(Date startDate) {
