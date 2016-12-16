@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public interface ISCADA extends Remote {
 
     public static int REGISTRY_PORT_SCADA = 54323;
-    public static int REGISTRY_PORT_MES = 54322;
     public static String OBJECT_NAME = "server";
 //
 

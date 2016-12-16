@@ -141,6 +141,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <Button fx:id="removeOrderfromGreenhouseButton" layoutX="214.0" layoutY="506.0" mnemonicParsing="false" onAction="#removeOrderfromGreenhouse" prefHeight="25.0" prefWidth="283.0" text="Greenhouse is ready for new order" visible="false" />
                 </children>
             </AnchorPane>
          </content>
@@ -154,7 +155,7 @@
                   <ListView fx:id="greenhouseOrders" focusTraversable="false" layoutX="414.0" layoutY="33.0" prefHeight="255.0" prefWidth="200.0" />
                   <ListView fx:id="listOfOrders" layoutX="14.0" layoutY="292.0" prefHeight="287.0" prefWidth="600.0" />
                   <ComboBox fx:id="listOfGreenhouse2" layoutX="636.0" layoutY="384.0" prefWidth="150.0" />
-                  <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Get orders" />
+                  <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Update" />
                   <Button layoutX="636.0" layoutY="416.0" mnemonicParsing="false" onAction="#addOrderButton" text="Add order to greenhouse" />
                   <Label layoutX="14.0" layoutY="14.0" text="Greenhouses">
                      <font>

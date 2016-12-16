@@ -6,6 +6,7 @@
 package SCADA;
 
 import GreenhouseAPI.Alarm;
+import GreenhouseAPI.Greenhouse;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
                 
             }
             instance.automate();

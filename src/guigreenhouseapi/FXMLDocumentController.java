@@ -124,6 +124,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private TextField inProductionTextField;
     @FXML
     private ImageView lightBulb;
+    @FXML
+    private Button removeOrderfromGreenhouseButton;
 
     public FXMLDocumentController() throws RemoteException {
 
@@ -172,7 +174,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         listOfGreenhouse2.setItems((ObservableList<String>) l5);
         listOfGreenhouse3.setItems((ObservableList<String>) l6);
         listOfGreenhouse.setItems((ObservableList<String>) l6);
-        
+
         for (Order order : orders) {
             l4.add(order.toString());
         }
@@ -190,7 +192,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             List l = FXCollections.observableArrayList();
 
             for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
-                
+
                 l.add(gh.getKey());
 
             }
@@ -221,7 +223,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     }
                 });
             }
-        }, 2000, 2000);
+        }, 1000, 1000);
 
         Timer fan = new java.util.Timer();
 
@@ -271,7 +273,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
-
+        updateOverview();
     }
 
     @FXML
@@ -364,14 +366,17 @@ public class FXMLDocumentController extends Thread implements Initializable {
         if (gh.getOrder().getRecipe().getDays() == 0) {
             daysLeftTextField.setText("Stopped");
             timerTextField.setText("--:--");
+            removeOrderfromGreenhouseButton.setVisible(true);
             updateOverview();
         } else if (gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24 <= 0) {
             daysLeftTextField.setText("Complete");
             timerTextField.setText("00:00");
+            removeOrderfromGreenhouseButton.setVisible(true);
             updateOverview();
         } else {
             daysLeftTextField.setText(String.valueOf(gh.getOrder().getRecipe().getDays() - gh.getOrder().getSecondsElapsed() / 3600 / 24));
             timerTextField.setText(String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60)));
+            removeOrderfromGreenhouseButton.setVisible(false);
         }
 
         updateLight();
@@ -455,6 +460,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
             int value = Integer.parseInt(RedLight_TextField.getText());
             BlueLight_TextField.setText(String.valueOf(100 - value));
         }
+    }
+
+    @FXML
+    private void removeOrderfromGreenhouse(ActionEvent event) throws RemoteException {
+        gh.setLightIntensity(0);
+        gh.SetRedLight(0);
+        gh.SetBlueLight(0);
+        gh.setOrder(null);
+        removeOrderfromGreenhouseButton.setVisible(false);
+
     }
 
 }
