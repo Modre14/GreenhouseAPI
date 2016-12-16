@@ -10,7 +10,6 @@ import Recipe.Order;
 import Recipe.Recipe;
 import SCADA.ISCADA;
 import SCADA.SCADA;
-import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -20,7 +19,6 @@ import java.rmi.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,7 +30,7 @@ import javax.swing.JOptionPane;
 public class MES {
 
     private ArrayList<Recipe> recipeArray = new ArrayList<Recipe>();
-    ERP_Connect obj2;
+    ERP_Connect erp;
     private ISCADA scada;
     private ArrayList orderList = new ArrayList();
     private ArrayList<Order> orders = new ArrayList<Order>();
@@ -68,7 +66,7 @@ public class MES {
 
     private void generateOrders() {
 
-        orderList = obj2.getOrderList();
+        orderList = erp.getOrderList();
 
         for (int i = 0; i < orderList.size(); i++) {
             String line = (String) orderList.get(i).toString();
@@ -128,9 +126,9 @@ public class MES {
     }
 
     private void ERPConnect() throws RemoteException {
-        obj2 = new ERP_Connect();
-        obj2.getConnection();
-        obj2.getDataFromERP();
+        erp = new ERP_Connect();
+        erp.getConnection();
+        erp.getDataFromERP();
 
     }
 
@@ -152,22 +150,6 @@ public class MES {
             throw new Error("Error" + e);
         }
 
-    }
-
-    public boolean startServer() throws RemoteException {
-
-        try {
-            Registry registry = LocateRegistry.createRegistry(ISCADA.REGISTRY_PORT_MES);
-            registry.bind(ISCADA.OBJECT_NAME, (Remote) new SCADA());
-
-        } catch (AlreadyBoundException | RemoteException e) {
-            throw new Error("Error when creating server: " + e);
-        } catch (java.rmi.AlreadyBoundException ex) {
-            Logger.getLogger(Greenhouse.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        System.out.println("Server running with registry on port " + ISCADA.REGISTRY_PORT_MES);
-        return true;
     }
 
 }

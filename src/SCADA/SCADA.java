@@ -9,10 +9,6 @@ import GreenhouseAPI.Alarm;
 import GreenhouseAPI.Greenhouse;
 
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +18,9 @@ import Recipe.Order;
 
 import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
-import java.rmi.AccessException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +30,7 @@ import java.util.logging.Logger;
 /**
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable,ISCADA {
+public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable, ISCADA {
 
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADAFXML instance = null;
@@ -61,8 +54,8 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
             instance = new SCADA();
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
-                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new SimulatedGreenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
-                System.out.println(ghlist);
+                ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
+
             }
             instance.automate();
 
@@ -72,10 +65,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
     }
 
     public Map<String, IGreenhouse> getGreenhouseList() throws RemoteException {
-        System.out.println("Given list");
+
         return ghlist;
     }
-
 
     public IGreenhouse getGreenhouse(String IP) throws RemoteException {
 
@@ -101,8 +93,6 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
     @Override
     public void receiveInfo(ArrayList info) throws RemoteException {
         orderList = info;
-        System.out.println(info.get(0));
-        System.out.println(info.get(1));
     }
 
     @Override
@@ -128,26 +118,25 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
                     try {
                         IGreenhouse gh = ghl.getValue();
 
-                        //add water
                         if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
                             Date d = new Date();
-
+                            //changeLight
                             gh.changeLightInGreenhouse();
+                            //add water
                             gh.waterGreenhouse();
 
                             if (gh.getOrder().getSecondsElapsed() >= (60 * (gh.getLastLog() + 1))) {
                                 gh.log();
                             }
+                            if (gh.getAlarm() != Alarm.OFF) {
 
-                            //add water;
-                            if (gh.getAlarm() > Alarm.OFF) {
                                 String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
                                 if (gh.getAlarm() == Alarm.MINTEMP) {
 
-                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature " + gh.ReadTemp1() + "°C is under minimum on greenhouse: " + ghl.getKey();
 
                                 } else if (gh.getAlarm() == Alarm.MAXTEMP) {
-                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature " + gh.ReadTemp1() + " is over maximum on greenhouse: " + ghl.getKey();
                                 }
                             }
 

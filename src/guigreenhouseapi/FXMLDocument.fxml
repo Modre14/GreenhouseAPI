@@ -23,97 +23,92 @@
          <content>
             <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0">
                 <children>
-                  <ProgressBar id="tempprogress-bar" fx:id="thermometerIndicatorIn" layoutX="-31.0" layoutY="169.0" prefWidth="200.0" progress="0.39" rotate="-90.0" />
-                  <Label layoutX="80.0" layoutY="70.0" text="- 50" />
-                  <Label layoutX="80.0" layoutY="90.0" text="- 45" />
-                  <Label layoutX="80.0" layoutY="110.0" text="- 40" />
-                  <Label layoutX="80.0" layoutY="130.0" text="- 35" />
-                  <Label layoutX="80.0" layoutY="150.0" text="- 30" />
-                  <Label layoutX="80.0" layoutY="170.0" text="- 25" />
-                  <Label layoutX="80.0" layoutY="191.0" text="- 20" />
-                  <Label layoutX="80.0" layoutY="210.0" text="- 15" />
-                  <Label layoutX="80.0" layoutY="230.0" text="- 10" />
-                  <Label layoutX="80.0" layoutY="250.0" text="- 5" />
-                  <Label layoutX="80.0" layoutY="268.0" text="- 0" />
-                  <TextField fx:id="tempInside" editable="false" layoutX="112.0" layoutY="168.0" prefHeight="25.0" prefWidth="46.0" />
-                  <ProgressBar id="waterprogress-bar" fx:id="waterlevelIndicator" layoutX="222.0" layoutY="164.0" prefHeight="29.0" prefWidth="200.0" progress="0.52" rotate="-90.0" />
-                  <Label layoutX="340.0" layoutY="268.0" text="- 0" />
-                  <Label layoutX="340.0" layoutY="230.0" text="- 5" />
-                  <Label layoutX="340.0" layoutY="70.0" text="- 25" />
-                  <Label layoutX="340.0" layoutY="110.0" text="- 20" />
-                  <Label layoutX="340.0" layoutY="150.0" text="- 15" />
-                  <Label layoutX="340.0" layoutY="190.0" text="- 10" />
-                  <TextField fx:id="waterLevel" editable="false" layoutX="369.0" layoutY="168.0" prefHeight="25.0" prefWidth="63.0" />
-                  <Circle fx:id="colorIndicator" fill="DODGERBLUE" layoutX="636.0" layoutY="156.0" radius="67.0" stroke="BLACK" strokeType="INSIDE" />
-                  <ProgressBar id="tempprogress-bar" fx:id="thermometerIndicatorOut" layoutX="89.0" layoutY="169.0" prefWidth="200.0" progress="0.39" rotate="270.0" />
-                  <Label layoutX="200.0" layoutY="70.0" text="- 50" />
-                  <Label layoutX="200.0" layoutY="90.0" text="- 45" />
-                  <Label layoutX="200.0" layoutY="110.0" text="- 40" />
-                  <Label layoutX="200.0" layoutY="130.0" text="- 35" />
-                  <Label layoutX="200.0" layoutY="150.0" text="- 30" />
-                  <Label layoutX="200.0" layoutY="170.0" text="- 25" />
-                  <Label layoutX="200.0" layoutY="191.0" text="- 20" />
-                  <Label layoutX="200.0" layoutY="210.0" text="- 15" />
-                  <Label layoutX="200.0" layoutY="230.0" text="- 10" />
-                  <Label layoutX="200.0" layoutY="250.0" text="- 5" />
-                  <Label layoutX="200.0" layoutY="268.0" text="- 0" />
-                  <TextField fx:id="tempOutside" editable="false" layoutX="232.0" layoutY="168.0" prefHeight="25.0" prefWidth="46.0" />
-                  <Label layoutX="108.0" layoutY="149.0" text="Inside °C">
+                  <ProgressBar id="tempprogress-bar" fx:id="thermometerIndicatorIn" layoutX="-30.0" layoutY="235.0" prefWidth="200.0" progress="0.39" rotate="-90.0" />
+                  <Label layoutX="81.0" layoutY="136.0" text="- 50" />
+                  <Label layoutX="81.0" layoutY="156.0" text="- 45" />
+                  <Label layoutX="81.0" layoutY="176.0" text="- 40" />
+                  <Label layoutX="81.0" layoutY="196.0" text="- 35" />
+                  <Label layoutX="81.0" layoutY="216.0" text="- 30" />
+                  <Label layoutX="81.0" layoutY="236.0" text="- 25" />
+                  <Label layoutX="81.0" layoutY="257.0" text="- 20" />
+                  <Label layoutX="81.0" layoutY="276.0" text="- 15" />
+                  <Label layoutX="81.0" layoutY="296.0" text="- 10" />
+                  <Label layoutX="81.0" layoutY="316.0" text="- 5" />
+                  <Label layoutX="81.0" layoutY="334.0" text="- 0" />
+                  <TextField fx:id="tempInside" editable="false" layoutX="113.0" layoutY="234.0" prefHeight="25.0" prefWidth="46.0" />
+                  <ProgressBar id="waterprogress-bar" fx:id="waterlevelIndicator" layoutX="223.0" layoutY="230.0" prefHeight="29.0" prefWidth="200.0" progress="0.52" rotate="-90.0" />
+                  <Label layoutX="341.0" layoutY="334.0" text="- 0" />
+                  <Label layoutX="341.0" layoutY="296.0" text="- 5" />
+                  <Label layoutX="341.0" layoutY="136.0" text="- 25" />
+                  <Label layoutX="341.0" layoutY="176.0" text="- 20" />
+                  <Label layoutX="341.0" layoutY="216.0" text="- 15" />
+                  <Label layoutX="341.0" layoutY="256.0" text="- 10" />
+                  <TextField fx:id="waterLevel" editable="false" layoutX="370.0" layoutY="234.0" prefHeight="25.0" prefWidth="63.0" />
+                  <Circle fx:id="colorIndicator" fill="DODGERBLUE" layoutX="615.0" layoutY="253.0" radius="67.0" stroke="BLACK" strokeType="INSIDE" />
+                  <ProgressBar id="tempprogress-bar" fx:id="thermometerIndicatorOut" layoutX="90.0" layoutY="235.0" prefWidth="200.0" progress="0.39" rotate="270.0" />
+                  <Label layoutX="201.0" layoutY="136.0" text="- 50" />
+                  <Label layoutX="201.0" layoutY="156.0" text="- 45" />
+                  <Label layoutX="201.0" layoutY="176.0" text="- 40" />
+                  <Label layoutX="201.0" layoutY="196.0" text="- 35" />
+                  <Label layoutX="201.0" layoutY="216.0" text="- 30" />
+                  <Label layoutX="201.0" layoutY="236.0" text="- 25" />
+                  <Label layoutX="201.0" layoutY="257.0" text="- 20" />
+                  <Label layoutX="201.0" layoutY="276.0" text="- 15" />
+                  <Label layoutX="201.0" layoutY="296.0" text="- 10" />
+                  <Label layoutX="201.0" layoutY="316.0" text="- 5" />
+                  <Label layoutX="201.0" layoutY="334.0" text="- 0" />
+                  <TextField fx:id="tempOutside" editable="false" layoutX="233.0" layoutY="234.0" prefHeight="25.0" prefWidth="46.0" />
+                  <Label layoutX="109.0" layoutY="215.0" text="Inside °C">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="228.0" layoutY="149.0" text="Outside °C">
+                  <Label layoutX="229.0" layoutY="215.0" text="Outside °C">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="370.0" layoutY="149.0" text="Water cm">
+                  <Label layoutX="371.0" layoutY="215.0" text="Water cm">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
                   <ComboBox fx:id="listOfGreenhouse" layoutX="27.0" layoutY="38.0" onAction="#getGreenhouseData" prefWidth="150.0" />
-                  <Button fx:id="stopProductionButton" disable="true" layoutX="596.0" layoutY="401.0" mnemonicParsing="false" onAction="#stopProduction" text="Stop">
+                  <Button fx:id="stopProductionButton" disable="true" layoutX="593.0" layoutY="475.0" mnemonicParsing="false" onAction="#stopProduction" text="Stop">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <CheckBox fx:id="stopProductionCheckBox" layoutX="597.0" layoutY="381.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
-                  <Slider fx:id="lightSlider" layoutX="722.0" layoutY="97.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
-                  <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="322.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+                  <CheckBox fx:id="stopProductionCheckBox" layoutX="594.0" layoutY="455.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
+                  <Slider fx:id="lightSlider" layoutX="723.0" layoutY="196.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
+                  <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="277.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../fan-512.png" />
                      </image>
                   </ImageView>
-                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="405.0" layoutY="169.0" prefWidth="200.0" progress="0.0" rotate="-90.0" />
-                  <ImageView fitHeight="211.0" fitWidth="240.0" layoutX="14.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
+                  <ProgressBar id="intensityprogress-bar" fx:id="amountOfLghtProgress" layoutX="406.0" layoutY="235.0" prefWidth="200.0" progress="0.0" rotate="-90.0" />
+                  <ImageView fitHeight="211.0" fitWidth="240.0" layoutX="4.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ATbrrkLac.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="levelOfMoistLabel" layoutX="121.0" layoutY="423.0" />
-                  <Label layoutX="608.0" layoutY="8.0" text="Days left:">
+                  <Label fx:id="levelOfMoistLabel" layoutX="102.0" layoutY="497.0" prefHeight="27.0" prefWidth="55.0" />
+                  <Label layoutX="593.0" layoutY="42.0" text="Days left:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="daysLeftTextField" editable="false" layoutX="667.0" layoutY="5.0" prefHeight="30.0" prefWidth="118.0">
+                  <TextField fx:id="daysLeftTextField" editable="false" layoutX="652.0" layoutY="39.0" prefHeight="30.0" prefWidth="118.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="timerTextField" editable="false" layoutX="733.0" layoutY="37.0" prefHeight="30.0" prefWidth="54.0">
+                  <TextField fx:id="timerTextField" editable="false" layoutX="718.0" layoutY="71.0" prefHeight="30.0" prefWidth="54.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="608.0" layoutY="40.0" text="GreenhouseTime:">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="189.0" layoutY="41.0" text="In production:">
+                  <Label layoutX="593.0" layoutY="74.0" text="GreenhouseTime:">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -124,23 +119,18 @@
              
                      </image>
                   </ImageView>
-                  <Label layoutX="23.0" layoutY="10.0" text="Greenhouse">
+                  <Label layoutX="33.0" layoutY="10.0" text="Greenhouse">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="189.0" layoutY="41.0" text="In production:">
+                  <Label layoutX="280.0" layoutY="10.0" text="In production:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="inProductionTextField" layoutX="281.0" layoutY="40.0" />
                   <ImageView fx:id="lightBulb" fitHeight="58.0" fitWidth="59.0" layoutX="476.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label layoutX="23.0" layoutY="10.0" text="Greenhouse">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
+                  <Button fx:id="removeOrderfromGreenhouseButton" layoutX="222.0" layoutY="369.0" mnemonicParsing="false" onAction="#removeOrderfromGreenhouse" prefHeight="25.0" prefWidth="283.0" text="Greenhouse is ready for new order" visible="false" />
                 </children>
             </AnchorPane>
          </content>
@@ -154,7 +144,7 @@
                   <ListView fx:id="greenhouseOrders" focusTraversable="false" layoutX="414.0" layoutY="33.0" prefHeight="255.0" prefWidth="200.0" />
                   <ListView fx:id="listOfOrders" layoutX="14.0" layoutY="292.0" prefHeight="287.0" prefWidth="600.0" />
                   <ComboBox fx:id="listOfGreenhouse2" layoutX="636.0" layoutY="384.0" prefWidth="150.0" />
-                  <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Get orders" />
+                  <Button layoutX="636.0" layoutY="297.0" mnemonicParsing="false" onAction="#getOrderList" text="Update" />
                   <Button layoutX="636.0" layoutY="416.0" mnemonicParsing="false" onAction="#addOrderButton" text="Add order to greenhouse" />
                   <Label layoutX="14.0" layoutY="14.0" text="Greenhouses">
                      <font>

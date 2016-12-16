@@ -5,12 +5,9 @@
  */
 package SCADA;
 
-import GreenhouseAPI.IGreenhouse;
-import Recipe.Order;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *
@@ -19,7 +16,6 @@ import java.util.Map;
 public interface ISCADA extends Remote {
 
     public static int REGISTRY_PORT_SCADA = 54323;
-    public static int REGISTRY_PORT_MES = 54322;
     public static String OBJECT_NAME = "server";
 //
 

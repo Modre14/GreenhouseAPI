@@ -7,23 +7,17 @@ package GreenhouseAPI;
 
 import PLCCommunication.ICommands;
 import PLCCommunication.Message;
-import PLCCommunication.PLCConnection;
-import PLCCommunication.UDPConnection;
 import Recipe.Order;
 import SCADA.SQLConnection;
 
-import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 /**
  *
@@ -397,15 +391,12 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
 
     public int getAlarm() {
-        System.out.println(ReadTemp1());
-        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
-            System.out.println("                                                                AlarmMAX");
+        int currentTemp = (int) ReadTemp1();
+        if (currentTemp > getOrder().getRecipe().getMaxTemp()) {
             return Alarm.MAXTEMP;
-        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
-            System.out.println("                                                                AlarmMIN");
+        } else if (currentTemp < getOrder().getRecipe().getMinTemp()) {
             return Alarm.MINTEMP;
         }
-        System.out.println("                                                                    NONE");
         return Alarm.OFF;
     }
 
@@ -428,12 +419,13 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
         if (lastIrrigation == 0) {
-            AddWater(getOrder().getRecipe().getWaterTime());
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
 
         } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
-            AddWater(getOrder().getRecipe().getWaterTime());
+
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
         }
     }
 

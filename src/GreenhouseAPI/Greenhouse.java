@@ -10,13 +10,10 @@ import Recipe.Order;
 import SCADA.SQLConnection;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 
 /**
  * API to communicate to the PLC
@@ -36,15 +33,12 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     private int lastIrrigation;
 
     public int getAlarm() {
-        System.out.println(ReadTemp1());
-        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
-            System.out.println("                                                                AlarmMAX");
+        int currentTemp = (int) ReadTemp1();
+        if (currentTemp > getOrder().getRecipe().getMaxTemp()) {
             return Alarm.MAXTEMP;
-        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
-            System.out.println("                                                                AlarmMIN");
+        } else if (currentTemp < getOrder().getRecipe().getMinTemp()) {
             return Alarm.MINTEMP;
         }
-        System.out.println("                                                                    NONE");
         return Alarm.OFF;
     }
 
@@ -496,12 +490,14 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
         if (lastIrrigation == 0) {
-            AddWater(getOrder().getRecipe().getWaterTime());
+
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
 
         } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
-            AddWater(getOrder().getRecipe().getWaterTime());
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
+
         }
     }
 
