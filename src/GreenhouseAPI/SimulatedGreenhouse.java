@@ -391,10 +391,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     @Override
 
     public int getAlarm() {
-        System.out.println(ReadTemp1());
-        if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
+        int currentTemp = (int) ReadTemp1();
+        if (currentTemp > getOrder().getRecipe().getMaxTemp()) {
             return Alarm.MAXTEMP;
-        } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
+        } else if (currentTemp < getOrder().getRecipe().getMinTemp()) {
             return Alarm.MINTEMP;
         }
         return Alarm.OFF;

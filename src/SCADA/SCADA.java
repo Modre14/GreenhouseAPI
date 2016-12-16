@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 /**
  * @author Morten
  */
-public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable,ISCADA {
+public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializable, ISCADA {
 
     private static Map<String, IGreenhouse> ghlist;
     private static ISCADAFXML instance = null;
@@ -55,7 +55,7 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
             for (int i = 0; i < SCADA_CONFIG.IP_ADRESSES.length; i++) {
 
                 ghlist.put(SCADA_CONFIG.IP_ADRESSES[i], new Greenhouse(SCADA_CONFIG.IP_ADRESSES[i]));
-                
+
             }
             instance.automate();
 
@@ -65,10 +65,9 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
     }
 
     public Map<String, IGreenhouse> getGreenhouseList() throws RemoteException {
-       
+
         return ghlist;
     }
-
 
     public IGreenhouse getGreenhouse(String IP) throws RemoteException {
 
@@ -119,7 +118,6 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
                     try {
                         IGreenhouse gh = ghl.getValue();
 
-                        
                         if (gh.getOrder() != null && gh.getOrder().getRecipe().getDays() - (gh.getOrder().getSecondsElapsed() / 3600 / 24) > 0) {
                             Date d = new Date();
                             //changeLight
@@ -131,14 +129,14 @@ public class SCADA extends UnicastRemoteObject implements ISCADAFXML, Serializab
                                 gh.log();
                             }
                             if (gh.getAlarm() != Alarm.OFF) {
-                                
+
                                 String s = String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 3600) % 24) + ":" + String.format("%02d", (int) Math.floor(gh.getOrder().getSecondsElapsed() / 60 % 60));
                                 if (gh.getAlarm() == Alarm.MINTEMP) {
 
-                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is under minimum on greenhouse: " + ghl.getKey();
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature " + gh.ReadTemp1() + "°C is under minimum on greenhouse: " + ghl.getKey();
 
                                 } else if (gh.getAlarm() == Alarm.MAXTEMP) {
-                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature is over maximum on greenhouse: " + ghl.getKey();
+                                    greenhouseError = greenhouseError + "\n" + " Time: " + s + "  Temprature " + gh.ReadTemp1() + " is over maximum on greenhouse: " + ghl.getKey();
                                 }
                             }
 

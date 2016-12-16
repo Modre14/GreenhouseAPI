@@ -81,7 +81,7 @@
                   </Button>
                   <CheckBox fx:id="stopProductionCheckBox" layoutX="594.0" layoutY="455.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
                   <Slider fx:id="lightSlider" layoutX="723.0" layoutY="196.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
-                  <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="276.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="277.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../fan-512.png" />
                      </image>
@@ -92,7 +92,7 @@
                         <Image url="@../ATbrrkLac.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="levelOfMoistLabel" layoutX="121.0" layoutY="423.0" />
+                  <Label fx:id="levelOfMoistLabel" layoutX="102.0" layoutY="497.0" prefHeight="27.0" prefWidth="55.0" />
                   <Label layoutX="593.0" layoutY="42.0" text="Days left:">
                      <font>
                         <Font size="14.0" />
@@ -130,7 +130,7 @@
                      </font>
                   </Label>
                   <ImageView fx:id="lightBulb" fitHeight="58.0" fitWidth="59.0" layoutX="476.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="removeOrderfromGreenhouseButton" layoutX="214.0" layoutY="506.0" mnemonicParsing="false" onAction="#removeOrderfromGreenhouse" prefHeight="25.0" prefWidth="283.0" text="Greenhouse is ready for new order" visible="false" />
+                  <Button fx:id="removeOrderfromGreenhouseButton" layoutX="222.0" layoutY="369.0" mnemonicParsing="false" onAction="#removeOrderfromGreenhouse" prefHeight="25.0" prefWidth="283.0" text="Greenhouse is ready for new order" visible="false" />
                 </children>
             </AnchorPane>
          </content>
