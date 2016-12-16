@@ -10,13 +10,10 @@ import Recipe.Order;
 import SCADA.SQLConnection;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 
 /**
  * API to communicate to the PLC
@@ -38,13 +35,10 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
     public int getAlarm() {
         System.out.println(ReadTemp1());
         if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
-            System.out.println("                                                                AlarmMAX");
             return Alarm.MAXTEMP;
         } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
-            System.out.println("                                                                AlarmMIN");
             return Alarm.MINTEMP;
         }
-        System.out.println("                                                                    NONE");
         return Alarm.OFF;
     }
 

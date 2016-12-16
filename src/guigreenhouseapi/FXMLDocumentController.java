@@ -10,13 +10,9 @@ import PLCCommunication.PLCConnection;
 import Recipe.Order;
 import SCADA.ISCADAFXML;
 import SCADA.SCADA;
-import java.io.File;
-
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,13 +20,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,11 +41,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.PopupBuilder;
-import javax.swing.Popup;
 
 /**
  *
@@ -63,15 +54,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
     public ComboBox<String> listOfGreenhouse2;
     private double temp1;
     private double temp2;
-    private double levelOfMoist;
     private double waterLevelValue;
 
     @FXML
 
     private TextField waterLevel;
 
-    private TextField Temp_outside;
-    private TextField Water_level;
     @FXML
     private ComboBox<String> listOfGreenhouse;
     @FXML
@@ -90,7 +78,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private CheckBox stopProductionCheckBox;
     @FXML
     private Slider lightSlider;
-    private Slider amountOfLghtSlider;
     @FXML
     private Circle colorIndicator;
     @FXML
@@ -141,12 +128,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
     public FXMLDocumentController() throws RemoteException {
 
     }
-    private PLCConnection con;
 
     private IGreenhouse gh;
     private ISCADAFXML scada;
-
-    private ArrayList<IGreenhouse> greenhouseArray;
 
     private void updateOverview() throws RemoteException {
         List l1 = FXCollections.observableArrayList();
@@ -206,7 +190,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             List l = FXCollections.observableArrayList();
 
             for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
-                System.out.println(gh.getKey());
+                
                 l.add(gh.getKey());
 
             }
@@ -229,7 +213,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-//                        System.out.println("hello");
                         try {
 
                             updateValues();
@@ -246,7 +229,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
-//                        System.out.println("hello");
                         try {
                             if (gh.getFanspeed() != 0) {
 
@@ -322,7 +304,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         gh.getOrder().getRecipe().setBlueLight((int) lightSlider.getValue());
         gh.getOrder().getRecipe().setRedLight(100 - gh.getOrder().getRecipe().getBlueLight());
-//        gh.setLightIntensity((int) gh.getLightIntensity());
         int colorRed = (int) (255 / 100 * (100 - lightSlider.getValue()));
         int colorBlue = (int) (255 / 100 * lightSlider.getValue());
         colorIndicator.setFill(Color.web("rgb(" + colorRed + ",0," + colorBlue + ")"));
@@ -347,20 +328,14 @@ public class FXMLDocumentController extends Thread implements Initializable {
         o.setOrderStarted(new Date());
 
         lightSlider.setValue(o.getRecipe().getBlueLight());
-//        amountOfLghtSlider.setValue(o.getRecipe().getLightIntensity());
         gh.SetTemperature(o.getRecipe().getTemp());
-        System.out.println("Temp:  " + o.getRecipe().getTemp());
-//        gh.setDays(o.getRecipe().getDays());
-        System.out.println(gh.SetTemperature(o.getRecipe().getTemp()));
-        System.out.println(gh.SetBlueLight(o.getRecipe().getBlueLight()));
 
         gh.SetRedLight(o.getRecipe().getRedLight());
-//        gh.setLightIntensity(o.getRecipe().getLightIntensity());
         Date d = new Date();
         gh.getOrder().setStartDate(d);
         scada.removeOrder(o);
         updateOverview();
-        System.out.println(gh.getOrder().getSecondsElapsed());
+        updateValues();
 
     }
 

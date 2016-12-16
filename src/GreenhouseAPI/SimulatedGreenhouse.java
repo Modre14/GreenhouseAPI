@@ -7,23 +7,17 @@ package GreenhouseAPI;
 
 import PLCCommunication.ICommands;
 import PLCCommunication.Message;
-import PLCCommunication.PLCConnection;
-import PLCCommunication.UDPConnection;
 import Recipe.Order;
 import SCADA.SQLConnection;
 
-import javax.xml.transform.Result;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 /**
  *
@@ -399,13 +393,10 @@ public class SimulatedGreenhouse implements IGreenhouse, ICommands, Serializable
     public int getAlarm() {
         System.out.println(ReadTemp1());
         if (ReadTemp1() > getOrder().getRecipe().getMaxTemp()) {
-            System.out.println("                                                                AlarmMAX");
             return Alarm.MAXTEMP;
         } else if (ReadTemp1() < getOrder().getRecipe().getMinTemp()) {
-            System.out.println("                                                                AlarmMIN");
             return Alarm.MINTEMP;
         }
-        System.out.println("                                                                    NONE");
         return Alarm.OFF;
     }
 

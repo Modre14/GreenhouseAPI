@@ -10,7 +10,6 @@ import Recipe.Order;
 import Recipe.Recipe;
 import SCADA.ISCADA;
 import SCADA.SCADA;
-import java.io.Serializable;
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -20,7 +19,6 @@ import java.rmi.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,8 +38,8 @@ public class MES {
     public static void main(String[] args) throws RemoteException {
         MES m = new MES();
         m.makeRecipes();
-        m.ERPConnect();
-        m.generateOrders();
+//        m.ERPConnect();
+//        m.generateOrders();
 
         m.sendOrdersToScada();
 
