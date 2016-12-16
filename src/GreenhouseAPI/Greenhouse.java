@@ -476,9 +476,9 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
 
     public void log() {
         lastLog++;
-        String values = "'" + getOrder().getBatch() + "', '" + getOrder().getRecipe().getRedLight() + "', '" + getOrder().getRecipe().getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + (ReadTemp2() - 273) + "', '" + ReadWaterLevel() + "', '" + getFanspeed() + "'";
+        String values = "'" + getOrder().getBatch() + "', '" + getOrder().getRecipe().getRedLight() + "', '" + getOrder().getRecipe().getBlueLight() + "', '" + getLightIntensity() + "', '" + ReadTemp1() + "', '" + (ReadTemp2() - 273) + "', '" + ReadWaterLevel() + "', '"+ ReadMoist() + "', '" + getFanspeed() + "'";
         System.out.println("Information gathered!");
-        SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
+        SQLConnection.execute("INSERT INTO `" + IP + "` (`Batch`, `RedLight`, `BlueLight`, `LightIntensity`, `InsideTemp`, `OutsideTemp`, `WaterLevel`, `WaterLevel`, `FanRunning`) Values(" + values + ")");
         SQLConnection.close();
         System.out.println("Logging sucessful!");
 

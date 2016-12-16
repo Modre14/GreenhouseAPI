@@ -33,8 +33,40 @@ public class SQLConnection {
 
     }
 
+    private static Statement getStatement(String database){
+        if (conn == null){
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                System.out.println("Making new Connection");
+                conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/" + database,"root","");
+
+                stmt = conn.createStatement();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return stmt;
+
+    }
+
     public static ResultSet execute(String Query){
         Statement stmt = getStatement();
+        try {
+            if(stmt.execute(Query)){
+                return stmt.getResultSet();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static ResultSet execute(String Query, String database){
+        Statement stmt = getStatement(database);
         try {
             if(stmt.execute(Query)){
                 return stmt.getResultSet();
