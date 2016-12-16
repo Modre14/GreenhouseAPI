@@ -490,12 +490,14 @@ public class Greenhouse extends UnicastRemoteObject implements IGreenhouse, ICom
         double irrigation = 24.0 / getOrder().getRecipe().getIrrigationsPrDay();
 
         if (lastIrrigation == 0) {
-            AddWater(getOrder().getRecipe().getWaterTime());
+
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
 
         } else if (lastIrrigation + (irrigation * 3600) < getOrder().getSecondsElapsed()) {
-            AddWater(getOrder().getRecipe().getWaterTime());
             lastIrrigation = getOrder().getSecondsElapsed();
+            AddWater(getOrder().getRecipe().getWaterTime());
+
         }
     }
 

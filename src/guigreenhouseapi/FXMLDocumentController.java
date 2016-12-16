@@ -386,6 +386,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void changeRecipe() throws RemoteException {
         gh = scada.getGreenhouse(listOfGreenhouse3.getValue());
+
         Order_TextField.setText(gh.getOrder().getName());
         Quantity_TextField.setText(String.valueOf(gh.getOrder().getQuantity()));
         Temp_TextField.setText(String.valueOf(gh.getOrder().getRecipe().getTemp()));
