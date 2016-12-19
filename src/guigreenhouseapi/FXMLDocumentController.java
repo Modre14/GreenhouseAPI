@@ -6,13 +6,17 @@
 package guigreenhouseapi;
 
 import GreenhouseAPI.IGreenhouse;
+import MES.Statistics;
 import PLCCommunication.PLCConnection;
 import Recipe.Order;
 import SCADA.ISCADAFXML;
-import SCADA.SCADA;
+import SCADA.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,22 +27,16 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -52,9 +50,12 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     public ListView listOfOrders;
     public ComboBox<String> listOfGreenhouse2;
+    public ComboBox greenhouseLogList;
+    public TableView<Log> logTable;
     private double temp1;
     private double temp2;
     private double waterLevelValue;
+    private List<String> activeGreenhouses = FXCollections.observableArrayList();
 
     @FXML
 
@@ -127,6 +128,59 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private Button removeOrderfromGreenhouseButton;
 
+    public static class Log {
+
+        private SimpleIntegerProperty RedLight;
+        private SimpleIntegerProperty BlueLight;
+        private SimpleIntegerProperty LightIntensity;
+        private SimpleIntegerProperty InsideTemp;
+        private SimpleIntegerProperty OutsideTemp;
+        private SimpleIntegerProperty WaterLevel;
+        private SimpleIntegerProperty Moisture;
+        private SimpleIntegerProperty FanRunning;
+
+        public Log(int redLight, int blueLight, int lightIntensity, int insideTemp, int outsideTemp, int waterLevel, int moisture, int fanRunning) {
+            RedLight = new SimpleIntegerProperty(redLight);
+            BlueLight = new SimpleIntegerProperty(blueLight);
+            LightIntensity = new SimpleIntegerProperty(lightIntensity);
+            InsideTemp = new SimpleIntegerProperty(insideTemp);
+            OutsideTemp = new SimpleIntegerProperty(outsideTemp);
+            WaterLevel = new SimpleIntegerProperty(waterLevel);
+            Moisture = new SimpleIntegerProperty(moisture);
+            FanRunning = new SimpleIntegerProperty(fanRunning);
+        }
+
+        public Integer getRedLight() {
+            return RedLight.get();
+        }
+
+        public Integer getBlueLight() {
+            return BlueLight.get();
+        }
+
+        public Integer getLightIntensity() {
+            return LightIntensity.get();
+        }
+
+        public Integer getInsideTemp() {
+            return InsideTemp.get();
+        }
+
+        public Integer getOutsideTemp() {
+            return OutsideTemp.get();
+        }
+
+        public Integer getWaterLevel() {
+            return WaterLevel.get();
+        }
+
+        public Integer getMoisture() { return Moisture.get(); }
+
+        public Integer getFanRunning() {
+            return FanRunning.get();
+        }
+    }
+
     public FXMLDocumentController() throws RemoteException {
 
     }
@@ -134,17 +188,24 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private IGreenhouse gh;
     private ISCADAFXML scada;
 
-    private void updateOverview() throws RemoteException {
+    private void updateOverview() throws RemoteException, SQLException {
         List l1 = FXCollections.observableArrayList();
         List l2 = FXCollections.observableArrayList();
         List l3 = FXCollections.observableArrayList();
         List l4 = FXCollections.observableArrayList();
         List l5 = FXCollections.observableArrayList();
         List l6 = FXCollections.observableArrayList();
+        activeGreenhouses.clear();
         for (Map.Entry<String, IGreenhouse> gh : SCADA.getInstance().getGreenhouseList().entrySet()) {
             l1.add(gh.getKey());
 
             if (scada.getGreenhouse(gh.getKey()).getOrder() != null) {
+
+
+                activeGreenhouses.add(gh.getKey());
+
+                greenhouseLogList.setItems((ObservableList) activeGreenhouses);
+
                 Date d = new Date();
                 l6.add(gh.getKey());
                 l3.add(scada.getGreenhouse(gh.getKey()).getOrder().getName());
@@ -203,6 +264,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         } catch (RemoteException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         try {
             scada.startServer();
@@ -270,7 +333,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     @FXML
-    private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException {
+    private void getGreenhouseData(ActionEvent event) throws RemoteException, InvocationTargetException, InterruptedException, SQLException {
 
         gh = scada.getGreenhouse(listOfGreenhouse.getValue());
         updateOverview();
@@ -313,7 +376,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     @FXML
-    private void getOrderList() {
+    private void getOrderList() throws SQLException {
         try {
             updateOverview();
         } catch (RemoteException e) {
@@ -322,7 +385,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
     }
 
     @FXML
-    private void addOrderButton() throws RemoteException {
+    private void addOrderButton() throws RemoteException, SQLException {
         gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
         listOfGreenhouse.setValue(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
@@ -341,7 +404,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
-    private void updateValues() throws RemoteException {
+    private void updateValues() throws RemoteException, SQLException {
 
         inProductionTextField.setText(gh.getOrder().getName());
         temp1 = gh.ReadTemp1();
@@ -473,4 +536,30 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
+    @FXML
+    public void selectLog(ActionEvent actionEvent) throws RemoteException, SQLException {
+
+        logTable.getColumns().clear();
+        logTable.getItems().clear();
+        greenhouseLogList.setItems((ObservableList) activeGreenhouses);
+
+
+        List<TableColumn> columns = null;
+        int index = greenhouseLogList.getSelectionModel().getSelectedIndex();
+        String IP = activeGreenhouses.get(index);
+        ResultSet rs = SQLConnection.execute("SELECT * FROM `" + IP + "` WHERE Batch = " + scada.getGreenhouse(IP).getOrder().getBatch());
+        ResultSetMetaData rsmd = rs.getMetaData();
+        for (int i = 3; i < rsmd.getColumnCount(); i++){
+            TableColumn tc = new TableColumn(rsmd.getColumnName(i));
+            tc.setCellValueFactory(
+                    new PropertyValueFactory<Log, Integer>(rsmd.getColumnName(i)));
+            logTable.getColumns().add(tc);
+        }
+        List<Log> logList = FXCollections.observableArrayList();
+        while (rs.next()){
+            logList.add(new Log(rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10)));
+        }
+
+        logTable.setItems((ObservableList<Log>) logList);
+    }
 }

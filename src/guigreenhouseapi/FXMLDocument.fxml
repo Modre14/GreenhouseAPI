@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -191,6 +192,16 @@
                   <Button layoutX="455.0" layoutY="206.0" mnemonicParsing="false" onAction="#changeButton" text="Change Recipe" />
                   <Text layoutX="51.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" />
                   <TextField fx:id="Days_TextField" layoutX="178.0" layoutY="508.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab closable="false" text="Log">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ComboBox fx:id="greenhouseLogList" layoutX="14.0" layoutY="14.0" onAction="#selectLog" prefWidth="150.0" />
+                  <TableView fx:id="logTable" layoutX="-36.0" layoutY="213.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
                </children>
             </AnchorPane>
         </content>
