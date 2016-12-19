@@ -9,6 +9,8 @@ import com.sun.org.apache.bcel.internal.generic.SIPUSH;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import org.jfree.*;
 
 import SCADA.SQLConnection;
@@ -41,7 +43,7 @@ public class Statistics extends Application {
     public Label LogLabelDate;
     public Button showLogButton;
     public Tab statisticsTab;
-    public LineChart<Integer, Integer> statisticGraph;
+    public LineChart<Number, Number> statisticGraph;
     public TableView statisticTable;
     private ObservableList<Log> logList = FXCollections.observableArrayList();
     private ObservableList<Batch> batchList = FXCollections.observableArrayList();
@@ -147,6 +149,9 @@ public class Statistics extends Application {
         private SimpleDoubleProperty IQR;
         private SimpleDoubleProperty Aminus;
         private SimpleDoubleProperty Aplus;
+        private SimpleStringProperty outliers;
+
+
 
         public Statistic(String name){
             Name = new SimpleStringProperty(name);
@@ -163,6 +168,10 @@ public class Statistics extends Application {
             this.Aplus = new SimpleDoubleProperty(values[7]);
         }
 
+        public void setOutliers(String outliers){
+            this.outliers = new SimpleStringProperty(outliers);
+        }
+
         public double[] getValues(){
             double[] returnList = new double[8];
             returnList[0] = getStdDev();
@@ -175,6 +184,10 @@ public class Statistics extends Application {
             returnList[7] = getAplus();
 
             return returnList;
+        }
+
+        public String getOutliers(){
+            return outliers.get();
         }
 
         public String getName() {
@@ -254,6 +267,7 @@ public class Statistics extends Application {
             values[i] = (logList.get(i).getInsideTemp());
         }
         insideTempStatistic.setValues(doTheMath(values));
+        insideTempStatistic.setOutliers(findOutliers(values, insideTempStatistic.getAplus(), insideTempStatistic.getAminus()));
         statisticList.add(insideTempStatistic);
 
         //OutsideTemperature
@@ -261,6 +275,7 @@ public class Statistics extends Application {
             values[i] = (logList.get(i).getOutsideTemp());
         }
         outsideTempStatistic.setValues(doTheMath(values));
+        outsideTempStatistic.setOutliers(findOutliers(values, outsideTempStatistic.getAplus(), outsideTempStatistic.getAminus()));
         statisticList.add(outsideTempStatistic);
 
         //WaterLevel
@@ -268,6 +283,7 @@ public class Statistics extends Application {
             values[i] = (logList.get(i).getWaterLevel());
         }
         waterLevelStatistic.setValues(doTheMath(values));
+        waterLevelStatistic.setOutliers(findOutliers(values, waterLevelStatistic.getAplus(), waterLevelStatistic.getAminus()));
         statisticList.add(waterLevelStatistic);
 
         //Moisture
@@ -275,6 +291,7 @@ public class Statistics extends Application {
             values[i] = (logList.get(i).getMoisture());
         }
         moistureStatistic.setValues(doTheMath(values));
+        moistureStatistic.setOutliers(findOutliers(values, moistureStatistic.getAplus(), moistureStatistic.getAminus()));
         statisticList.add(moistureStatistic);
 
         String statisticnName = selectedBatch.getId() + "x" + selectedBatch.getGreenhouse();
@@ -289,7 +306,8 @@ public class Statistics extends Application {
                 " Q3 real," +
                 " IQR real," +
                 " Aminus real," +
-                " Aplus real" +
+                " Aplus real," +
+                " Outliers varchar(2048)" +
                 ");";
 
         try{
@@ -301,6 +319,7 @@ public class Statistics extends Application {
                     for (double value : s.getValues()){
                         query += " , '" + value + "'";
                     }
+                    query += ", '" + s.getOutliers() + "'";
                     query += ");";
                     SQLConnection.execute(query, "greenhousestatistics");
                 }
@@ -326,6 +345,7 @@ public class Statistics extends Application {
             columns.add(tc);
         }
 
+
         SQLConnection.close();
 
         statisticTable.setItems(statisticList);
@@ -334,6 +354,19 @@ public class Statistics extends Application {
             statisticTable.getColumns().add(t);
 
         }
+
+
+
+    }
+
+    public String findOutliers(Number[] values, double Aplus, double Aminus){
+        String outliers = "";
+        for (Number value : values){
+            if (value.doubleValue() > Aplus || value.doubleValue() < Aminus){
+                outliers += value + ", ";
+            }
+        }
+        return outliers;
     }
 
     public double[] doTheMath(Number[] values){
