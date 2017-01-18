@@ -3,7 +3,6 @@ package MES;/**
  */
 
 import GreenhouseAPI.Greenhouse;
-import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 import com.sun.org.apache.bcel.internal.generic.ExceptionThrower;
 import com.sun.org.apache.bcel.internal.generic.SIPUSH;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -381,9 +380,9 @@ public class Statistics extends Application {
         double s = org.jfree.data.statistics.Statistics.getStdDev(values);
         returnList[0] = s;
         double m = org.jfree.data.statistics.Statistics.calculateMedian(valueList);
-        returnList[1] = m;
+        returnList[2] = m;
         double mean = org.jfree.data.statistics.Statistics.calculateMean(values);
-        returnList[2] = mean;
+        returnList[1] = mean;
         double q1 = org.jfree.data.statistics.BoxAndWhiskerCalculator.calculateQ1(valueList);
         returnList[3] = q1;
         double q3 = org.jfree.data.statistics.BoxAndWhiskerCalculator.calculateQ3(valueList);
