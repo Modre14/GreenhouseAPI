@@ -174,7 +174,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
             return WaterLevel.get();
         }
 
-        public Integer getMoisture() { return Moisture.get(); }
+        public Integer getMoisture() {
+            return Moisture.get();
+        }
 
         public Integer getFanRunning() {
             return FanRunning.get();
@@ -200,7 +202,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
             l1.add(gh.getKey());
 
             if (scada.getGreenhouse(gh.getKey()).getOrder() != null) {
-
 
                 activeGreenhouses.add(gh.getKey());
 
@@ -386,8 +387,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @FXML
     private void addOrderButton() throws RemoteException, SQLException {
-        gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
+
         listOfGreenhouse.setValue(listOfGreenhouse2.getValue());
+        gh = scada.getGreenhouse(listOfGreenhouse2.getValue());
         gh.setOrder((Order) scada.getOrders().get(listOfOrders.getSelectionModel().getSelectedIndex()));
         Order o = gh.getOrder();
         o.setOrderStarted(new Date());
@@ -543,20 +545,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
         logTable.getItems().clear();
         greenhouseLogList.setItems((ObservableList) activeGreenhouses);
 
-
         List<TableColumn> columns = null;
         int index = greenhouseLogList.getSelectionModel().getSelectedIndex();
         String IP = activeGreenhouses.get(index);
         ResultSet rs = SQLConnection.execute("SELECT * FROM `" + IP + "` WHERE Batch = " + scada.getGreenhouse(IP).getOrder().getBatch());
         ResultSetMetaData rsmd = rs.getMetaData();
-        for (int i = 3; i < rsmd.getColumnCount(); i++){
+        for (int i = 3; i < rsmd.getColumnCount(); i++) {
             TableColumn tc = new TableColumn(rsmd.getColumnName(i));
             tc.setCellValueFactory(
                     new PropertyValueFactory<Log, Integer>(rsmd.getColumnName(i)));
             logTable.getColumns().add(tc);
         }
         List<Log> logList = FXCollections.observableArrayList();
-        while (rs.next()){
+        while (rs.next()) {
             logList.add(new Log(rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getInt(10)));
         }
 

@@ -81,7 +81,7 @@
                      </font>
                   </Button>
                   <CheckBox fx:id="stopProductionCheckBox" layoutX="594.0" layoutY="455.0" mnemonicParsing="false" onAction="#stopProductionCheck" prefHeight="17.0" prefWidth="67.0" text="Stop" />
-                  <Slider fx:id="lightSlider" layoutX="723.0" layoutY="196.0" onMouseReleased="#updateLight" orientation="VERTICAL" />
+                  <Slider fx:id="lightSlider" disable="true" layoutX="723.0" layoutY="196.0" onMouseReleased="#updateLight" opacity="0.0" orientation="VERTICAL" />
                   <ImageView fx:id="fanImg" fitHeight="150.0" fitWidth="200.0" layoutX="277.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../fan-512.png" />
